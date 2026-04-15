@@ -520,6 +520,7 @@ function renderTaskList(){
     if(tFil==='venc')return isOverdue(due)&&!t.done;
     if(tFil==='alta')return t.prio==='alta'&&!t.done;
     if(tFil==='pend')return!t.done;
+    if(tFil==='done')return t.done;
     return true;
   });
   var byDate={};
@@ -579,6 +580,7 @@ function rTasks(){
     +'<div id="ft-venc" class="ft warn'+(tFil==='venc'?' on':'')+'" onclick="setF(\'venc\')" style="'+(venc.length===0?'display:none':'')+'">'+(venc.length>0?'Vencidas ('+venc.length+')':'Vencidas')+'</div>'
     +'<div class="ft'+(tFil==='pend'?' on':'')+'" onclick="setF(\'pend\')">Pendientes</div>'
     +'<div class="ft'+(tFil==='alta'?' on':'')+'" onclick="setF(\'alta\')">Alta prioridad</div>'
+    +'<div class="ft'+(tFil==='done'?' on':'')+'" onclick="setF(\'done\')" style="border-color:var(--gnb);color:'+(tFil==='done'?'var(--grn)':'var(--ink4)')+'">Completadas</div>'
     +'</div></div>'
     +'<div id="task-list"></div></div>';
   renderTaskStats();
