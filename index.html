@@ -78,6 +78,7 @@ html,body{
   border-top:0.5px solid var(--c4);
   padding:16px 16px calc(16px + var(--sab));
   animation:slideUp 0.28s cubic-bezier(0.34,1.2,0.64,1) both;
+  max-height:90vh;overflow-y:auto;
 }
 @keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
 .modal-handle{width:36px;height:4px;border-radius:2px;background:var(--c4);margin:0 auto 18px}
@@ -136,6 +137,16 @@ html,body{
   transition:opacity 0.15s;margin-top:4px;
 }
 .btn-submit:active{opacity:0.8}
+
+/* BTN SECONDARY */
+.btn-sec{
+  width:100%;background:var(--c3);
+  border:none;border-radius:13px;padding:12px;
+  font-size:14px;font-weight:500;color:var(--t3);
+  cursor:pointer;-webkit-appearance:none;
+  transition:opacity 0.15s;margin-top:8px;
+}
+.btn-sec:active{opacity:0.7}
 
 /* PAGE HEADER */
 .page-hdr{padding:22px 18px 0}
@@ -437,13 +448,160 @@ html,body{
 }
 .insight-it:last-child{border:none}
 .insight-it::before{content:'▸';position:absolute;left:0;font-size:10px;color:var(--c5)}
+
+/* ===================== */
+/* DECISION DIARIA       */
+/* ===================== */
+.decision-block{
+  margin:12px 14px 0;border-radius:16px;padding:14px;
+  background:linear-gradient(160deg,var(--c2),var(--c1));
+  border:0.5px solid var(--c3);
+  position:relative;overflow:hidden;
+  cursor:pointer;
+}
+.decision-block::before{content:'';position:absolute;top:0;left:0;right:0;height:0.5px;background:linear-gradient(90deg,transparent,var(--c4),transparent)}
+.decision-block.pending{border-color:rgba(191,156,107,0.35);background:linear-gradient(160deg,#1c1a14,#161410)}
+.decision-block.done{border-color:rgba(50,215,75,0.2);background:linear-gradient(160deg,#0f1a12,#0d1510)}
+.db-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.db-label{font-size:10px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;font-family:var(--m)}
+.decision-block.pending .db-label{color:var(--gold)}
+.decision-block.done .db-label{color:var(--green)}
+.decision-block:not(.pending):not(.done) .db-label{color:var(--t5)}
+.db-status{font-size:10px;color:var(--t5)}
+.decision-block.done .db-status{color:var(--green)}
+.db-text{font-size:14px;font-weight:500;color:var(--t2);line-height:1.4}
+.decision-block:not(.pending):not(.done) .db-text{color:var(--c5);font-weight:400;font-size:13px}
+.db-sub{font-size:11px;color:var(--t5);margin-top:4px}
+.decision-block.done .db-text{color:var(--t3);text-decoration:none}
+
+/* DECISION MODAL */
+.dec-modal-seg{display:flex;gap:6px;margin-bottom:12px}
+.seg-btn{
+  flex:1;padding:8px 6px;border-radius:10px;font-size:11px;font-weight:500;
+  background:var(--c1);color:var(--t5);border:0.5px solid var(--c3);
+  cursor:pointer;text-align:center;-webkit-user-select:none;
+  transition:all 0.12s;
+}
+.seg-btn.on.hyk{background:#0f2518;color:var(--green);border-color:#1a3a20}
+.seg-btn.on.baz{background:#101828;color:#4a9eff;border-color:#1a2a40}
+.seg-btn.on.trd{background:#2a1010;color:var(--red);border-color:#3a1515}
+
+/* ===================== */
+/* MÉTRICAS              */
+/* ===================== */
+.met-tabs{display:flex;gap:6px;padding:12px 14px 0}
+.mt-btn{
+  flex:1;text-align:center;padding:8px 4px;border-radius:10px;
+  font-size:11px;font-weight:500;color:var(--c5);
+  background:var(--c1);border:0.5px solid var(--c3);
+  cursor:pointer;-webkit-user-select:none;
+}
+.mt-btn.on.hyk{background:#0f2518;color:var(--green);border-color:#1a3a20}
+.mt-btn.on.baz{background:#101828;color:#4a9eff;border-color:#1a2a40}
+.mt-btn.on.trd{background:#2a1010;color:var(--red);border-color:#3a1515}
+
+.met-week-nav{display:flex;align-items:center;justify-content:space-between;padding:10px 14px 0}
+.mwn-arrow{
+  width:32px;height:32px;border-radius:9px;
+  background:var(--c1);border:0.5px solid var(--c3);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;-webkit-user-select:none;
+  font-size:14px;color:var(--t4);
+}
+.mwn-arrow:active{opacity:0.6}
+.mwn-label{font-size:12px;font-weight:500;color:var(--t3);font-family:var(--m)}
+
+.met-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 14px 0}
+.met-cell{
+  border-radius:14px;padding:14px;
+  background:linear-gradient(160deg,var(--c2),var(--c1));
+  border:0.5px solid var(--c3);
+  position:relative;overflow:hidden;
+}
+.met-cell::before{content:'';position:absolute;top:0;left:0;right:0;height:0.5px;background:linear-gradient(90deg,transparent,var(--c4),transparent)}
+.met-cell.full{grid-column:1/-1}
+.mc-lbl{font-size:9px;color:var(--c5);letter-spacing:0.08em;text-transform:uppercase;font-family:var(--m);margin-bottom:6px}
+.mc-val{font-size:22px;font-weight:700;color:var(--t1);letter-spacing:-0.03em;line-height:1}
+.mc-inp{
+  width:100%;background:transparent;border:none;outline:none;
+  font-size:22px;font-weight:700;color:var(--t1);
+  letter-spacing:-0.03em;font-family:var(--f);
+  -webkit-appearance:none;padding:0;
+}
+.mc-inp::placeholder{color:var(--c4);font-weight:400;font-size:18px}
+.mc-sub{font-size:10px;color:var(--c5);margin-top:3px}
+
+.met-trend{display:flex;gap:8px;margin:8px 14px 0;align-items:stretch}
+.trend-card{
+  flex:1;border-radius:12px;padding:11px;
+  background:linear-gradient(160deg,var(--c2),var(--c1));
+  border:0.5px solid var(--c3);
+  position:relative;overflow:hidden;
+}
+.trend-card::before{content:'';position:absolute;top:0;left:0;right:0;height:0.5px;background:linear-gradient(90deg,transparent,var(--c4),transparent)}
+.tc-lbl{font-size:9px;color:var(--c5);font-family:var(--m);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:4px}
+.tc-val{font-size:16px;font-weight:700;color:var(--t1);letter-spacing:-0.02em}
+.tc-val.pos{color:var(--green)}
+.tc-val.neg{color:var(--red)}
+.tc-val.neu{color:var(--t4)}
+
+.met-hist{margin:12px 14px 0}
+.mh-row{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:9px 0;border-bottom:0.5px solid var(--c2);
+}
+.mh-row:last-child{border:none}
+.mh-week{font-size:11px;color:var(--t5);font-family:var(--m);min-width:60px}
+.mh-vals{display:flex;gap:12px;flex:1;justify-content:flex-end}
+.mh-v{font-size:12px;color:var(--t3);text-align:right}
+.mh-v span{font-size:9px;color:var(--c5);display:block}
+
+.met-save-btn{
+  margin:12px 14px 0;width:calc(100% - 28px);
+  background:linear-gradient(145deg,var(--gold),var(--gold2));
+  border:none;border-radius:13px;padding:13px;
+  font-size:14px;font-weight:600;color:#1a1000;
+  cursor:pointer;-webkit-appearance:none;
+  box-shadow:0 4px 16px rgba(191,156,107,0.2);
+  transition:opacity 0.15s;
+}
+.met-save-btn:active{opacity:0.8}
+
+/* ESTADO TRADING */
+.trd-status-row{display:flex;gap:8px;margin:10px 14px 0}
+.trd-st{
+  flex:1;padding:12px;border-radius:13px;
+  background:var(--c1);border:0.5px solid var(--c3);
+  cursor:pointer;-webkit-user-select:none;text-align:center;
+  font-size:12px;font-weight:500;color:var(--t5);
+  transition:all 0.12s;
+}
+.trd-st.on.activo{background:#0f2518;color:var(--green);border-color:#1a3a20}
+.trd-st.on.pausado{background:#201a10;color:var(--gold);border-color:#302510}
+.trd-st.on.perdida{background:#2a1010;color:var(--red);border-color:#3a1515}
+
+/* DECISION HISTORY en plan */
+.dec-hist-row{
+  display:flex;align-items:flex-start;gap:10px;
+  padding:9px 14px;border-bottom:0.5px solid var(--c2);
+}
+.dec-hist-row:last-child{border:none}
+.dhr-date{font-size:10px;color:var(--c5);font-family:var(--m);min-width:52px;padding-top:1px}
+.dhr-body{flex:1}
+.dhr-text{font-size:13px;color:var(--t3);line-height:1.35}
+.dhr-cat{font-size:10px;color:var(--c5);margin-top:2px}
+.dhr-status{
+  font-size:9px;padding:2px 7px;border-radius:5px;margin-top:4px;display:inline-block;
+}
+.dhr-status.ej{background:#0f2518;color:var(--green);border:0.5px solid #1a3a20}
+.dhr-status.pe{background:#201a10;color:var(--gold);border:0.5px solid #302510}
 </style>
 </head>
 <body>
 <div class="app">
   <div class="body" id="body"></div>
 
-  <!-- + MODAL -->
+  <!-- + MODAL (TAREA) -->
   <div class="overlay" id="overlay" onclick="closeModal(event)">
     <div class="modal" id="modal">
       <div class="modal-handle"></div>
@@ -457,6 +615,23 @@ html,body{
         <div class="date-clr" id="due-clr" onclick="clearDue()">×</div>
       </div>
       <button class="btn-submit" onclick="addTask()">Agregar tarea</button>
+    </div>
+  </div>
+
+  <!-- DECISIÓN MODAL -->
+  <div class="overlay" id="dec-overlay" onclick="closeDecModal(event)">
+    <div class="modal" id="dec-modal">
+      <div class="modal-handle"></div>
+      <div class="modal-title" id="dec-modal-title">Decisión del día</div>
+      <div style="font-size:11px;color:var(--t5);margin-bottom:12px;font-family:var(--m)">Una sola acción concreta. Antes de las 12hs.</div>
+      <textarea class="inp" id="dec-inp" rows="3" placeholder="Ej: Llamar a proveedor X para cerrar precio de importación" style="resize:none;margin-bottom:10px;font-size:14px"></textarea>
+      <div class="dec-modal-seg" id="dec-cat-seg">
+        <div class="seg-btn hyk" id="ds-hyk" onclick="setDecCat('HYK')">HYK</div>
+        <div class="seg-btn baz" id="ds-baz" onclick="setDecCat('BAZ')">Bazar</div>
+        <div class="seg-btn trd" id="ds-trd" onclick="setDecCat('TRD')">Trading</div>
+      </div>
+      <button class="btn-submit" onclick="saveDecision()">Guardar decisión</button>
+      <button class="btn-sec" id="dec-exec-btn" onclick="markDecisionExec()" style="display:none">✓ Marcar como ejecutada</button>
     </div>
   </div>
 
@@ -496,6 +671,37 @@ function getWR(){return TW-getWL();}
 function getPL(){return Math.round(getWL()/TW*100);}
 function todayDOW(){var d=new Date().getDay();return d===0?6:d-1;}
 function isOD(k){return k?k<getTK():false;}
+function getWeekKey(){
+  var d=new Date();
+  var dow=d.getDay()===0?6:d.getDay()-1;
+  var mon=new Date(d);mon.setDate(d.getDate()-dow);
+  return mon.getFullYear()+'-'+pad(mon.getMonth()+1)+'-'+pad(mon.getDate());
+}
+function getWeekLabel(wk){
+  var p=wk.split('-');
+  var mn=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+  return p[2]+' '+mn[+p[1]-1];
+}
+function addWeeks(wk,n){
+  var p=wk.split('-');
+  var d=new Date(+p[0],+p[1]-1,+p[2]);
+  d.setDate(d.getDate()+n*7);
+  return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+}
+function fmtM(v){
+  if(!v&&v!==0)return'—';
+  var n=parseFloat(v);if(isNaN(n))return v;
+  if(n>=1000000)return(n/1000000).toFixed(1)+'M';
+  if(n>=1000)return(n/1000).toFixed(0)+'k';
+  return n.toFixed(0);
+}
+function calcDelta(cur,prev){
+  if(!cur||!prev||isNaN(parseFloat(cur))||isNaN(parseFloat(prev)))return null;
+  var c=parseFloat(cur),p=parseFloat(prev);
+  if(p===0)return null;
+  return Math.round((c-p)/p*100);
+}
+
 var MONTHS=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
 var DAYS_ES=['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
 var DS=['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];
@@ -571,15 +777,72 @@ var PLAN=[
 var CATS=[{id:'HYK',lb:'HYK'},{id:'BAZ',lb:'Bazar'},{id:'TRD',lb:'Trading'},{id:'WIP',lb:'WIP'},{id:'PER',lb:'Personal'}];
 var PRIOS=[{id:'alta',lb:'Alta'},{id:'media',lb:'Media'},{id:'baja',lb:'Baja'}];
 
+// MÉTRICAS CONFIG
+var MET_CFG={
+  HYK:{
+    label:'HYK',
+    fields:[
+      {id:'ingresos',label:'Ingresos',placeholder:'ej: 250000',unit:'$'},
+      {id:'pedidos',label:'Pedidos',placeholder:'ej: 45',unit:'#'},
+      {id:'custom',label:'Métrica clave',placeholder:'ej: ticket prom',unit:''},
+    ]
+  },
+  BAZ:{
+    label:'Bazarista',
+    fields:[
+      {id:'ingresos',label:'Ingresos',placeholder:'ej: 1700000',unit:'$'},
+      {id:'ventas',label:'Ventas',placeholder:'ej: 120',unit:'#'},
+      {id:'custom',label:'Métrica clave',placeholder:'ej: margen %',unit:''},
+    ]
+  },
+  TRD:{
+    label:'Trading',
+    fields:[
+      {id:'resultado',label:'Resultado semana',placeholder:'ej: +2.3%',unit:''},
+      {id:'operaciones',label:'Operaciones',placeholder:'ej: 12',unit:'#'},
+      {id:'estado',label:'Estado sistema',placeholder:'',unit:''},
+    ]
+  }
+};
+
 var ST={};
 try{ST=JSON.parse(localStorage.getItem('ag_v5')||'{}');}catch(e){}
 if(!ST.tasks)ST.tasks=[];
 if(!ST.hab)ST.hab={};
+if(!ST.met)ST.met={};
+if(!ST.dec)ST.dec={};
 var save=function(){try{localStorage.setItem('ag_v5',JSON.stringify(ST));}catch(e){}};
 var gC=function(w,a,d){return!!(ST.hab[w+'_'+a+'_'+d]);};
 var tC=function(w,a,d){ST.hab[w+'_'+a+'_'+d]=!ST.hab[w+'_'+a+'_'+d];save();ra();};
 var gN=function(w,k){return ST['n_'+w+'_'+k]||'';};
 var sN=function(w,k,v){ST['n_'+w+'_'+k]=v;save();};
+
+// MÉTRICAS helpers
+function getMet(biz,wk,field){
+  var k=biz+'_'+wk+'_'+field;
+  return ST.met[k]||'';
+}
+function setMet(biz,wk,field,val){
+  var k=biz+'_'+wk+'_'+field;
+  ST.met[k]=val;save();
+}
+function getTrdStatus(wk){return ST.met['TRD_'+wk+'_estatus']||'';}
+function setTrdStatus(wk,v){ST.met['TRD_'+wk+'_estatus']=v;save();}
+
+// DECISIÓN helpers
+function getTodayDec(){return ST.dec[getTK()]||null;}
+function saveTodayDec(text,cat){
+  ST.dec[getTK()]={text:text,cat:cat,done:false,date:getTK()};
+  save();
+}
+function markDecExec(){
+  var d=ST.dec[getTK()];
+  if(d){d.done=true;save();}
+}
+function getDecHistory(){
+  var keys=Object.keys(ST.dec).sort().reverse();
+  return keys.slice(0,14).map(function(k){return ST.dec[k];});
+}
 
 function cStat(wi){
   var w=WKS[wi],tot=0,dn=0,str=0;
@@ -595,6 +858,8 @@ function gStat(){
 function uChk(){WKS.forEach(function(w,i){if(i===0){w.u=true;return;}w.u=cStat(i-1).pct>=60;});}
 
 var cV='d',cW=0,sCats=[],sPrio='media',sDue='',tFil='hoy';
+var cMetBiz='HYK',cMetWk=getWeekKey();
+var decCat='HYK',editingDec=false;
 
 function sv(v,el){
   cV=v;
@@ -604,7 +869,7 @@ function sv(v,el){
   ra();
 }
 
-// MODAL
+// TASK MODAL
 function openModal(){
   sCats=[];sDue='';
   var ol=document.getElementById('overlay');
@@ -676,6 +941,74 @@ function delTask(id){
 function setF(f){tFil=f;ra();}
 function sCW2(i){cW=i;ra();}
 
+// DECISIÓN MODAL
+function openDecModal(){
+  var ol=document.getElementById('dec-overlay');
+  ol.classList.add('open');
+  var today=getTodayDec();
+  var inp=document.getElementById('dec-inp');
+  var execBtn=document.getElementById('dec-exec-btn');
+  var title=document.getElementById('dec-modal-title');
+  if(today){
+    if(inp)inp.value=today.text;
+    decCat=today.cat||'HYK';
+    title.textContent='Decisión del día';
+    if(execBtn)execBtn.style.display=today.done?'none':'block';
+  } else {
+    if(inp)inp.value='';
+    decCat='HYK';
+    if(execBtn)execBtn.style.display='none';
+    title.textContent='Decisión del día';
+  }
+  renderDecCatSeg();
+  setTimeout(function(){if(inp)inp.focus();},100);
+}
+function closeDecModal(e){
+  if(e&&e.target!==document.getElementById('dec-overlay'))return;
+  document.getElementById('dec-overlay').classList.remove('open');
+}
+function closeDecModalForce(){document.getElementById('dec-overlay').classList.remove('open');}
+function setDecCat(c){
+  decCat=c;renderDecCatSeg();
+}
+function renderDecCatSeg(){
+  var cats=['HYK','BAZ','TRD'];
+  var ids=['ds-hyk','ds-baz','ds-trd'];
+  cats.forEach(function(c,i){
+    var el=document.getElementById(ids[i]);
+    if(!el)return;
+    var cls='seg-btn '+c.toLowerCase();
+    if(decCat===c)cls+=' on';
+    el.className=cls;
+  });
+}
+function saveDecision(){
+  var inp=document.getElementById('dec-inp');
+  var txt=inp?inp.value.trim():'';
+  if(!txt)return;
+  saveTodayDec(txt,decCat);
+  closeDecModalForce();
+  ra();
+}
+function markDecisionExec(){
+  markDecExec();
+  closeDecModalForce();
+  ra();
+}
+
+// MÉTRICAS
+function setMetBiz(b){cMetBiz=b;ra();}
+function metWkNav(n){cMetWk=addWeeks(cMetWk,n);ra();}
+function setTrdSt(v){setTrdStatus(cMetWk,v);ra();}
+function saveMetrics(){
+  var cfg=MET_CFG[cMetBiz];
+  cfg.fields.forEach(function(f){
+    var el=document.getElementById('mc-'+f.id);
+    if(el&&f.id!=='estado')setMet(cMetBiz,cMetWk,f.id,el.value);
+  });
+  ra();
+}
+
 var chkSVG='<svg viewBox="0 0 12 12" fill="none" width="10" height="10"><polyline points="1.5,6 4.5,9.5 10.5,2.5" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>';
 
 function ra(){
@@ -696,6 +1029,28 @@ function rHome(gs,ey){
   var tdD=tdT.filter(function(t){return t.done;}).length;
   var venc=ST.tasks.filter(function(t){return!t.done&&isOD(t.due||t.date);}).length;
   var s0=cStat(0);
+  var todayDec=getTodayDec();
+
+  // Bloque decisión
+  var decHTML='';
+  if(!todayDec){
+    decHTML='<div class="decision-block pending" onclick="openDecModal()">'
+      +'<div class="db-header"><div class="db-label">Decisión del día</div><div class="db-status">Sin cargar</div></div>'
+      +'<div class="db-text">¿Cuál es la acción más importante de hoy?</div>'
+      +'<div class="db-sub">Tocá para cargar — antes de las 12hs</div>'
+      +'</div>';
+  } else if(!todayDec.done){
+    decHTML='<div class="decision-block pending" onclick="openDecModal()">'
+      +'<div class="db-header"><div class="db-label">Decisión del día · '+todayDec.cat+'</div><div class="db-status">Pendiente</div></div>'
+      +'<div class="db-text">'+todayDec.text+'</div>'
+      +'<div class="db-sub">Tocá para marcar como ejecutada</div>'
+      +'</div>';
+  } else {
+    decHTML='<div class="decision-block done">'
+      +'<div class="db-header"><div class="db-label">Decisión del día · '+todayDec.cat+'</div><div class="db-status">✓ Ejecutada</div></div>'
+      +'<div class="db-text">'+todayDec.text+'</div>'
+      +'</div>';
+  }
 
   var todayTasks=tdT.slice(0,4).map(function(t){
     var cats=t.cats&&t.cats.length?t.cats:(t.cat?[t.cat]:[]);
@@ -710,6 +1065,7 @@ function rHome(gs,ey){
 
   document.getElementById('body').innerHTML='<div class="pg">'
     +'<div class="page-hdr"><div class="page-eyebrow">'+ey+'</div><div class="page-title">Buenos días.</div></div>'
+    +decHTML
     +'<div class="hero-card">'
     +'<div class="hc-label">Hábitos — Semana 0</div>'
     +'<div class="hc-num">'+gs.pct+'<sup>%</sup></div>'
@@ -798,7 +1154,6 @@ function rHab(){
     return '<div class="wt'+(i===cW?' on':'')+((!wk.u&&i!==0)?' lk':'')+'" onclick="'+(wk.u||i===0?'sCW2('+i+')':'')+'">'+(wk.lb)+'</div>';
   }).join('');
 
-  // Calcular fechas reales de la semana (lunes a domingo)
   var todayD=new Date();
   var dow=todayD.getDay()===0?6:todayD.getDay()-1;
   var monday=new Date(todayD);monday.setDate(todayD.getDate()-dow);
@@ -885,6 +1240,105 @@ function rPlan(){
   var s0=cStat(0);
   var d=new Date();
   var ey=DAYS_ES[d.getDay()]+' '+d.getDate()+' de '+MONTHS[d.getMonth()];
+
+  // — MÉTRICAS —
+  var cfg=MET_CFG[cMetBiz];
+  var prevWk=addWeeks(cMetWk,-1);
+  var isCurrentWk=cMetWk===getWeekKey();
+
+  var metTabs='<div class="met-tabs">'
+    +'<div class="mt-btn'+(cMetBiz==='HYK'?' on hyk':'')+'" onclick="setMetBiz(\'HYK\')">HYK</div>'
+    +'<div class="mt-btn'+(cMetBiz==='BAZ'?' on baz':'')+'" onclick="setMetBiz(\'BAZ\')">Bazarista</div>'
+    +'<div class="mt-btn'+(cMetBiz==='TRD'?' on trd':'')+'" onclick="setMetBiz(\'TRD\')">Trading</div>'
+    +'</div>';
+
+  var wkNav='<div class="met-week-nav">'
+    +'<div class="mwn-arrow" onclick="metWkNav(-1)">‹</div>'
+    +'<div class="mwn-label">Sem '+getWeekLabel(cMetWk)+(isCurrentWk?' · actual':'')+'</div>'
+    +'<div class="mwn-arrow" onclick="metWkNav(1)">›</div>'
+    +'</div>';
+
+  var metFields='';
+  if(cMetBiz==='TRD'){
+    var trdSt=getTrdStatus(cMetWk);
+    metFields='<div class="met-grid">'
+      +'<div class="met-cell"><div class="mc-lbl">Resultado</div><input class="mc-inp" id="mc-resultado" type="text" placeholder="ej: +2.3%" value="'+getMet('TRD',cMetWk,'resultado')+'"></div>'
+      +'<div class="met-cell"><div class="mc-lbl">Operaciones</div><input class="mc-inp" id="mc-operaciones" type="number" placeholder="ej: 12" value="'+getMet('TRD',cMetWk,'operaciones')+'"></div>'
+      +'</div>'
+      +'<div class="trd-status-row">'
+      +'<div class="trd-st'+(trdSt==='activo'?' on activo':'')+'" onclick="setTrdSt(\'activo\')">Sistema activo</div>'
+      +'<div class="trd-st'+(trdSt==='pausado'?' on pausado':'')+'" onclick="setTrdSt(\'pausado\')">Pausado</div>'
+      +'<div class="trd-st'+(trdSt==='perdida'?' on perdida':'')+'" onclick="setTrdSt(\'perdida\')">Stop loss</div>'
+      +'</div>';
+  } else {
+    var f=cfg.fields;
+    var d0=calcDelta(getMet(cMetBiz,cMetWk,f[0].id),getMet(cMetBiz,prevWk,f[0].id));
+    metFields='<div class="met-grid">'
+      +'<div class="met-cell full"><div class="mc-lbl">'+f[0].label+'</div><input class="mc-inp" id="mc-'+f[0].id+'" type="number" placeholder="'+f[0].placeholder+'" value="'+getMet(cMetBiz,cMetWk,f[0].id)+'"><div class="mc-sub">'+(getMet(cMetBiz,cMetWk,f[0].id)?fmtM(getMet(cMetBiz,cMetWk,f[0].id)):f[0].unit||'')+'</div></div>'
+      +'<div class="met-cell"><div class="mc-lbl">'+f[1].label+'</div><input class="mc-inp" id="mc-'+f[1].id+'" type="number" placeholder="'+f[1].placeholder+'" value="'+getMet(cMetBiz,cMetWk,f[1].id)+'"></div>'
+      +'<div class="met-cell"><div class="mc-lbl">'+f[2].label+'</div><input class="mc-inp" id="mc-'+f[2].id+'" type="text" placeholder="'+f[2].placeholder+'" value="'+getMet(cMetBiz,cMetWk,f[2].id)+'"></div>'
+      +'</div>';
+    if(d0!==null){
+      metFields+='<div class="met-trend">'
+        +'<div class="trend-card"><div class="tc-lbl">vs semana anterior</div><div class="tc-val '+(d0>0?'pos':d0<0?'neg':'neu')+'">'+(d0>0?'+':'')+d0+'%</div></div>'
+        +'<div class="trend-card"><div class="tc-lbl">Sem anterior</div><div class="tc-val neu">'+fmtM(getMet(cMetBiz,prevWk,f[0].id))+'</div></div>'
+        +'</div>';
+    }
+  }
+
+  // Historial últimas 4 semanas
+  var histRows='';
+  for(var hw=3;hw>=0;hw--){
+    var hwk=addWeeks(getWeekKey(),-hw);
+    if(cMetBiz!=='TRD'){
+      var hf=MET_CFG[cMetBiz].fields;
+      var v0=getMet(cMetBiz,hwk,hf[0].id);
+      var v1=getMet(cMetBiz,hwk,hf[1].id);
+      if(v0||v1){
+        histRows+='<div class="mh-row">'
+          +'<div class="mh-week">'+getWeekLabel(hwk)+(hwk===getWeekKey()?' ·':'')+' </div>'
+          +'<div class="mh-vals">'
+          +'<div class="mh-v">'+fmtM(v0)+'<span>'+hf[0].label+'</span></div>'
+          +'<div class="mh-v">'+fmtM(v1)+'<span>'+hf[1].label+'</span></div>'
+          +'</div></div>';
+      }
+    } else {
+      var tr=getMet('TRD',hwk,'resultado');
+      var tst=getTrdStatus(hwk);
+      if(tr||tst){
+        histRows+='<div class="mh-row">'
+          +'<div class="mh-week">'+getWeekLabel(hwk)+'</div>'
+          +'<div class="mh-vals"><div class="mh-v">'+(tr||'—')+'<span>resultado</span></div>'
+          +'<div class="mh-v">'+(tst||'—')+'<span>estado</span></div>'
+          +'</div></div>';
+      }
+    }
+  }
+
+  var histHTML=histRows?'<div class="sec-row" style="padding-top:14px"><div class="sec-t">Historial</div></div><div class="met-hist">'+histRows+'</div>':'';
+
+  // — DECISIONES HISTORIAL —
+  var decHist=getDecHistory();
+  var decHistHTML='';
+  if(decHist.length>0){
+    decHistHTML='<div class="sec-row" style="padding-top:18px"><div class="sec-t">Decisiones recientes</div></div>'
+      +'<div style="margin:0 14px;border-radius:14px;background:var(--c1);border:0.5px solid var(--c3);overflow:hidden">'
+      +decHist.map(function(dec){
+        var p=dec.date.split('-');
+        var mn=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+        var lbl=p[2]+' '+mn[+p[1]-1];
+        return '<div class="dec-hist-row">'
+          +'<div class="dhr-date">'+lbl+'</div>'
+          +'<div class="dhr-body">'
+          +'<div class="dhr-text">'+dec.text+'</div>'
+          +'<div class="dhr-cat">'+dec.cat+'</div>'
+          +'<span class="dhr-status '+(dec.done?'ej':'pe')+'">'+(dec.done?'Ejecutada':'Pendiente')+'</span>'
+          +'</div></div>';
+      }).join('')
+      +'</div>';
+  }
+
+  // — PLAN TIMELINE —
   var tls=[
     {t:'Sem 0 — Anclajes base',s:'3 hábitos estructurales',done:s0.pct>0,now:true},
     {t:'Sem 1–3 — Cuerpo + cantineo',s:'Entrenamiento, alimentación, reducción',done:false,now:false},
@@ -900,6 +1354,7 @@ function rPlan(){
       +'<div class="tl-s">'+it.s+'</div>'
       +'</div>';
   }).join('');
+
   var phCards=PLAN.map(function(ph,pi){
     var axes=ph.axes.map(function(ax){
       return '<div class="plan-axis"><div class="plan-axis-name">'+ax.n+'</div>'
@@ -908,9 +1363,23 @@ function rPlan(){
     }).join('');
     return '<div class="plan-card'+(ph.cur?' cur':'')+'"><div class="plan-head"><span class="plan-badge">F'+(pi+1)+'</span><span class="plan-title">'+ph.ph+'</span></div>'+axes+'</div>';
   }).join('');
+
   document.getElementById('body').innerHTML='<div class="pg">'
     +'<div class="page-hdr"><div class="page-eyebrow">'+ey+'</div><div class="page-title">Plan.</div></div>'
-    +'<div class="sec-row" style="padding-top:18px"><div class="sec-t">Timeline</div></div>'
+
+    // MÉTRICAS
+    +'<div class="sec-row" style="padding-top:18px"><div class="sec-t">Métricas</div></div>'
+    +metTabs
+    +wkNav
+    +metFields
+    +'<button class="met-save-btn" onclick="saveMetrics()">Guardar métricas</button>'
+    +histHTML
+
+    // DECISIONES
+    +decHistHTML
+
+    // TIMELINE
+    +'<div class="sec-row" style="padding-top:24px"><div class="sec-t">Timeline</div></div>'
     +'<div class="tl-wrap"><div class="tl-line"></div>'+tlHTML+'</div>'
     +'<div class="sec-row" style="padding-top:18px"><div class="sec-t">Fases</div></div>'
     +phCards
