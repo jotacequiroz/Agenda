@@ -426,9 +426,9 @@ html,body{height:100%;height:-webkit-fill-available;overflow:hidden;background:v
       <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
       <div class="nav-lbl">Home</div><div class="nav-pip"></div>
     </div>
-    <div class="nav-item" id="nv-t" onclick="sv('t',this)">
+    <div class="nav-item" id="nv-k" onclick="sv('k',this)">
       <svg viewBox="0 0 24 24"><polyline points="9,11 12,14 22,4"/><path d="M21,12v7a2,2 0 0,1-2,2H5a2,2 0 0,1-2-2V5a2,2 0 0,1,2-2h11"/></svg>
-      <div class="nav-lbl">Hábitos</div><div class="nav-pip"></div>
+      <div class="nav-lbl">Tareas</div><div class="nav-pip"></div>
     </div>
     <div class="nav-plus" onclick="openModal()">
       <div class="plus-btn">
@@ -436,9 +436,9 @@ html,body{height:100%;height:-webkit-fill-available;overflow:hidden;background:v
       </div>
       <div class="plus-lbl">Nueva</div>
     </div>
-    <div class="nav-item" id="nv-l" onclick="sv('l',this)">
-      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
-      <div class="nav-lbl">Semanas</div><div class="nav-pip"></div>
+    <div class="nav-item" id="nv-t" onclick="sv('t',this)">
+      <svg viewBox="0 0 24 24"><polyline points="9,11 12,14 22,4"/><path d="M21,12v7a2,2 0 0,1-2,2H5a2,2 0 0,1-2-2V5a2,2 0 0,1,2-2h11"/><circle cx="7" cy="7" r="2" fill="none"/></svg>
+      <div class="nav-lbl">Hábitos</div><div class="nav-pip"></div>
     </div>
     <div class="nav-item" id="nv-p" onclick="sv('p',this)">
       <svg viewBox="0 0 24 24"><polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/></svg>
@@ -861,7 +861,6 @@ function ra(){
   if(cV==='d')rHome(ey);
   else if(cV==='k')rTasks(ey);
   else if(cV==='t')rHab();
-  else if(cV==='l')rLife();
   else rPlan();
 }
 
@@ -938,14 +937,20 @@ function rHome(ey){
       +'<div class="t-dot '+dot+'"></div></div>';
   }).join('');
 
-  document.getElementById('body').innerHTML='<div class="pg">'
-    +'<div class="page-hdr"><div class="page-eyebrow">'+ey+'</div><div class="page-title">Buenos días.</div></div>'
-    +scoreHTML
-    +decHTML
+  // Compact task analytics for Home
+  var allT=ST.tasks;
+  var totalAgend=allT.length;
+  var totalDone=allT.filter(function(t){return t.done;}).length;
+  var totalPend=allT.filter(function(t){return!t.done;}).length;
+  var tasksRate=totalAgend>0?Math.round(totalDone/totalAgend*100):0;
+  var twStats=getTaskWeekStats();
+  var homeAnalytics='<div style="margin:10px 14px 0;border-radius:16px;padding:14px;background:linear-gradient(160deg,var(--c2),var(--c1));border:0.5px solid var(--c3);position:relative;overflow:hidden;cursor:pointer" onclick="sv(\'k\',document.getElementById(\'nv-k\'))">'    +'<div style="position:absolute;top:0;left:0;right:0;height:0.5px;background:linear-gradient(90deg,transparent,var(--c4),transparent)"></div>'    +'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">'    +'<div style="font-size:10px;color:var(--t5);letter-spacing:0.1em;text-transform:uppercase;font-family:var(--m)">Tareas</div>'    +'<div style="font-size:10px;color:var(--t5)">ver todas →</div>'    +'</div>'    +'<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px">'    +'<div style="text-align:center"><div style="font-size:20px;font-weight:700;color:var(--t1);letter-spacing:-0.03em">'+totalAgend+'</div><div style="font-size:8px;color:var(--c5);font-family:var(--m)">Total</div></div>'    +'<div style="text-align:center"><div style="font-size:20px;font-weight:700;color:var(--green);letter-spacing:-0.03em">'+totalDone+'</div><div style="font-size:8px;color:var(--c5);font-family:var(--m)">Hechas</div></div>'    +'<div style="text-align:center"><div style="font-size:20px;font-weight:700;color:'+(totalPend>10?'var(--red)':totalPend>5?'var(--gold)':'var(--t1)')+';letter-spacing:-0.03em">'+totalPend+'</div><div style="font-size:8px;color:var(--c5);font-family:var(--m)">Pendientes</div></div>'    +'<div style="text-align:center"><div style="font-size:20px;font-weight:700;color:'+(tasksRate>=70?'var(--green)':tasksRate>=50?'var(--gold)':'var(--red)')+';letter-spacing:-0.03em">'+tasksRate+'%</div><div style="font-size:8px;color:var(--c5);font-family:var(--m)">Ejecución</div></div>'    +'</div>'    +'<div style="height:0.5px;background:var(--c3);margin:10px 0 8px"></div>'    +'<div style="display:flex;justify-content:space-between">'    +'<span style="font-size:11px;color:var(--t5)">Esta semana: '+twStats.done+'/'+twStats.tot+'</span>'    +'<span style="font-size:11px;color:var(--t5)">Alta: '+twStats.altaDone+'/'+twStats.alta+' ej.</span>'    +'</div>'    +'</div>';
+
+  document.getElementById('body').innerHTML='<div class="pg">'    +'<div class="page-hdr"><div class="page-eyebrow">'+ey+'</div><div class="page-title">Buenos días.</div></div>'    +scoreHTML    +homeAnalytics    +decHTML
     +revHTML
     +statsHTML
-    +(venc>0?'<div class="venc-alert" onclick="sv(\'k\',document.getElementById(\'nv-d\'));setF(\'venc\')"><div class="va-t">'+venc+' tarea'+(venc>1?'s':'')+' vencida'+(venc>1?'s':'')+'</div><div class="va-a">Ver →</div></div>':'')
-    +'<div class="sec-row"><div class="sec-t">Hoy</div><div class="sec-a" onclick="sv(\'k\',document.getElementById(\'nv-d\'))">ver todas</div></div>'
+    +(venc>0?'<div class="venc-alert" onclick="sv(\'k\',document.getElementById(\'nv-k\'));setF(\'venc\')"><div class="va-t">'+venc+' tarea'+(venc>1?'s':'')+' vencida'+(venc>1?'s':'')+'</div><div class="va-a">Ver →</div></div>':'')
+    +'<div class="sec-row"><div class="sec-t">Hoy</div><div class="sec-a" onclick="sv(\'k\',document.getElementById(\'nv-k\'))">ver todas</div></div>'
     +(todayTasks||'<div class="empty">Sin tareas para hoy.<br>Tocá + para agregar.</div>')
     +'</div>';
 }
@@ -1232,6 +1237,7 @@ function rPlan(){
 
   document.getElementById('body').innerHTML='<div class="pg">'
     +'<div class="page-hdr"><div class="page-eyebrow">'+ey+'</div><div class="page-title">Plan.</div></div>'
+    +'<div style="margin:10px 14px 0;padding:11px 14px;border-radius:13px;background:var(--c1);border:0.5px solid var(--c3);display:flex;align-items:center;justify-content:space-between;cursor:pointer" onclick="sv(\'l\',null)"><div style="font-size:13px;color:var(--t3)">Memento Mori</div><div style="font-size:11px;color:var(--t5)">'+getWL().toLocaleString()+' vividas · '+getWR().toLocaleString()+' restantes →</div></div>'
     +'<div class="sec-row" style="padding-top:18px"><div class="sec-t">Métricas</div></div>'
     +metTabs+wkNav+metFields
     +'<button class="met-save-btn" onclick="saveMetrics()">Guardar métricas</button>'
