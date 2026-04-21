@@ -7,6 +7,13 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <meta name="apple-mobile-web-app-title" content="Agenda">
 <meta name="theme-color" content="#111113">
+<style>
+  body::after{
+    content:'';position:fixed;bottom:0;left:0;right:0;
+    height:env(safe-area-inset-bottom,34px);
+    background:#111113;z-index:49;
+  }
+</style>
 <title>Agenda</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
