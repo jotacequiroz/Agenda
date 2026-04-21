@@ -608,27 +608,33 @@ function hasRevWeek(){return!!ST.rev[getWeekKey()];}
 function saveRev(data){ST.rev[getWeekKey()]=data;save();}
 
 // =====================
-// SCORE CALCULATION
+// SCORE — Hábitos 25 · Decisión 25 · Tareas 35 · Métricas 15
 // =====================
+function getTaskWeekStats(){
+  var d=new Date(),dow=d.getDay()===0?6:d.getDay()-1;
+  var monday=new Date(d);monday.setDate(d.getDate()-dow);
+  var wkDates=[];
+  for(var i=0;i<=dow;i++){var dd=new Date(monday);dd.setDate(monday.getDate()+i);wkDates.push(dd.getFullYear()+'-'+pad(dd.getMonth()+1)+'-'+pad(dd.getDate()));}
+  var wkTasks=ST.tasks.filter(function(t){return wkDates.indexOf(t.due||t.date)>=0;});
+  var tot=wkTasks.length,done=wkTasks.filter(function(t){return t.done;}).length;
+  var alta=wkTasks.filter(function(t){return t.prio==='alta';}),altaDone=alta.filter(function(t){return t.done;}).length;
+  var weightedTot=0,weightedDone=0;
+  wkTasks.forEach(function(t){var w=t.prio==='alta'?2:t.prio==='baja'?1:1.5;weightedTot+=w;if(t.done)weightedDone+=w;});
+  var pct=weightedTot>0?weightedDone/weightedTot:0;
+  return{tot:tot,done:done,pct:pct,alta:alta.length,altaDone:altaDone};
+}
 function calcScore(){
-  // Hábitos 40%
   var habTot=0,habDn=0;
   WKS.forEach(function(w,wi){w.anc.forEach(function(a){DS.forEach(function(_,d){habTot++;if(gC(wi,a.id,d))habDn++;});});});
   var habPct=habTot>0?habDn/habTot:0;
-
-  // Decisiones 40%: ejecutadas / días pasados de la semana
   var ds=getDecWeekStats();
-  var dow=todayDOW();
   var decPct=ds.tot>0?ds.exec/ds.tot:0;
-  // Si no cargó ninguna decisión hoy penalizamos
-  if(!getTodayDec()&&dow<7)decPct=decPct*0.8;
-
-  // Métricas 20%: si cargó datos de HYK o BAZ esta semana = 100%, si no = 0
+  if(!getTodayDec())decPct=decPct*0.8;
+  var ts=getTaskWeekStats();
   var wk=getWeekKey();
   var metFilled=(getMet('HYK',wk,'ingresos')||getMet('BAZ',wk,'ingresos'))?1:0;
-
-  var score=Math.round((habPct*40)+(decPct*40)+(metFilled*20));
-  return{score:score,hab:Math.round(habPct*40),dec:Math.round(decPct*40),met:metFilled*20};
+  var score=Math.round((habPct*25)+(decPct*25)+(ts.pct*35)+(metFilled*15));
+  return{score:score,hab:Math.round(habPct*25),dec:Math.round(decPct*25),tasks:Math.round(ts.pct*35),met:metFilled*15,taskStats:ts};
 }
 function scoreClass(s){
   if(s>=80)return'elite';
@@ -880,9 +886,10 @@ function rHome(ey){
     +'<div class="sc-tag">'+tag+'</div>'
     +'<div class="sc-rule"></div>'
     +'<div class="sc-breakdown">'
-    +'<div class="scb"><div class="scb-val">'+sc.hab+'</div><div class="scb-lbl">Hábitos /40</div></div>'
-    +'<div class="scb"><div class="scb-val">'+sc.dec+'</div><div class="scb-lbl">Decisiones /40</div></div>'
-    +'<div class="scb"><div class="scb-val">'+sc.met+'</div><div class="scb-lbl">Métricas /20</div></div>'
+    +'<div class="scb"><div class="scb-val">'+sc.hab+'</div><div class="scb-lbl">Hábitos /25</div></div>'
+    +'<div class="scb"><div class="scb-val">'+sc.dec+'</div><div class="scb-lbl">Decisión /25</div></div>'
+    +'<div class="scb"><div class="scb-val">'+sc.tasks+'</div><div class="scb-lbl">Tareas /35</div></div>'
+    +'<div class="scb"><div class="scb-val">'+sc.met+'</div><div class="scb-lbl">Métricas /15</div></div>'
     +'</div></div>';
 
   // Decisión
@@ -984,25 +991,32 @@ function rTasks(ey){
     return'<div class="group-hdr"><div class="gh-l"'+cls+'>'+fmtGroup(date)+'</div><div class="gh-c">'+dn+'/'+byD[date].length+'</div></div>'+rows;
   }).join('');
 
-  document.getElementById('body').innerHTML='<div class="pg">'
-    +'<div class="page-hdr"><div class="page-eyebrow">'+ey+'</div><div class="page-title">Tareas</div></div>'
-    +'<div class="task-stats">'
-    +'<div class="ts"><div class="ts-val">'+tdA.length+'</div><div class="ts-lbl">Hoy</div></div>'
-    +'<div class="ts"><div class="ts-val">'+prox+'</div><div class="ts-lbl">Próximas</div></div>'
-    +'<div class="ts'+(venc.length>0?' danger':'')+'"><div class="ts-val">'+venc.length+'</div><div class="ts-lbl">Vencidas</div></div>'
-    +'<div class="ts"><div class="ts-val">'+alta+'</div><div class="ts-lbl">Alta</div></div>'
-    +'</div>'
-    +'<div class="filter-wrap">'
-    +'<div class="ft'+(tFil==='hoy'?' on':'')+'" onclick="setF(\'hoy\')">Hoy</div>'
-    +'<div class="ft'+(tFil==='prox'?' on':'')+'" onclick="setF(\'prox\')">Próximas</div>'
-    +'<div class="ft'+(tFil==='all'?' on':'')+'" onclick="setF(\'all\')">Todas</div>'
-    +(venc.length>0?'<div class="ft danger'+(tFil==='venc'?' on':'')+'" onclick="setF(\'venc\')">Vencidas ('+venc.length+')</div>':'')
-    +'<div class="ft'+(tFil==='pend'?' on':'')+'" onclick="setF(\'pend\')">Pendientes</div>'
-    +'<div class="ft'+(tFil==='alta'?' on':'')+'" onclick="setF(\'alta\')">Alta prioridad</div>'
-    +'<div class="ft success'+(tFil==='done'?' on':'')+'" onclick="setF(\'done\')">Completadas</div>'
-    +'</div>'
-    +(dates.length===0?'<div class="empty">Sin tareas aquí.</div>':groups)
-    +'</div>';
+  // Analytics
+  var allT=ST.tasks;
+  var totalAgend=allT.length;
+  var totalDone=allT.filter(function(t){return t.done;}).length;
+  var totalPend=allT.filter(function(t){return!t.done;}).length;
+  var tasksRate=totalAgend>0?Math.round(totalDone/totalAgend*100):0;
+  // Por categoría
+  var catCount={HYK:0,BAZ:0,TRD:0,WIP:0,PER:0,Sin:0};
+  var catDone={HYK:0,BAZ:0,TRD:0,WIP:0,PER:0,Sin:0};
+  allT.forEach(function(t){
+    var cats=t.cats&&t.cats.length?t.cats:(t.cat?[t.cat]:null);
+    if(!cats||cats.length===0){catCount.Sin++;if(t.done)catDone.Sin++;}
+    else{cats.forEach(function(c){if(catCount[c]!==undefined){catCount[c]++;if(t.done)catDone[c]++;}});}
+  });
+  // Semana actual stats
+  var twStats=getTaskWeekStats();
+  var catColors={HYK:'var(--green)',BAZ:'#4a9eff',TRD:'var(--red)',WIP:'var(--gold)',PER:'#a0a0f0',Sin:'var(--c5)'};
+  var catLabels={HYK:'HYK',BAZ:'Bazar',TRD:'Trading',WIP:'WIP',PER:'Personal',Sin:'Sin cat'};
+  var catBars=Object.keys(catCount).filter(function(k){return catCount[k]>0;}).map(function(k){
+    var pct=catCount[k]>0?Math.round(catDone[k]/catCount[k]*100):0;
+    return'<div style="margin-bottom:10px">'      +'<div style="display:flex;justify-content:space-between;margin-bottom:4px">'      +'<span style="font-size:11px;color:var(--t4)">'+catLabels[k]+'</span>'      +'<span style="font-size:11px;color:var(--t5);font-family:var(--m)">'+catDone[k]+'/'+catCount[k]+' · '+pct+'%</span>'      +'</div>'      +'<div style="height:4px;background:var(--c3);border-radius:2px">'      +'<div style="height:100%;width:'+pct+'%;background:'+catColors[k]+';border-radius:2px;transition:width 0.3s"></div>'      +'</div></div>';
+  }).join('');
+
+  var analyticsHTML='<div style="margin:12px 14px 0;border-radius:16px;padding:14px;background:linear-gradient(160deg,var(--c2),var(--c1));border:0.5px solid var(--c3);position:relative;overflow:hidden">'    +'<div style="position:absolute;top:0;left:0;right:0;height:0.5px;background:linear-gradient(90deg,transparent,var(--c4),transparent)"></div>'    +'<div style="font-size:10px;color:var(--t5);letter-spacing:0.1em;text-transform:uppercase;font-family:var(--m);margin-bottom:12px">Ejecución histórica</div>'    +'<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px">'    +'<div style="text-align:center"><div style="font-size:24px;font-weight:700;color:var(--t1);letter-spacing:-0.03em">'+totalAgend+'</div><div style="font-size:9px;color:var(--c5);font-family:var(--m)">Agendadas</div></div>'    +'<div style="text-align:center"><div style="font-size:24px;font-weight:700;color:var(--green);letter-spacing:-0.03em">'+totalDone+'</div><div style="font-size:9px;color:var(--c5);font-family:var(--m)">Completadas</div></div>'    +'<div style="text-align:center"><div style="font-size:24px;font-weight:700;color:'+(tasksRate>=70?'var(--green)':tasksRate>=50?'var(--gold)':'var(--red)')+';letter-spacing:-0.03em">'+tasksRate+'%</div><div style="font-size:9px;color:var(--c5);font-family:var(--m)">Tasa ejec.</div></div>'    +'</div>'    +'<div style="height:0.5px;background:var(--c3);margin-bottom:12px"></div>'    +'<div style="font-size:9px;color:var(--c5);letter-spacing:0.08em;text-transform:uppercase;font-family:var(--m);margin-bottom:10px">Por categoría</div>'    +catBars    +'<div style="height:0.5px;background:var(--c3);margin:4px 0 12px"></div>'    +'<div style="display:flex;justify-content:space-between;align-items:center">'    +'<span style="font-size:11px;color:var(--t5)">Esta semana</span>'    +'<span style="font-size:13px;font-weight:600;color:var(--t2)">'+twStats.done+'/'+twStats.tot+' tareas</span>'    +'</div>'    +'<div style="display:flex;gap:12px;margin-top:6px">'    +'<span style="font-size:10px;color:var(--c5)">Alta: '+twStats.altaDone+'/'+twStats.alta+' ej.</span>'    +'<span style="font-size:10px;color:'+(totalPend>10?'var(--red)':totalPend>5?'var(--gold)':'var(--green)')+'">'+totalPend+' pendientes total</span>'    +'</div>'    +'</div>';
+
+  document.getElementById('body').innerHTML='<div class="pg">'    +'<div class="page-hdr"><div class="page-eyebrow">'+ey+'</div><div class="page-title">Tareas</div></div>'    +analyticsHTML    +'<div class="filter-wrap">'    +'<div class="ft'+(tFil==='hoy'?' on':'')+'" onclick="setF(\'hoy\')">Hoy</div>'    +'<div class="ft'+(tFil==='prox'?' on':'')+'" onclick="setF(\'prox\')">Próximas</div>'    +'<div class="ft'+(tFil==='all'?' on':'')+'" onclick="setF(\'all\')">Todas</div>'    +(venc.length>0?'<div class="ft danger'+(tFil==='venc'?' on':'')+'" onclick="setF(\'venc\')">Vencidas ('+venc.length+')</div>':'')    +'<div class="ft'+(tFil==='pend'?' on':'')+'" onclick="setF(\'pend\')">Pendientes</div>'    +'<div class="ft'+(tFil==='alta'?' on':'')+'" onclick="setF(\'alta\')">Alta prioridad</div>'    +'<div class="ft success'+(tFil==='done'?' on':'')+'" onclick="setF(\'done\')">Completadas</div>'    +'</div>'    +(dates.length===0?'<div class="empty">Sin tareas aquí.</div>':groups)    +'</div>';
 }
 
 // =====================
