@@ -501,9 +501,9 @@ function fmtGroup(k){
 
 var WKS=[
   {id:0,lb:'Sem 0',focus:'Instalar los 3 anclajes base',u:true,anc:[
-    {id:'a1',nm:'Cierre de día — 23hs',tg:'Cierre'},
-    {id:'a2',nm:'Inicio sin pantalla — 7am',tg:'Inicio'},
-    {id:'a3',nm:'Fricción al cantineo — 19:45',tg:'Fricción'},
+    {id:'a1',nm:'Deporte',tg:'Físico'},
+    {id:'a2',nm:'Bloque de trabajo productivo',tg:'Negocio'},
+    {id:'a3',nm:'Racha',tg:'Control'},
   ]},
   {id:1,lb:'Sem 1',focus:'Movimiento + reducir cantineo',u:false,anc:[
     {id:'b1',nm:'Entrenamiento mínimo',tg:'Físico'},
@@ -1032,24 +1032,6 @@ function rHab(){
       +'<div class="days-row">'+days+'</div></div>';
   }).join('');
 
-  // CANTINEO ROW — separado, visual rojo
-  var cantRow='<div class="hab-card">'
-    +'<div class="hab-top"><div class="hab-name">Cantineo</div><div class="hab-badge cantineo-badge">Control</div></div>'
-    +'<div class="days-row">'
-    +DS.map(function(dl,di){
-      var dd=new Date(monday);dd.setDate(monday.getDate()+di);
-      var dk=dd.getFullYear()+'-'+pad(dd.getMonth()+1)+'-'+pad(dd.getDate());
-      var isT=di===dow,isCant=getCant(dk);
-      return'<div class="day'+(isT?' today':'')+(isCant?' cant-yes':'')+'" onclick="togCant(\''+dk+'\')">'
-        +'<div class="day-d">'+dl+'</div>'
-        +'<div class="day-n" style="font-size:10px">'+(isCant?'●':'○')+'</div>'
-        +'</div>';
-    }).join('')
-    +'</div>'
-    +'<div style="font-size:10px;color:var(--c5);margin-top:8px;font-family:var(--m)">● = cantineaste ese día. Meta: máximo 3/sem.</div>'
-    +'</div>';
-
-  var cantWeek=getCantWeek();
   var notes=DS.map(function(dl,i){
     var dd=new Date(monday);dd.setDate(monday.getDate()+i);
     var isT=i===dow;
@@ -1065,11 +1047,9 @@ function rHab(){
     +'<div class="hab-kpi">'
     +'<div class="hkpi"><div class="hkpi-val">'+s.pct+'%</div><div class="hkpi-lbl">Completado</div></div>'
     +'<div class="hkpi"><div class="hkpi-val">'+s.str+'</div><div class="hkpi-lbl">Racha</div></div>'
-    +'<div class="hkpi"><div class="hkpi-val '+(cantWeek>=4?'style="color:var(--red)"':cantWeek===0?'style="color:var(--green)"':'')+'">'+cantWeek+'</div><div class="hkpi-lbl">Cantineo/sem</div></div>'
     +'</div>'
     +'<div class="week-tabs" style="margin-top:14px">'+tabs+'</div>'
     +cards
-    +cantRow
     +'<div class="divr"></div>'
     +'<div class="note-wrap">'+notes+'</div>'
     +'</div>';
