@@ -1669,46 +1669,10 @@ function rPlan(){
   var prevWk=addWeeks(cMetWk,-1);
   var cfg=MET_CFG[cMetBiz];
 
-  var metTabs='<div class="met-tabs">'
-    +'<div class="mt-btn'+(cMetBiz==='HYK'?' on hyk':'')+'" onclick="setMetBiz(\'HYK\')">HYK</div>'
-    +'<div class="mt-btn'+(cMetBiz==='BAZ'?' on baz':'')+'" onclick="setMetBiz(\'BAZ\')">Bazarista</div>'
-    +'<div class="mt-btn'+(cMetBiz==='TRD'?' on trd':'')+'" onclick="setMetBiz(\'TRD\')">Trading</div>'
-    +'</div>';
-  var wkNav='<div class="met-week-nav">'
-    +'<div class="mwn-arrow" onclick="metWkNav(-1)">&#8249;</div>'
-    +'<div class="mwn-label">Sem '+getWeekLabel(cMetWk)+(isCurrentWk?' - actual':'')+'</div>'
-    +'<div class="mwn-arrow" onclick="metWkNav(1)">&#8250;</div>'
-    +'</div>';
-
-  var metFields='';
-  if(cMetBiz==='TRD'){
-    var trdSt=getTrdStatus(cMetWk);
-    metFields='<div class="met-grid">'
-      +'<div class="met-cell"><div class="mc-lbl">Resultado</div><input class="mc-inp" id="mc-resultado" type="text" placeholder="ej: +2.3%" value="'+getMet('TRD',cMetWk,'resultado')+'"></div>'
-      +'<div class="met-cell"><div class="mc-lbl">Operaciones</div><input class="mc-inp" id="mc-operaciones" type="number" placeholder="ej: 12" value="'+getMet('TRD',cMetWk,'operaciones')+'"></div>'
-      +'</div>'
-      +'<div class="trd-status-row">'
-      +'<div class="trd-st'+(trdSt==='activo'?' on activo':'')+'" onclick="setTrdSt(\'activo\')">Sistema activo</div>'
-      +'<div class="trd-st'+(trdSt==='pausado'?' on pausado':'')+'" onclick="setTrdSt(\'pausado\')">Pausado</div>'
-      +'<div class="trd-st'+(trdSt==='perdida'?' on perdida':'')+'" onclick="setTrdSt(\'perdida\')">Stop loss</div>'
-      +'</div>';
-  } else {
-    var f=cfg.fields;
-    var d0=calcDelta(getMet(cMetBiz,cMetWk,f[0].id),getMet(cMetBiz,prevWk,f[0].id));
-    metFields='<div class="met-grid">'
-      +'<div class="met-cell full"><div class="mc-lbl">'+f[0].label+'</div><input class="mc-inp" id="mc-'+f[0].id+'" type="number" placeholder="'+f[0].placeholder+'" value="'+getMet(cMetBiz,cMetWk,f[0].id)+'"><div class="mc-sub">'+(getMet(cMetBiz,cMetWk,f[0].id)?fmtM(getMet(cMetBiz,cMetWk,f[0].id)):'')+'</div></div>'
-      +'<div class="met-cell"><div class="mc-lbl">'+f[1].label+'</div><input class="mc-inp" id="mc-'+f[1].id+'" type="number" placeholder="'+f[1].placeholder+'" value="'+getMet(cMetBiz,cMetWk,f[1].id)+'"></div>'
-      +'<div class="met-cell"><div class="mc-lbl">'+f[2].label+'</div><input class="mc-inp" id="mc-'+f[2].id+'" type="text" placeholder="'+f[2].placeholder+'" value="'+getMet(cMetBiz,cMetWk,f[2].id)+'"></div>'
-      +'</div>';
-    if(d0!==null){
-      metFields+='<div class="met-trend">'
-        +'<div class="trend-card"><div class="tc-lbl">vs semana anterior</div><div class="tc-val '+(d0>0?'pos':d0<0?'neg':'neu')+'">'+(d0>0?'+':'')+d0+'%</div></div>'
-        +'<div class="trend-card"><div class="tc-lbl">Sem anterior</div><div class="tc-val neu">'+fmtM(getMet(cMetBiz,prevWk,f[0].id))+'</div></div>'
-        +'</div>';
-    }
-  }
-
-  // Finanzas Personales con gastos diarios
+  // Memento Mori card (primero)
+  var mementoHTML='<div style="margin:12px 14px 0;padding:13px 16px;border-radius:14px;background:var(--c1);border:0.5px solid var(--c3);display:flex;align-items:center;justify-content:space-between;cursor:pointer" onclick="sv(\'l\',null)"><div style="font-size:14px;color:var(--t2);font-weight:500">Memento Mori</div><div style="font-size:13px;color:var(--t4)">'+getWL().toLocaleString()+' vividas - '+getWR().toLocaleString()+' restantes</div></div>';
+  
+  // Finanzas Personales con gastos diarios (segundo)
   var prevMonth=addMonths(cFinanzasMonth,-1);
   var ingresos=getFinanzas(cFinanzasMonth,'ingresos');
   var gastos=getFinanzas(cFinanzasMonth,'gastos');
@@ -1725,12 +1689,10 @@ function rPlan(){
   var deltaIngresos=prevIngresos===0?null:((currIngresos-prevIngresos)/prevIngresos*100);
   var deltaGastos=prevGastos===0?null:((currGastos-prevGastos)/prevGastos*100);
   
-  // Gastos del mes
   var gastosDelMes=getGastosDelMes(cFinanzasMonth);
   var totalGastos=0;
   for(var i=0;i<gastosDelMes.length;i++){totalGastos+=gastosDelMes[i].monto;}
   
-  // Historial 4 meses
   var historial=[];
   for(var h=3;h>=0;h--){
     var hm=addMonths(cFinanzasMonth,-h);
@@ -1823,6 +1785,46 @@ function rPlan(){
   
   finanzasHTML+='<button class="finanzas-save-btn" onclick="saveFinanzas()">Guardar</button></div>';
   
+  // Métricas (tercero)
+  var metTabs='<div class="met-tabs">'
+    +'<div class="mt-btn'+(cMetBiz==='HYK'?' on hyk':'')+'" onclick="setMetBiz(\'HYK\')">HYK</div>'
+    +'<div class="mt-btn'+(cMetBiz==='BAZ'?' on baz':'')+'" onclick="setMetBiz(\'BAZ\')">Bazarista</div>'
+    +'<div class="mt-btn'+(cMetBiz==='TRD'?' on trd':'')+'" onclick="setMetBiz(\'TRD\')">Trading</div>'
+    +'</div>';
+  var wkNav='<div class="met-week-nav">'
+    +'<div class="mwn-arrow" onclick="metWkNav(-1)">&#8249;</div>'
+    +'<div class="mwn-label">Sem '+getWeekLabel(cMetWk)+(isCurrentWk?' - actual':'')+'</div>'
+    +'<div class="mwn-arrow" onclick="metWkNav(1)">&#8250;</div>'
+    +'</div>';
+
+  var metFields='';
+  if(cMetBiz==='TRD'){
+    var trdSt=getTrdStatus(cMetWk);
+    metFields='<div class="met-grid">'
+      +'<div class="met-cell"><div class="mc-lbl">Resultado</div><input class="mc-inp" id="mc-resultado" type="text" placeholder="ej: +2.3%" value="'+getMet('TRD',cMetWk,'resultado')+'"></div>'
+      +'<div class="met-cell"><div class="mc-lbl">Operaciones</div><input class="mc-inp" id="mc-operaciones" type="number" placeholder="ej: 12" value="'+getMet('TRD',cMetWk,'operaciones')+'"></div>'
+      +'</div>'
+      +'<div class="trd-status-row">'
+      +'<div class="trd-st'+(trdSt==='activo'?' on activo':'')+'" onclick="setTrdSt(\'activo\')">Sistema activo</div>'
+      +'<div class="trd-st'+(trdSt==='pausado'?' on pausado':'')+'" onclick="setTrdSt(\'pausado\')">Pausado</div>'
+      +'<div class="trd-st'+(trdSt==='perdida'?' on perdida':'')+'" onclick="setTrdSt(\'perdida\')">Stop loss</div>'
+      +'</div>';
+  } else {
+    var f=cfg.fields;
+    var d0=calcDelta(getMet(cMetBiz,cMetWk,f[0].id),getMet(cMetBiz,prevWk,f[0].id));
+    metFields='<div class="met-grid">'
+      +'<div class="met-cell full"><div class="mc-lbl">'+f[0].label+'</div><input class="mc-inp" id="mc-'+f[0].id+'" type="number" placeholder="'+f[0].placeholder+'" value="'+getMet(cMetBiz,cMetWk,f[0].id)+'"><div class="mc-sub">'+(getMet(cMetBiz,cMetWk,f[0].id)?fmtM(getMet(cMetBiz,cMetWk,f[0].id)):'')+'</div></div>'
+      +'<div class="met-cell"><div class="mc-lbl">'+f[1].label+'</div><input class="mc-inp" id="mc-'+f[1].id+'" type="number" placeholder="'+f[1].placeholder+'" value="'+getMet(cMetBiz,cMetWk,f[1].id)+'"></div>'
+      +'<div class="met-cell"><div class="mc-lbl">'+f[2].label+'</div><input class="mc-inp" id="mc-'+f[2].id+'" type="text" placeholder="'+f[2].placeholder+'" value="'+getMet(cMetBiz,cMetWk,f[2].id)+'"></div>'
+      +'</div>';
+    if(d0!==null){
+      metFields+='<div class="met-trend">'
+        +'<div class="trend-card"><div class="tc-lbl">vs semana anterior</div><div class="tc-val '+(d0>0?'pos':d0<0?'neg':'neu')+'">'+(d0>0?'+':'')+d0+'%</div></div>'
+        +'<div class="trend-card"><div class="tc-lbl">Sem anterior</div><div class="tc-val neu">'+fmtM(getMet(cMetBiz,prevWk,f[0].id))+'</div></div>'
+        +'</div>';
+    }
+  }
+  
   var histRows='';
   for(var hw=3;hw>=0;hw--){
     var hwk=addWeeks(getWeekKey(),-hw);
@@ -1906,12 +1908,12 @@ function rPlan(){
 
   document.getElementById('body').innerHTML='<div class="pg">'
     +'<div class="page-hdr"><div class="page-eyebrow">'+ey+'</div><div class="page-title">Plan.</div></div>'
-    +'<div style="margin:12px 14px 0;padding:13px 16px;border-radius:14px;background:var(--c1);border:0.5px solid var(--c3);display:flex;align-items:center;justify-content:space-between;cursor:pointer" onclick="sv(\'l\',null)"><div style="font-size:14px;color:var(--t2);font-weight:500">Memento Mori</div><div style="font-size:13px;color:var(--t4)">'+getWL().toLocaleString()+' vividas - '+getWR().toLocaleString()+' restantes</div></div>'
-    +'<div class="sec-row" style="padding-top:20px"><div class="sec-t">Metricas</div></div>'
+    +mementoHTML
+    +finanzasHTML
+    +'<div class="sec-row" style="padding-top:20px"><div class="sec-t">📊 Metricas</div></div>'
     +metTabs+wkNav+metFields
     +'<button class="met-save-btn" onclick="saveMetrics()">Guardar metricas</button>'
     +histHTML
-    +finanzasHTML
     +scoreHistHTML
     +decHistHTML
     +quiebreHistory
