@@ -212,12 +212,9 @@ html,body{height:100%;height:-webkit-fill-available;overflow:hidden;position:fix
 .vicio-check{width:20px;height:20px;border-radius:6px;border:1.5px solid var(--c4);background:transparent}
 .vicio-item.checked .vicio-check{background:var(--red);border-color:var(--red);position:relative}
 .vicio-item.checked .vicio-check::after{content:'✓';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:white;font-size:11px;font-weight:bold}
-.q-streak{display:flex;align-items:center;justify-content:space-between;padding:12px;background:rgba(191,156,107,0.05);border-radius:14px;margin-bottom:16px}
+.q-streak{display:flex;align-items:center;justify-content:space-between;padding:12px;background:rgba(191,156,107,0.05);border-radius:14px;margin-bottom:8px}
 .streak-val{font-size:28px;font-weight:800;color:var(--gold);letter-spacing:-0.03em}
 .streak-label{font-size:11px;color:var(--t4)}
-.apagar-btn{width:100%;background:linear-gradient(145deg,#2a2010,#1a1208);border:1px solid rgba(191,156,107,0.4);border-radius:14px;padding:14px;font-size:15px;font-weight:600;color:var(--gold);cursor:pointer;-webkit-appearance:none;transition:all 0.15s;margin-top:8px;}
-.apagar-btn:active{opacity:0.7;transform:scale(0.98)}
-.apagar-btn.registrado{background:#0f2518;border-color:var(--green);color:var(--green);}
 
 /* LIFE */
 .life-wrap{margin:16px;border-radius:20px;padding:16px;background:linear-gradient(160deg,var(--c2),var(--c1));border:0.5px solid var(--c3);position:relative;overflow:hidden;}
@@ -621,7 +618,6 @@ if(!ST.dec)ST.dec={};
 if(!ST.rev)ST.rev={};
 if(!ST.cant)ST.cant={};
 if(!ST.quiebre)ST.quiebre={};
-if(!ST.apagar)ST.apagar={};
 var save=function(){try{localStorage.setItem('ag_v5',JSON.stringify(ST));}catch(e){}};
 
 var gC=function(w,a,d){return!!(ST.hab[w+'_'+a+'_'+d]);};
@@ -629,16 +625,15 @@ var tC=function(w,a,d){ST.hab[w+'_'+a+'_'+d]=!ST.hab[w+'_'+a+'_'+d];save();ra();
 var gN=function(w,k){return ST['n_'+w+'_'+k]||'';};
 var sN=function(w,k,v){ST['n_'+w+'_'+k]=v;save();};
 
-// Quiebre functions
+// Quiebre functions - sin boton APAGAR
 var VICIOS=['cigarro','alcohol','marihuana','porno','comida','dormir'];
 var VICIOS_NOMBRES=['Cigarrillo','Alcohol','Marihuana','Pornografia','Comida limpia','Dormir antes 23:30'];
 function getVicioKey(date,vicio){return 'v_'+date+'_'+vicio;}
 function isVicioToday(vicio){var k=getVicioKey(getTK(),vicio);return ST.quiebre[k]===true;}
 function toggleVicio(vicio){var d=getTK();var k=getVicioKey(d,vicio);ST.quiebre[k]=!ST.quiebre[k];save();ra();}
 function isDiaManchado(date){
-  var manchado=false;
-  for(var i=0;i<VICIOS.length;i++){if(ST.quiebre[getVicioKey(date,VICIOS[i])]){manchado=true;break;}}
-  return manchado;
+  for(var i=0;i<VICIOS.length;i++){if(ST.quiebre[getVicioKey(date,VICIOS[i])])return true;}
+  return false;
 }
 function isTodayManchado(){return isDiaManchado(getTK());}
 function getCleanStreak(){
@@ -656,17 +651,6 @@ function getWeekCleanCount(){
   var d=new Date(),dow=d.getDay()===0?6:d.getDay()-1,cnt=0;
   for(var i=0;i<=dow;i++){var dd=new Date(d);dd.setDate(d.getDate()-dow+i);var k=dd.getFullYear()+'-'+pad(dd.getMonth()+1)+'-'+pad(dd.getDate());if(!isDiaManchado(k))cnt++;}
   return cnt;
-}
-function getApagarToday(){var d=getTK();return ST.apagar[d]||null;}
-function setApagarNow(){
-  var d=getTK();
-  if(ST.apagar[d])return;
-  var now=new Date();
-  var hours=now.getHours().toString().padStart(2,'0');
-  var minutes=now.getMinutes().toString().padStart(2,'0');
-  ST.apagar[d]=hours+':'+minutes;
-  save();
-  ra();
 }
 
 function getCant(dateKey){return ST.cant[dateKey]||false;}
@@ -1314,7 +1298,6 @@ function rHab(){
     +'</div>'
     +'<div class="q-streak"><div><div class="streak-label">Racha limpia</div><div class="streak-val">'+getCleanStreak()+'</div></div>'
     +'<div><div class="streak-label">Esta semana</div><div class="streak-val" style="font-size:22px">'+getWeekCleanCount()+'/7</div></div></div>'
-    +'<button class="apagar-btn'+(getApagarToday()?' registrado':'')+'" onclick="setApagarNow()">'+(getApagarToday()?'✅ '+getApagarToday():'⛔ APAGAR')+'</button>'
     +'</div>';
 
   document.getElementById('body').innerHTML='<div class="pg">'
