@@ -125,6 +125,8 @@ html,body{height:100%;height:-webkit-fill-available;overflow:hidden;position:fix
 .t-dot.r{background:var(--red)}
 .t-dot.g{background:var(--green)}
 .t-dot.gold{background:var(--gold)}
+.delete-icon{width:20px;height:20px;border-radius:6px;display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:0.6;transition:opacity 0.15s;}
+.delete-icon:hover{opacity:1}
 
 /* TASK STATS */
 .task-stats{display:flex;gap:8px;padding:16px 14px 0}
@@ -651,18 +653,17 @@ function isDiaManchado(date){
 }
 function isTodayManchado(){return isDiaManchado(getTK());}
 function getCleanStreak(){
-  var today=new Date();var streak=0;var maxDays=3650;
+  var today=new Date();
+  var streak=0;
+  var maxDays=365;
   for(var i=0;i<maxDays;i++){
     var checkDate=new Date(today);
     checkDate.setDate(today.getDate()-i);
     var ds=checkDate.getFullYear()+'-'+pad(checkDate.getMonth()+1)+'-'+pad(checkDate.getDate());
-    if(i===0 && !ST.quiebre[getVicioKey(ds,VICIOS[0])] && Object.keys(ST.quiebre).length===0){streak=0;break;}
-    if(isDiaManchado(ds))break;
+    if(i===0 && Object.keys(ST.quiebre).length===0){return 0;}
+    if(isDiaManchado(ds)){break;}
     streak++;
-    if(i>0 && !ST.quiebre[getVicioKey(ds,VICIOS[0])] && streak===1){streak=0;}
   }
-  if(streak===1 && !isDiaManchado(getTK()))streak=1;
-  if(Object.keys(ST.quiebre).length===0)streak=0;
   return streak;
 }
 function getWeekCleanCount(){
@@ -1171,7 +1172,8 @@ function rHome(ey){
     return'<div class="task-item'+(t.done?' done-t':'')+'" onclick="togTask('+t.id+')">'
       +'<div class="tck">'+(t.done?chkSVG:'')+'</div>'
       +'<div class="t-body"><div class="t-name" onclick="event.stopPropagation();editTask('+t.id+')">'+t.text+'</div>'+(meta?'<div class="t-meta">'+meta+'</div>':'')+'</div>'
-      +'<div class="t-dot '+dot+'"></div></div>';
+      +'<div class="delete-icon" onclick="event.stopPropagation();delTask('+t.id+')"><svg viewBox="0 0 12 12" width="11" height="11" fill="none" stroke="var(--t5)" stroke-width="1.8" stroke-linecap="round"><line x1="1" y1="1" x2="11" y2="11"/><line x1="11" y1="1" x2="1" y2="11"/></svg></div>'
+      +'</div>';
   }).join('');
 
   var allT=ST.tasks;
@@ -1275,9 +1277,8 @@ function rTasks(ey){
       return'<div class="task-item'+(t.done?' done-t':'')+(isRem?' rem-t':'')+'" onclick="togTask('+t.id+')">'
         +'<div class="tck">'+(t.done?chkSVG:'')+'</div>'
         +'<div class="t-body"><div class="t-name" onclick="event.stopPropagation();editTask('+t.id+')">'+t.text+'</div>'+(meta?'<div class="t-meta">'+meta+'</div>':'')+'</div>'
-        +'<div class="t-dot '+dot+'" style="cursor:pointer;width:20px;height:20px;border-radius:6px;display:flex;align-items:center;justify-content:center" onclick="event.stopPropagation();delTask('+t.id+')">'
-        +'<svg viewBox="0 0 12 12" width="11" height="11" fill="none" stroke="var(--t5)" stroke-width="1.8" stroke-linecap="round"><line x1="1" y1="1" x2="11" y2="11"/><line x1="11" y1="1" x2="1" y2="11"/></svg>'
-        +'</div></div>';
+        +'<div class="delete-icon" onclick="event.stopPropagation();delTask('+t.id+')"><svg viewBox="0 0 12 12" width="11" height="11" fill="none" stroke="var(--t5)" stroke-width="1.8" stroke-linecap="round"><line x1="1" y1="1" x2="11" y2="11"/><line x1="11" y1="1" x2="1" y2="11"/></svg></div>'
+        +'</div>';
     }).join('');
     return'<div class="group-hdr"><div class="gh-l"'+cls+'>'+fmtGroup(date)+'</div><div class="gh-c">'+dn+'/'+byD[date].length+'</div></div>'+rows;
   }).join('');
