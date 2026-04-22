@@ -7,13 +7,6 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <meta name="apple-mobile-web-app-title" content="Agenda">
 <meta name="theme-color" content="#111113">
-<style>
-  body::after{
-    content:'';position:fixed;bottom:0;left:0;right:0;
-    height:env(safe-area-inset-bottom,34px);
-    background:#111113;z-index:49;
-  }
-</style>
 <title>Agenda</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
@@ -27,7 +20,7 @@
   --sat:env(safe-area-inset-top,0px);--sab:env(safe-area-inset-bottom,0px);
 }
 html,body{height:100%;height:-webkit-fill-available;overflow:hidden;background:var(--bg);font-family:var(--f);color:var(--t1);-webkit-text-size-adjust:100%;}
-.app{display:flex;flex-direction:column;position:fixed;top:0;left:0;right:0;bottom:0;background:var(--bg);padding-top:var(--sat);padding-bottom:calc(70px + var(--sab));}
+.app{display:flex;flex-direction:column;position:fixed;top:0;left:0;right:0;bottom:0;background:var(--bg);padding-top:var(--sat);padding-bottom:calc(60px + var(--sab));}
 .body{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;background:var(--bg);}
 .pg{padding:0 0 140px;animation:fadeUp 0.22s ease both}
 @keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
@@ -241,7 +234,7 @@ html,body{height:100%;height:-webkit-fill-available;overflow:hidden;background:v
 .tl-s{font-size:11px;color:var(--c5);margin-top:2px;font-family:var(--m)}
 
 /* NAV BAR */
-.nav-bar{background:var(--bg);border-top:0.5px solid var(--c2);display:flex;align-items:center;padding:8px 0 calc(8px + var(--sab));position:fixed;bottom:0;left:0;right:0;z-index:50;min-height:60px;}
+.nav-bar{background:var(--bg);border-top:0.5px solid var(--c2);display:flex;align-items:center;padding:8px 0 calc(12px + var(--sab));position:fixed;bottom:0;left:0;right:0;z-index:50;}
 .nav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;-webkit-user-select:none;}
 .nav-item svg{width:20px;height:20px;stroke:var(--c3);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;transition:stroke 0.15s;}
 .nav-item.on svg{stroke:var(--gold)}
@@ -585,7 +578,6 @@ var MET_CFG={
   TRD:{fields:[{id:'resultado',label:'Resultado',placeholder:'ej: +2.3%',unit:''},{id:'operaciones',label:'Operaciones',placeholder:'ej: 12',unit:'#'},{id:'estado',label:'Estado',placeholder:'',unit:''}]}
 };
 
-// REVISIÓN: 4 preguntas
 var REV_QS=[
   {q:'¿Cuál fue el score de esta semana en tu cabeza?',hint:'Sé honesto. No el número de la app — el tuyo.',type:'scale'},
   {q:'¿Qué es la única cosa que si la hubieras hecho diferente habría cambiado la semana?',hint:'Una sola cosa.',type:'text'},
@@ -603,13 +595,11 @@ if(!ST.rev)ST.rev={};
 if(!ST.cant)ST.cant={};
 var save=function(){try{localStorage.setItem('ag_v5',JSON.stringify(ST));}catch(e){}};
 
-// HÁBITOS
 var gC=function(w,a,d){return!!(ST.hab[w+'_'+a+'_'+d]);};
 var tC=function(w,a,d){ST.hab[w+'_'+a+'_'+d]=!ST.hab[w+'_'+a+'_'+d];save();ra();};
 var gN=function(w,k){return ST['n_'+w+'_'+k]||'';};
 var sN=function(w,k,v){ST['n_'+w+'_'+k]=v;save();};
 
-// CANTINEO
 function getCant(dateKey){return ST.cant[dateKey]||false;}
 function togCant(dateKey){ST.cant[dateKey]=!ST.cant[dateKey];save();ra();}
 function getCantWeek(){
@@ -618,13 +608,11 @@ function getCantWeek(){
   return cnt;
 }
 
-// MÉTRICAS
 function getMet(biz,wk,field){return ST.met[biz+'_'+wk+'_'+field]||'';}
 function setMet(biz,wk,field,val){ST.met[biz+'_'+wk+'_'+field]=val;save();}
 function getTrdStatus(wk){return ST.met['TRD_'+wk+'_estatus']||'';}
 function setTrdStatus(wk,v){ST.met['TRD_'+wk+'_estatus']=v;save();ra();}
 
-// DECISIÓN
 function getTodayDec(){return ST.dec[getTK()]||null;}
 function saveTodayDec(text,cat){ST.dec[getTK()]={text:text,cat:cat,done:false,date:getTK()};save();}
 function markDecExec(){var d=ST.dec[getTK()];if(d){d.done=true;save();}}
@@ -635,14 +623,10 @@ function getDecWeekStats(){
   return{tot:tot,exec:exec};
 }
 
-// REVISIÓN
 function getRevWeek(){return ST.rev[getWeekKey()]||null;}
 function hasRevWeek(){return!!ST.rev[getWeekKey()];}
 function saveRev(data){ST.rev[getWeekKey()]=data;save();}
 
-// =====================
-// SCORE: Habitos 25 / Decision 25 / Tareas 35 / Metricas 15
-// =====================
 function getTaskWeekStats(){
   var d=new Date(),dow=d.getDay()===0?6:d.getDay()-1;
   var monday=new Date(d);monday.setDate(d.getDate()-dow);
@@ -691,9 +675,6 @@ function cStat(wi){
 }
 function uChk(){WKS.forEach(function(w,i){if(i===0){w.u=true;return;}w.u=cStat(i-1).pct>=60;});}
 
-// =====================
-// STATE
-// =====================
 var cV='d',cW=0,sCats=[],sPrio='media',sDue='',tFil='hoy';
 var cMetBiz='HYK',cMetWk=getWeekKey();
 var decCat='HYK';
@@ -707,10 +688,6 @@ function sv(v,el){
   ra();
 }
 
-
-// =====================
-// TEMPLATES
-// =====================
 var TPLS={
   HYK:[
     {id:'pedido',  lb:'Pedido',            extra:'Cliente',     prio:'alta',  sub:[],                                                                         rem:false},
@@ -825,9 +802,6 @@ function setTType(type){
   }
 }
 
-// =====================
-// TASK MODAL
-// =====================
 function openModal(){
   sCats=[];sDue='';sActiveTpl=null;sTplSub='';
   setTType('task');
@@ -871,9 +845,6 @@ function delTask(id){ST.tasks=ST.tasks.filter(function(t){return t.id!==id;});sa
 function setF(f){tFil=f;ra();}
 function sCW2(i){cW=i;ra();}
 
-// =====================
-// DECISIÓN MODAL
-// =====================
 function openDecModal(){
   document.getElementById('dec-overlay').classList.add('open');
   var today=getTodayDec();
@@ -902,9 +873,6 @@ function saveDecision(){
 }
 function markDecisionExec(){markDecExec();closeDecModalF();ra();}
 
-// =====================
-// REVISIÓN SEMANAL MODAL
-// =====================
 function openRevModal(){
   revStep=0;revAnswers={};
   document.getElementById('rev-overlay').classList.add('open');
@@ -983,7 +951,6 @@ function revNext(){
   if(!revAnswers['q'+revStep]&&revAnswers['q'+revStep]!==0)return;
   revStep++;
   if(revStep>=REV_QS.length){
-    // Guardar revisión
     saveRev({
       date:getTK(),
       score:revAnswers.q0,
@@ -998,9 +965,6 @@ function revNext(){
   }
 }
 
-// =====================
-// MÉTRICAS
-// =====================
 function setMetBiz(b){cMetBiz=b;ra();}
 function metWkNav(n){cMetWk=addWeeks(cMetWk,n);ra();}
 function setTrdSt(v){setTrdStatus(cMetWk,v);}
@@ -1013,9 +977,6 @@ function saveMetrics(){
   ra();
 }
 
-// =====================
-// RENDER
-// =====================
 var chkSVG='<svg viewBox="0 0 12 12" fill="none" width="10" height="10"><polyline points="1.5,6 4.5,9.5 10.5,2.5" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>';
 
 function ra(){
@@ -1029,9 +990,6 @@ function ra(){
   else rPlan();
 }
 
-// =====================
-// HOME
-// =====================
 function rHome(ey){
   var tk=getTK();
   var sc=calcScore();
@@ -1043,7 +1001,6 @@ function rHome(ey){
   var todayDec=getTodayDec();
   var cantW=getCantWeek();
 
-  // Score card
   var scoreHTML='<div class="score-card '+cls+'">'
     +'<div class="sc-label">Score semanal</div>'
     +'<div class="sc-num">'+sc.score+'</div>'
@@ -1056,7 +1013,6 @@ function rHome(ey){
     +'<div class="scb"><div class="scb-val">'+sc.met+'</div><div class="scb-lbl">Metricas /15</div></div>'
     +'</div></div>';
 
-  // Decisión
   var decHTML='';
   if(!todayDec){
     decHTML='<div class="decision-block pending" onclick="openDecModal()">'
@@ -1077,7 +1033,6 @@ function rHome(ey){
       +'</div>';
   }
 
-  // Revisión dominical
   var revHTML='';
   if(isSunday()&&!hasRevWeek()){
     revHTML='<div class="rev-banner" onclick="openRevModal()">'
@@ -1086,7 +1041,6 @@ function rHome(ey){
       +'</div>';
   }
 
-  // Stats: cantineo + tareas
   var statsHTML='<div class="stat-pair">'
     +'<div class="sp'+(cantW>=4?' danger':cantW===0?' success':'')+'"><div class="sp-val">'+cantW+'</div><div class="sp-lbl">racha esta sem.</div></div>'
     +(venc>0?'<div class="sp danger"><div class="sp-val">'+venc+'</div><div class="sp-lbl">tareas vencidas</div></div>':'<div class="sp"><div class="sp-val">'+tdD+'/'+tdT.length+'</div><div class="sp-lbl">tareas hoy</div></div>')
@@ -1102,8 +1056,6 @@ function rHome(ey){
       +'<div class="t-dot '+dot+'"></div></div>';
   }).join('');
 
-
-  // Task analytics compact
   var allT=ST.tasks;
   var totalAgend=allT.length;
   var totalDone=allT.filter(function(t){return t.done;}).length;
@@ -1142,9 +1094,6 @@ function rHome(ey){
     +'</div>';
 }
 
-// =====================
-// TAREAS
-// =====================
 function rTasks(ey){
   var tk=getTK();
   var venc=ST.tasks.filter(function(t){return!t.done&&isOD(t.due||t.date);});
@@ -1184,7 +1133,6 @@ function rTasks(ey){
     return'<div class="group-hdr"><div class="gh-l"'+cls+'>'+fmtGroup(date)+'</div><div class="gh-c">'+dn+'/'+byD[date].length+'</div></div>'+rows;
   }).join('');
 
-  // ── Analytics ──────────────────────────────────────────────────────────────
   var allT=ST.tasks;
   var totalAgend=allT.length;
   var totalDone=allT.filter(function(t){return t.done;}).length;
@@ -1256,12 +1204,8 @@ function rTasks(ey){
     +'</div>'
     +(dates.length===0?'<div class="empty">Sin tareas aqui.</div>':groups)
     +'</div>';
-
 }
 
-// =====================
-// HÁBITOS
-// =====================
 function rHab(){
   uChk();
   var w=WKS[cW],s=cStat(cW);
@@ -1309,9 +1253,6 @@ function rHab(){
     +'</div>';
 }
 
-// =====================
-// SEMANAS
-// =====================
 function rLife(){
   var wl=getWL(),wr=getWR();
   var cells='';
@@ -1349,9 +1290,6 @@ function rLife(){
     +'</div></div>';
 }
 
-// =====================
-// PLAN
-// =====================
 function rPlan(){
   var sc=calcScore();
   var d=new Date();
@@ -1360,7 +1298,6 @@ function rPlan(){
   var prevWk=addWeeks(cMetWk,-1);
   var cfg=MET_CFG[cMetBiz];
 
-  // MÉTRICAS
   var metTabs='<div class="met-tabs">'
     +'<div class="mt-btn'+(cMetBiz==='HYK'?' on hyk':'')+'" onclick="setMetBiz(\'HYK\')">HYK</div>'
     +'<div class="mt-btn'+(cMetBiz==='BAZ'?' on baz':'')+'" onclick="setMetBiz(\'BAZ\')">Bazarista</div>'
@@ -1400,7 +1337,6 @@ function rPlan(){
     }
   }
 
-  // Historial métricas 4 semanas
   var histRows='';
   for(var hw=3;hw>=0;hw--){
     var hwk=addWeeks(getWeekKey(),-hw);
@@ -1415,7 +1351,6 @@ function rPlan(){
   }
   var histHTML=histRows?'<div class="sec-row" style="padding-top:14px"><div class="sec-t">Historial</div></div><div class="met-hist">'+histRows+'</div>':'';
 
-  // SCORE HISTORY — revisiones anteriores
   var revKeys=Object.keys(ST.rev).sort().reverse().slice(0,6);
   var scoreHistHTML='';
   if(revKeys.length>0){
@@ -1433,7 +1368,6 @@ function rPlan(){
       +'</div>';
   }
 
-  // DECISIONES HISTORIAL
   var decHist=getDecHistory();
   var decHistHTML='';
   if(decHist.length>0){
@@ -1450,7 +1384,6 @@ function rPlan(){
       }).join('')+'</div>';
   }
 
-  // TIMELINE
   var s0=cStat(0);
   var tls=[
     {t:'Sem 0 — Anclajes base',s:'3 hábitos estructurales',done:s0.pct>0,now:true},
