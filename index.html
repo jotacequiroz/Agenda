@@ -167,16 +167,13 @@ html,body{height:100%;height:-webkit-fill-available;overflow:hidden;position:fix
 .day{width:34px;height:36px;border-radius:9px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;background:var(--c1);border:0.5px solid var(--c3);cursor:pointer;-webkit-user-select:none;}
 .day.today{border-color:rgba(191,156,107,0.4);background:#1c1a14}
 .day.checked{background:#0f2518;border-color:rgba(50,215,75,0.35)}
-.day.cant-yes{background:#1a0f0f;border-color:rgba(255,69,58,0.35)}
 .day:active{opacity:0.6}
 .day-d{font-size:9px;font-weight:500;color:var(--t5);letter-spacing:0.04em}
 .day.today .day-d{color:rgba(191,156,107,0.9)}
 .day.checked .day-d{color:rgba(50,215,75,0.8)}
-.day.cant-yes .day-d{color:rgba(255,69,58,0.8)}
 .day-n{font-size:13px;font-weight:600;color:var(--t4);line-height:1}
 .day.today .day-n{color:var(--gold)}
 .day.checked .day-n{color:var(--green)}
-.day.cant-yes .day-n{color:var(--red)}
 
 /* NOTE AREA */
 .note-wrap{padding:0 14px;margin-top:16px}
@@ -442,7 +439,7 @@ html,body{height:100%;height:-webkit-fill-available;overflow:hidden;position:fix
     </div>
   </div>
 
-  <!-- EDITAR TAREA MODAL (reutiliza el mismo overlay pero con distinto comportamiento) -->
+  <!-- EDITAR TAREA MODAL -->
   <div class="overlay" id="edit-overlay" onclick="closeEditModal(event)">
     <div class="modal" id="edit-modal">
       <div class="modal-handle"></div>
@@ -569,47 +566,46 @@ function fmtGroup(k){
 
 var WKS=[
   {id:0,lb:'Sem 0',focus:'Instalar los 3 anclajes base',u:true,anc:[
-    {id:'a1',nm:'Deporte',tg:'Fisico'},
-    {id:'a2',nm:'Bloque de trabajo productivo',tg:'Negocio'},
-    {id:'a3',nm:'Racha',tg:'Control'},
+    {id:'a1',nm:'Bloque de trabajo productivo',tg:'Negocio'},
+    {id:'a2',nm:'Deporte',tg:'Fisico'}
   ]},
   {id:1,lb:'Sem 1',focus:'Movimiento + reducir cantineo',u:false,anc:[
     {id:'b1',nm:'Entrenamiento minimo',tg:'Fisico'},
     {id:'b2',nm:'Sin sustancias Lun-Mie',tg:'Habito'},
-    {id:'b3',nm:'Decision diaria negocio 1',tg:'Negocio'},
+    {id:'b3',nm:'Decision diaria negocio 1',tg:'Negocio'}
   ]},
   {id:2,lb:'Sem 2',focus:'Adelantar el inicio del dia',u:false,anc:[
     {id:'c1',nm:'Levantarse a las 6:30am',tg:'Inicio'},
     {id:'c2',nm:'Bloque profundo 6:30-9am',tg:'Negocio'},
-    {id:'c3',nm:'Revision semanal - domingo',tg:'Mental'},
+    {id:'c3',nm:'Revision semanal - domingo',tg:'Mental'}
   ]},
   {id:3,lb:'Sem 3',focus:'Consolidar y medir',u:false,anc:[
     {id:'d1',nm:'Protocolo de sueno completo',tg:'Habito'},
     {id:'d2',nm:'Metricas negocio 1',tg:'Negocio'},
-    {id:'d3',nm:'Accion concreta negocio 2',tg:'Negocio'},
-  ]},
+    {id:'d3',nm:'Accion concreta negocio 2',tg:'Negocio'}
+  ]}
 ];
 
 var PLAN=[
   {ph:'F1 - Sem 0 a 13',cur:true,axes:[
     {n:'Habitos',it:[{t:'Cierre 23hs instalado',p:'Sem 0'},{t:'Inicio 7am a 5am',p:'Sem 1-2'},{t:'Cantineo max 3 noches/sem',p:'Sem 1'},{t:'Sin sustancias Lun-Mie',p:'Sem 1-3'},{t:'Protocolo sueno completo',p:'Sem 3'}]},
     {n:'Fisico',it:[{t:'Entrenamiento 3x/sem',p:'Sem 1'},{t:'4 comidas diarias',p:'Sem 0'},{t:'Peso objetivo: 60kg',p:'90 dias'}]},
-    {n:'Negocio',it:[{t:'Una decision diaria ejecutada',p:'Sem 0'},{t:'Metricas base HYK + Bazarista',p:'Sem 3'},{t:'Sistema de decision semanal',p:'Sem 2'}]},
+    {n:'Negocio',it:[{t:'Una decision diaria ejecutada',p:'Sem 0'},{t:'Metricas base HYK + Bazarista',p:'Sem 3'},{t:'Sistema de decision semanal',p:'Sem 2'}]}
   ]},
   {ph:'F2 - Sem 13 a 26',cur:false,axes:[
     {n:'Habitos',it:[{t:'Cantineo solo fines de semana',p:'Sem 13'},{t:'5am como base',p:'Sem 15'}]},
     {n:'Fisico',it:[{t:'Peso 62-64kg',p:'Sem 20'},{t:'Entrenamiento 4x/sem',p:'Sem 16'}]},
-    {n:'Negocio',it:[{t:'Ingresos +30%',p:'Sem 26'},{t:'Bazarista rol formalizado',p:'Sem 14'}]},
+    {n:'Negocio',it:[{t:'Ingresos +30%',p:'Sem 26'},{t:'Bazarista rol formalizado',p:'Sem 14'}]}
   ]},
   {ph:'F3 - Sem 26 a 52',cur:false,axes:[
     {n:'Habitos',it:[{t:'Cantineo como excepcion',p:'Sem 30'},{t:'10hs tiempo libre/sem',p:'Sem 40'}]},
     {n:'Negocio 1',it:[{t:'Monopolio bazar en ciudad',p:'Sem 52'},{t:'Importacion directa',p:'Sem 45'},{t:'Ingresos x2',p:'Sem 52'}]},
-    {n:'Negocio 2+3',it:[{t:'Trading MT5 operativo',p:'Sem 40'},{t:'WIP concepto validado',p:'Sem 52'}]},
+    {n:'Negocio 2+3',it:[{t:'Trading MT5 operativo',p:'Sem 40'},{t:'WIP concepto validado',p:'Sem 52'}]}
   ]},
   {ph:'Horizonte - Anos 2 a 5',cur:false,axes:[
     {n:'Negocio',it:[{t:'Expansion nacional',p:'Ano 2'},{t:'Importador directo pais',p:'Ano 3'},{t:'Hedge fund algoritmico',p:'Ano 3'},{t:'WIP MVP lanzado',p:'Ano 2-3'},{t:'50M USD AUM',p:'Ano 5+'}]},
-    {n:'Personal',it:[{t:'Presencia fisica dominante',p:'Ano 2'},{t:'Red vinculos estrategicos',p:'Ano 3'}]},
-  ]},
+    {n:'Personal',it:[{t:'Presencia fisica dominante',p:'Ano 2'},{t:'Red vinculos estrategicos',p:'Ano 3'}]}
+  ]}
 ];
 
 var CATS=[{id:'HYK',lb:'HYK'},{id:'BAZ',lb:'Bazar'},{id:'TRD',lb:'Trading'},{id:'WIP',lb:'WIP'},{id:'PER',lb:'Personal'}];
@@ -624,7 +620,7 @@ var REV_QS=[
   {q:'Cual fue el score de esta semana en tu cabeza?',hint:'Se honesto. No el numero de la app - el tuyo.',type:'scale'},
   {q:'Que es la unica cosa que si la hubieras hecho diferente habria cambiado la semana?',hint:'Una sola cosa.',type:'text'},
   {q:'Cuantas noches cantineaste?',hint:'Sin juicio. Solo el numero.',type:'cant'},
-  {q:'Cual es la decision mas importante de la semana que viene?',hint:'La que mas mueve el negocio.',type:'text'},
+  {q:'Cual es la decision mas importante de la semana que viene?',hint:'La que mas mueve el negocio.',type:'text'}
 ];
 
 var ST={};
@@ -643,7 +639,7 @@ var tC=function(w,a,d){ST.hab[w+'_'+a+'_'+d]=!ST.hab[w+'_'+a+'_'+d];save();ra();
 var gN=function(w,k){return ST['n_'+w+'_'+k]||'';};
 var sN=function(w,k,v){ST['n_'+w+'_'+k]=v;save();};
 
-// Quiebre functions - NoFap en lugar de Pornografia
+// Quiebre functions - NoFap
 var VICIOS=['cigarro','alcohol','marihuana','nofap','comida','dormir'];
 var VICIOS_NOMBRES=['Cigarrillo','Alcohol','Marihuana','NoFap (recaída)','Comida limpia','Dormir antes 23:30'];
 function getVicioKey(date,vicio){return 'v_'+date+'_'+vicio;}
@@ -660,10 +656,13 @@ function getCleanStreak(){
     var checkDate=new Date(today);
     checkDate.setDate(today.getDate()-i);
     var ds=checkDate.getFullYear()+'-'+pad(checkDate.getMonth()+1)+'-'+pad(checkDate.getDate());
-    if(ST.quiebre && Object.keys(ST.quiebre).length===0){break;}
+    if(i===0 && !ST.quiebre[getVicioKey(ds,VICIOS[0])] && Object.keys(ST.quiebre).length===0){streak=0;break;}
     if(isDiaManchado(ds))break;
     streak++;
+    if(i>0 && !ST.quiebre[getVicioKey(ds,VICIOS[0])] && streak===1){streak=0;}
   }
+  if(streak===1 && !isDiaManchado(getTK()))streak=1;
+  if(Object.keys(ST.quiebre).length===0)streak=0;
   return streak;
 }
 function getWeekCleanCount(){
@@ -1534,7 +1533,7 @@ function rPlan(){
     {t:'Sem 4-13 - Consolidacion',s:'Metricas, sistema, arquitectura',done:false,now:false},
     {t:'Fase 2 - Mes 2 a 6',s:'Sistema estable, negocio escalando',done:false,now:false},
     {t:'Fase 3 - Ano 1',s:'Monopolio local + cuerpo transformado',done:false,now:false},
-    {t:'Horizonte - Anos 2 a 5',s:'Expansion + hedge fund + WIP',done:false,now:false},
+    {t:'Horizonte - Anos 2 a 5',s:'Expansion + hedge fund + WIP',done:false,now:false}
   ];
   var tlHTML=tls.map(function(it){
     return'<div class="tl-item"><div class="tl-dot'+(it.done?' done':it.now?' now':'')+'"></div><div class="tl-t'+(it.now?' now':'')+'">'+it.t+'</div><div class="tl-s">'+it.s+'</div></div>';
