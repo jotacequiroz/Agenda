@@ -193,6 +193,32 @@ html,body{height:100%;height:-webkit-fill-available;overflow:hidden;position:fix
 .hkpi-val{font-size:22px;font-weight:700;color:var(--t1);letter-spacing:-0.03em;line-height:1;margin-bottom:4px}
 .hkpi-lbl{font-size:11px;color:var(--t4);font-weight:500}
 
+/* QUieBRE SECTION (20-23hs) */
+.quiebre-card{margin:16px 14px 0;border-radius:20px;padding:18px;background:linear-gradient(160deg,#1a1208,#111113);border:0.5px solid rgba(191,156,107,0.3);position:relative;overflow:hidden;}
+.quiebre-card::before{content:'';position:absolute;top:0;left:0;right:0;height:0.5px;background:linear-gradient(90deg,transparent,var(--c4),transparent)}
+.q-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.q-title{font-size:14px;font-weight:700;color:var(--gold);letter-spacing:-0.02em}
+.q-badge{padding:4px 10px;border-radius:12px;font-size:10px;font-weight:600;background:rgba(191,156,107,0.1);color:var(--gold);border:0.5px solid rgba(191,156,107,0.2)}
+.q-status{margin-bottom:16px;padding:12px;border-radius:14px;background:rgba(0,0,0,0.3);text-align:center}
+.q-status.limpio{border-left:3px solid var(--green);color:var(--green)}
+.q-status.manchado{border-left:3px solid var(--red);color:var(--red)}
+.q-status-text{font-size:15px;font-weight:600;margin-bottom:4px}
+.q-status-sub{font-size:11px;color:var(--t4)}
+.vicio-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:16px}
+.vicio-item{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--c1);border:0.5px solid var(--c3);border-radius:12px;cursor:pointer;-webkit-user-select:none;}
+.vicio-item.checked{background:#1a0f0f;border-color:rgba(255,69,58,0.4)}
+.vicio-emoji{font-size:18px}
+.vicio-name{flex:1;font-size:13px;font-weight:500;color:var(--t3)}
+.vicio-check{width:20px;height:20px;border-radius:6px;border:1.5px solid var(--c4);background:transparent}
+.vicio-item.checked .vicio-check{background:var(--red);border-color:var(--red);position:relative}
+.vicio-item.checked .vicio-check::after{content:'✓';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:white;font-size:11px;font-weight:bold}
+.q-streak{display:flex;align-items:center;justify-content:space-between;padding:12px;background:rgba(191,156,107,0.05);border-radius:14px;margin-bottom:16px}
+.streak-val{font-size:28px;font-weight:800;color:var(--gold);letter-spacing:-0.03em}
+.streak-label{font-size:11px;color:var(--t4)}
+.apagar-btn{width:100%;background:linear-gradient(145deg,#2a2010,#1a1208);border:1px solid rgba(191,156,107,0.4);border-radius:14px;padding:14px;font-size:15px;font-weight:600;color:var(--gold);cursor:pointer;-webkit-appearance:none;transition:all 0.15s;margin-top:8px;}
+.apagar-btn:active{opacity:0.7;transform:scale(0.98)}
+.apagar-btn.registrado{background:#0f2518;border-color:var(--green);color:var(--green);}
+
 /* LIFE */
 .life-wrap{margin:16px;border-radius:20px;padding:16px;background:linear-gradient(160deg,var(--c2),var(--c1));border:0.5px solid var(--c3);position:relative;overflow:hidden;}
 .life-wrap::before{content:'';position:absolute;top:0;left:0;right:0;height:0.5px;background:linear-gradient(90deg,transparent,var(--c4),transparent)}
@@ -265,32 +291,6 @@ html,body{height:100%;height:-webkit-fill-available;overflow:hidden;position:fix
 .db-text{font-size:15px;font-weight:500;color:var(--t1);line-height:1.45}
 .decision-block:not(.pending):not(.done) .db-text{color:var(--t4);font-weight:400;font-size:14px}
 .db-sub{font-size:12px;color:var(--t4);margin-top:5px}
-
-/* QUieBRE SECTION (20-23hs) */
-.quiebre-card{margin:16px 14px 0;border-radius:20px;padding:18px;background:linear-gradient(160deg,#1a1208,#111113);border:0.5px solid rgba(191,156,107,0.3);position:relative;overflow:hidden;}
-.quiebre-card::before{content:'';position:absolute;top:0;left:0;right:0;height:0.5px;background:linear-gradient(90deg,transparent,var(--c4),transparent)}
-.q-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
-.q-title{font-size:14px;font-weight:700;color:var(--gold);letter-spacing:-0.02em}
-.q-badge{padding:4px 10px;border-radius:12px;font-size:10px;font-weight:600;background:rgba(191,156,107,0.1);color:var(--gold);border:0.5px solid rgba(191,156,107,0.2)}
-.q-status{margin-bottom:16px;padding:12px;border-radius:14px;background:rgba(0,0,0,0.3);text-align:center}
-.q-status.limpio{border-left:3px solid var(--green);color:var(--green)}
-.q-status.manchado{border-left:3px solid var(--red);color:var(--red)}
-.q-status-text{font-size:15px;font-weight:600;margin-bottom:4px}
-.q-status-sub{font-size:11px;color:var(--t4)}
-.vicio-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:16px}
-.vicio-item{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--c1);border:0.5px solid var(--c3);border-radius:12px;cursor:pointer;-webkit-user-select:none;}
-.vicio-item.checked{background:#1a0f0f;border-color:rgba(255,69,58,0.4)}
-.vicio-emoji{font-size:18px}
-.vicio-name{flex:1;font-size:13px;font-weight:500;color:var(--t3)}
-.vicio-check{width:20px;height:20px;border-radius:6px;border:1.5px solid var(--c4);background:transparent}
-.vicio-item.checked .vicio-check{background:var(--red);border-color:var(--red);position:relative}
-.vicio-item.checked .vicio-check::after{content:'✓';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:white;font-size:11px;font-weight:bold}
-.q-streak{display:flex;align-items:center;justify-content:space-between;padding:12px;background:rgba(191,156,107,0.05);border-radius:14px;margin-bottom:16px}
-.streak-val{font-size:28px;font-weight:800;color:var(--gold);letter-spacing:-0.03em}
-.streak-label{font-size:11px;color:var(--t4)}
-.apagar-btn{width:100%;background:linear-gradient(145deg,#2a2010,#1a1208);border:1px solid rgba(191,156,107,0.4);border-radius:14px;padding:14px;font-size:15px;font-weight:600;color:var(--gold);cursor:pointer;-webkit-appearance:none;transition:all 0.15s;margin-top:8px;}
-.apagar-btn:active{opacity:0.7;transform:scale(0.98)}
-.apagar-btn.registrado{background:#0f2518;border-color:var(--green);color:var(--green);}
 
 /* VENCIDAS ALERT */
 .venc-alert{margin:14px 14px 0;padding:13px 16px;border-radius:14px;background:rgba(255,69,58,0.1);border:0.5px solid rgba(255,69,58,0.25);display:flex;align-items:center;justify-content:space-between;cursor:pointer;}
@@ -620,7 +620,6 @@ if(!ST.met)ST.met={};
 if(!ST.dec)ST.dec={};
 if(!ST.rev)ST.rev={};
 if(!ST.cant)ST.cant={};
-// Quiebre data structure
 if(!ST.quiebre)ST.quiebre={};
 if(!ST.apagar)ST.apagar={};
 var save=function(){try{localStorage.setItem('ag_v5',JSON.stringify(ST));}catch(e){}};
@@ -638,18 +637,18 @@ function isVicioToday(vicio){var k=getVicioKey(getTK(),vicio);return ST.quiebre[
 function toggleVicio(vicio){var d=getTK();var k=getVicioKey(d,vicio);ST.quiebre[k]=!ST.quiebre[k];save();ra();}
 function isDiaManchado(date){
   var manchado=false;
-  VICIOS.forEach(function(v){if(ST.quiebre[getVicioKey(date,v)])manchado=true;});
+  for(var i=0;i<VICIOS.length;i++){if(ST.quiebre[getVicioKey(date,VICIOS[i])]){manchado=true;break;}}
   return manchado;
 }
 function isTodayManchado(){return isDiaManchado(getTK());}
 function getCleanStreak(){
-  var today=new Date();var streak=0;var checkDate=new Date(today);
-  while(true){
+  var today=new Date();var streak=0;var maxDays=365;
+  for(var i=0;i<maxDays;i++){
+    var checkDate=new Date(today);
+    checkDate.setDate(today.getDate()-i);
     var ds=checkDate.getFullYear()+'-'+pad(checkDate.getMonth()+1)+'-'+pad(checkDate.getDate());
     if(isDiaManchado(ds))break;
     streak++;
-    checkDate.setDate(checkDate.getDate()-1);
-    if(streak>365)break;
   }
   return streak;
 }
@@ -659,7 +658,16 @@ function getWeekCleanCount(){
   return cnt;
 }
 function getApagarToday(){var d=getTK();return ST.apagar[d]||null;}
-function setApagarNow(){var d=getTK();var now=new Date();ST.apagar[d]=now.getHours()+':'+pad(now.getMinutes())+':'+pad(now.getSeconds());save();ra();}
+function setApagarNow(){
+  var d=getTK();
+  if(ST.apagar[d])return;
+  var now=new Date();
+  var hours=now.getHours().toString().padStart(2,'0');
+  var minutes=now.getMinutes().toString().padStart(2,'0');
+  ST.apagar[d]=hours+':'+minutes;
+  save();
+  ra();
+}
 
 function getCant(dateKey){return ST.cant[dateKey]||false;}
 function togCant(dateKey){ST.cant[dateKey]=!ST.cant[dateKey];save();ra();}
@@ -1047,6 +1055,7 @@ function ra(){
   if(cV==='d')rHome(ey);
   else if(cV==='k')rTasks(ey);
   else if(cV==='t')rHab();
+  else if(cV==='l')rLife();
   else rPlan();
 }
 
@@ -1060,9 +1069,6 @@ function rHome(ey){
   var venc=ST.tasks.filter(function(t){return!t.done&&isOD(t.due||t.date);}).length;
   var todayDec=getTodayDec();
   var cantW=getCantWeek();
-  var cleanWeek=getWeekCleanCount();
-  var streak=getCleanStreak();
-  var isManchado=isTodayManchado();
 
   var scoreHTML='<div class="score-card '+cls+'">'
     +'<div class="sc-label">Score semanal</div>'
@@ -1075,23 +1081,6 @@ function rHome(ey){
     +'<div class="scb"><div class="scb-val">'+sc.tasks+'</div><div class="scb-lbl">Tareas /35</div></div>'
     +'<div class="scb"><div class="scb-val">'+sc.met+'</div><div class="scb-lbl">Metricas /15</div></div>'
     +'</div></div>';
-
-  var quiebreHTML='<div class="quiebre-card">'
-    +'<div class="q-header"><div class="q-title">⛔ 20-23hs — El Quiebre</div><div class="q-badge">'+(isManchado?'MANCHADO':'LIMPIO')+'</div></div>'
-    +'<div class="q-status '+(isManchado?'manchado':'limpio')+'">'
-    +'<div class="q-status-text">'+(isManchado?'Hoy es dia manchado':'Hoy estas limpio')+'</div>'
-    +'<div class="q-status-sub">'+(isManchado?'La persona en la que te queres convertir ya corto.':'Segui asi.')+'</div>'
-    +'</div>'
-    +'<div class="vicio-grid">'
-    +VICIOS.map(function(v,i){var checked=isVicioToday(v);return'<div class="vicio-item'+(checked?' checked':'')+'" onclick="toggleVicio(\''+v+'\')">'
-      +'<div class="vicio-emoji">'+['🚬','🍺','🌿','🔞','🍔','😴'][i]+'</div>'
-      +'<div class="vicio-name">'+VICIOS_NOMBRES[i]+'</div>'
-      +'<div class="vicio-check"></div></div>';}).join('')
-    +'</div>'
-    +'<div class="q-streak"><div><div class="streak-label">Racha limpia</div><div class="streak-val">'+streak+'</div></div>'
-    +'<div><div class="streak-label">Esta semana</div><div class="streak-val" style="font-size:22px">'+cleanWeek+'/7</div></div></div>'
-    +'<button class="apagar-btn'+(getApagarToday()?' registrado':'')+'" onclick="setApagarNow()">'+(getApagarToday()?'🔴 APAGADO A LAS '+getApagarToday():'⛔ APAGAR')+'</button>'
-    +'</div>';
 
   var decHTML='';
   if(!todayDec){
@@ -1164,7 +1153,6 @@ function rHome(ey){
   document.getElementById('body').innerHTML='<div class="pg">'
     +'<div class="page-hdr"><div class="page-eyebrow">'+ey+'</div><div class="page-title">Buenos dias.</div></div>'
     +scoreHTML
-    +quiebreHTML
     +homeAnalytics
     +decHTML
     +revHTML
@@ -1326,7 +1314,7 @@ function rHab(){
     +'</div>'
     +'<div class="q-streak"><div><div class="streak-label">Racha limpia</div><div class="streak-val">'+getCleanStreak()+'</div></div>'
     +'<div><div class="streak-label">Esta semana</div><div class="streak-val" style="font-size:22px">'+getWeekCleanCount()+'/7</div></div></div>'
-    +'<button class="apagar-btn'+(getApagarToday()?' registrado':'')+'" onclick="setApagarNow()">'+(getApagarToday()?'🔴 APAGADO A LAS '+getApagarToday():'⛔ APAGAR')+'</button>'
+    +'<button class="apagar-btn'+(getApagarToday()?' registrado':'')+'" onclick="setApagarNow()">'+(getApagarToday()?'✅ '+getApagarToday():'⛔ APAGAR')+'</button>'
     +'</div>';
 
   document.getElementById('body').innerHTML='<div class="pg">'
@@ -1342,6 +1330,43 @@ function rHab(){
     +'<div class="divr"></div>'
     +'<div class="note-wrap">'+notes+'</div>'
     +'</div>';
+}
+
+function rLife(){
+  var wl=getWL(),wr=getWR();
+  var cells='';
+  for(var i=0;i<TW;i++){
+    var cls='wk';
+    if(i<wl)cls+=' lived';
+    if(i>=wl&&i<wl+13)cls+=' plan';
+    if(i===wl)cls='wk now';
+    cells+='<div class="'+cls+'"></div>';
+  }
+  var d=new Date();
+  var ey=DAYS_ES[d.getDay()]+' '+d.getDate()+' de '+MONTHS[d.getMonth()];
+  document.getElementById('body').innerHTML='<div class="pg">'
+    +'<div class="page-hdr"><div class="page-eyebrow">'+ey+'</div><div class="page-title">Semanas.</div></div>'
+    +'<div class="stat-pair" style="margin-top:18px">'
+    +'<div class="sp"><div class="sp-val" style="font-size:24px">'+wl.toLocaleString()+'</div><div class="sp-lbl">vividas</div></div>'
+    +'<div class="sp"><div class="sp-val" style="font-size:24px">'+wr.toLocaleString()+'</div><div class="sp-lbl">restantes</div></div>'
+    +'</div>'
+    +'<div class="life-wrap">'
+    +'<div class="life-dec">'+Array.from({length:9},function(_,i){return'<span>'+i*10+'a</span>';}).join('')+'</div>'
+    +'<div class="life-grid">'+cells+'</div>'
+    +'<div class="life-legend">'
+    +'<div class="ll"><div class="ld" style="background:var(--c5)"></div>Vividas</div>'
+    +'<div class="ll"><div class="ld" style="background:var(--gold2)"></div>Plan activo</div>'
+    +'<div class="ll"><div class="ld" style="background:var(--gold)"></div>Ahora</div>'
+    +'<div class="ll"><div class="ld" style="background:var(--c3)"></div>Por vivir</div>'
+    +'</div></div>'
+    +'<div class="sec-row" style="padding-top:20px"><div class="sec-t">Perspectiva</div></div>'
+    +'<div class="insight-list">'
+    +'<div class="insight-it">'+wr.toLocaleString()+' semanas por delante. Cada una es una unidad real de construccion.</div>'
+    +'<div class="insight-it">Tu plan son 13 de esas '+wr.toLocaleString()+' semanas - menos del 1%.</div>'
+    +'<div class="insight-it">A los 32 anos estas en tu punto de mayor capacidad.</div>'
+    +'<div class="insight-it">Cada semana de cantineo es una semana de construccion perdida.</div>'
+    +'<div class="insight-it">Negocio, cuerpo, trading - todo depende del sistema encendido.</div>'
+    +'</div></div>';
 }
 
 function rPlan(){
@@ -1438,7 +1463,6 @@ function rPlan(){
       }).join('')+'</div>';
   }
 
-  // Quiebre history in plan
   var quiebreHistory='';
   var lastManchados=Object.keys(ST.quiebre).filter(function(k){return k.startsWith('v_');}).sort().reverse().slice(0,10);
   if(lastManchados.length>0){
