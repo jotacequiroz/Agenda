@@ -192,6 +192,24 @@ html,body{height:100%;height:-webkit-fill-available;overflow:hidden;position:fix
 .hkpi-val{font-size:22px;font-weight:700;color:var(--t1);letter-spacing:-0.03em;line-height:1;margin-bottom:4px}
 .hkpi-lbl{font-size:11px;color:var(--t4);font-weight:500}
 
+/* HABITOS MATUTINOS CARD */
+.matutino-card{margin:16px 14px 0;border-radius:20px;padding:18px;background:linear-gradient(160deg,#0f1a12,#0a120d);border:0.5px solid rgba(50,215,75,0.25);position:relative;overflow:hidden;}
+.matutino-card::before{content:'';position:absolute;top:0;left:0;right:0;height:0.5px;background:linear-gradient(90deg,transparent,var(--c4),transparent)}
+.matutino-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.matutino-title{font-size:14px;font-weight:700;color:var(--green);letter-spacing:-0.02em}
+.matutino-badge{padding:4px 10px;border-radius:12px;font-size:10px;font-weight:600;background:rgba(50,215,75,0.1);color:var(--green);border:0.5px solid rgba(50,215,75,0.2)}
+.matutino-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:16px}
+.matutino-item{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--c1);border:0.5px solid var(--c3);border-radius:12px;cursor:pointer;-webkit-user-select:none;}
+.matutino-item.checked{background:#0a1a0f;border-color:rgba(50,215,75,0.4)}
+.matutino-emoji{font-size:18px}
+.matutino-name{flex:1;font-size:13px;font-weight:500;color:var(--t3)}
+.matutino-check{width:20px;height:20px;border-radius:6px;border:1.5px solid var(--c4);background:transparent}
+.matutino-item.checked .matutino-check{background:var(--green);border-color:var(--green);position:relative}
+.matutino-item.checked .matutino-check::after{content:'✓';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:white;font-size:11px;font-weight:bold}
+.matutino-streak{display:flex;align-items:center;justify-content:space-between;padding:12px;background:rgba(50,215,75,0.05);border-radius:14px;margin-bottom:8px}
+.matutino-streak-val{font-size:28px;font-weight:800;color:var(--green);letter-spacing:-0.03em}
+.matutino-streak-label{font-size:11px;color:var(--t4)}
+
 /* QUieBRE SECTION (20-23hs) */
 .quiebre-card{margin:16px 14px 0;border-radius:20px;padding:18px;background:linear-gradient(160deg,#1a1208,#111113);border:0.5px solid rgba(191,156,107,0.3);position:relative;overflow:hidden;}
 .quiebre-card::before{content:'';position:absolute;top:0;left:0;right:0;height:0.5px;background:linear-gradient(90deg,transparent,var(--c4),transparent)}
@@ -634,12 +652,43 @@ if(!ST.dec)ST.dec={};
 if(!ST.rev)ST.rev={};
 if(!ST.cant)ST.cant={};
 if(!ST.quiebre)ST.quiebre={};
+if(!ST.matutino)ST.matutino={};
 var save=function(){try{localStorage.setItem('ag_v5',JSON.stringify(ST));}catch(e){}};
 
 var gC=function(w,a,d){return!!(ST.hab[w+'_'+a+'_'+d]);};
 var tC=function(w,a,d){ST.hab[w+'_'+a+'_'+d]=!ST.hab[w+'_'+a+'_'+d];save();ra();};
 var gN=function(w,k){return ST['n_'+w+'_'+k]||'';};
 var sN=function(w,k,v){ST['n_'+w+'_'+k]=v;save();};
+
+// Habitos Matutinos
+var HABITOS_MATUTINOS=['despertar','ducha','agua','skincare','desayuno','paseo','meditacion'];
+var HABITOS_MATUTINOS_NOMBRES=['Despertar 7AM','Ducha','Vaso agua','Skincare','Desayuno','Paseo Okley','Meditacion'];
+var HABITOS_MATUTINOS_EMOJIS=['🛏️','🚿','💧','✨','🍳','🐕','🧘'];
+function getMatutinoKey(date,habito){return 'm_'+date+'_'+habito;}
+function isMatutinoToday(habito){var k=getMatutinoKey(getTK(),habito);return ST.matutino[k]===true;}
+function toggleMatutino(habito){var d=getTK();var k=getMatutinoKey(d,habito);ST.matutino[k]=!ST.matutino[k];save();ra();}
+function isMatutinoCompleto(date){
+  for(var i=0;i<HABITOS_MATUTINOS.length;i++){if(!ST.matutino[getMatutinoKey(date,HABITOS_MATUTINOS[i])])return false;}
+  return true;
+}
+function isTodayMatutinoCompleto(){return isMatutinoCompleto(getTK());}
+function getMatutinoStreak(){
+  var today=new Date();var streak=0;var maxDays=365;
+  for(var i=0;i<maxDays;i++){
+    var checkDate=new Date(today);
+    checkDate.setDate(today.getDate()-i);
+    var ds=checkDate.getFullYear()+'-'+pad(checkDate.getMonth()+1)+'-'+pad(checkDate.getDate());
+    if(i===0 && Object.keys(ST.matutino).length===0){return 0;}
+    if(!isMatutinoCompleto(ds)){break;}
+    streak++;
+  }
+  return streak;
+}
+function getMatutinoWeekCount(){
+  var d=new Date(),dow=d.getDay()===0?6:d.getDay()-1,cnt=0;
+  for(var i=0;i<=dow;i++){var dd=new Date(d);dd.setDate(d.getDate()-dow+i);var k=dd.getFullYear()+'-'+pad(dd.getMonth()+1)+'-'+pad(dd.getDate());if(isMatutinoCompleto(k))cnt++;}
+  return cnt;
+}
 
 // Quiebre functions - NoFap
 var VICIOS=['cigarro','alcohol','marihuana','nofap','comida','dormir'];
@@ -653,9 +702,7 @@ function isDiaManchado(date){
 }
 function isTodayManchado(){return isDiaManchado(getTK());}
 function getCleanStreak(){
-  var today=new Date();
-  var streak=0;
-  var maxDays=365;
+  var today=new Date();var streak=0;var maxDays=365;
   for(var i=0;i<maxDays;i++){
     var checkDate=new Date(today);
     checkDate.setDate(today.getDate()-i);
@@ -1354,6 +1401,20 @@ function rHab(){
       +'</div>';
   }).join('');
 
+  // Habitos Matutinos
+  var matutinoHTML='<div class="matutino-card">'
+    +'<div class="matutino-header"><div class="matutino-title">🌅 Habitos Matutinos</div><div class="matutino-badge">'+(isTodayMatutinoCompleto()?'COMPLETO':'PENDIENTE')+'</div></div>'
+    +'<div class="matutino-grid">'
+    +HABITOS_MATUTINOS.map(function(h,i){var checked=isMatutinoToday(h);return'<div class="matutino-item'+(checked?' checked':'')+'" onclick="toggleMatutino(\''+h+'\')">'
+      +'<div class="matutino-emoji">'+HABITOS_MATUTINOS_EMOJIS[i]+'</div>'
+      +'<div class="matutino-name">'+HABITOS_MATUTINOS_NOMBRES[i]+'</div>'
+      +'<div class="matutino-check"></div></div>';}).join('')
+    +'</div>'
+    +'<div class="matutino-streak"><div><div class="matutino-streak-label">Racha completa</div><div class="matutino-streak-val">'+getMatutinoStreak()+'</div></div>'
+    +'<div><div class="matutino-streak-label">Esta semana</div><div class="matutino-streak-val" style="font-size:22px">'+getMatutinoWeekCount()+'/7</div></div></div>'
+    +'</div>';
+
+  // El Quiebre
   var quiebreEnHab='<div class="quiebre-card" style="margin-top:24px">'
     +'<div class="q-header"><div class="q-title">⛔ 20-23hs — El Quiebre</div><div class="q-badge">'+(isTodayManchado()?'MANCHADO':'LIMPIO')+'</div></div>'
     +'<div class="vicio-grid">'
@@ -1374,6 +1435,7 @@ function rHab(){
     +'<div class="hkpi"><div class="hkpi-val">'+s.str+'</div><div class="hkpi-lbl">Racha</div></div>'
     +'</div>'
     +'<div class="week-tabs" style="margin-top:16px">'+tabs+'</div>'
+    +matutinoHTML
     +cards
     +quiebreEnHab
     +'<div class="divr"></div>'
