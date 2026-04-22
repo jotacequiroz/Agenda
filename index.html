@@ -118,7 +118,7 @@ html,body{height:100%;height:-webkit-fill-available;overflow:hidden;position:fix
 .tck svg{width:11px;height:11px;display:none}
 .task-item.done-t .tck svg{display:block}
 .t-body{flex:1;min-width:0}
-.t-name{font-size:15px;font-weight:400;color:var(--t1);line-height:1.4}
+.t-name{font-size:15px;font-weight:400;color:var(--t1);line-height:1.4;cursor:text}
 .task-item.done-t .t-name{text-decoration:line-through;color:var(--t5)}
 .t-meta{font-size:12px;color:var(--t4);margin-top:3px}
 .t-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
@@ -417,7 +417,7 @@ html,body{height:100%;height:-webkit-fill-available;overflow:hidden;position:fix
   <div class="overlay" id="overlay" onclick="closeModal(event)">
     <div class="modal" id="modal">
       <div class="modal-handle"></div>
-      <div class="modal-title">Nueva tarea</div>
+      <div class="modal-title" id="modal-title">Nueva tarea</div>
       <div class="type-toggle">
         <div class="tt-btn on" id="tt-task" onclick="setTType('task')">Tarea</div>
         <div class="tt-btn rem" id="tt-rem" onclick="setTType('rem')">Recordatorio</div>
@@ -439,6 +439,24 @@ html,body{height:100%;height:-webkit-fill-available;overflow:hidden;position:fix
         <div style="font-size:20px;color:var(--t4);cursor:pointer;padding:0 2px" onclick="clearDue()">x</div>
       </div>
       <button class="btn-gold" id="add-btn" onclick="addTask()">Agregar tarea</button>
+    </div>
+  </div>
+
+  <!-- EDITAR TAREA MODAL (reutiliza el mismo overlay pero con distinto comportamiento) -->
+  <div class="overlay" id="edit-overlay" onclick="closeEditModal(event)">
+    <div class="modal" id="edit-modal">
+      <div class="modal-handle"></div>
+      <div class="modal-title">Editar tarea</div>
+      <input class="inp" id="edit-cap" placeholder="Que tenes que hacer?" autocomplete="off" style="margin-bottom:12px">
+      <div class="pill-row" id="edit-cat-pills"></div>
+      <div class="pill-row" id="edit-prio-pills"></div>
+      <div class="date-row">
+        <label>Para cuando</label>
+        <input type="date" id="edit-due-inp" style="flex:1;background:transparent;border:none;outline:none;font-size:14px;color:var(--t1);font-family:inherit;-webkit-appearance:none;cursor:pointer">
+        <div style="font-size:20px;color:var(--t4);cursor:pointer;padding:0 2px" onclick="clearEditDue()">x</div>
+      </div>
+      <button class="btn-gold" id="edit-save-btn" onclick="saveEditTask()">Guardar cambios</button>
+      <button class="btn-sec" onclick="closeEditModal()">Cancelar</button>
     </div>
   </div>
 
@@ -625,9 +643,9 @@ var tC=function(w,a,d){ST.hab[w+'_'+a+'_'+d]=!ST.hab[w+'_'+a+'_'+d];save();ra();
 var gN=function(w,k){return ST['n_'+w+'_'+k]||'';};
 var sN=function(w,k,v){ST['n_'+w+'_'+k]=v;save();};
 
-// Quiebre functions - sin boton APAGAR
-var VICIOS=['cigarro','alcohol','marihuana','porno','comida','dormir'];
-var VICIOS_NOMBRES=['Cigarrillo','Alcohol','Marihuana','Pornografia','Comida limpia','Dormir antes 23:30'];
+// Quiebre functions - NoFap en lugar de Pornografia
+var VICIOS=['cigarro','alcohol','marihuana','nofap','comida','dormir'];
+var VICIOS_NOMBRES=['Cigarrillo','Alcohol','Marihuana','NoFap (recaída)','Comida limpia','Dormir antes 23:30'];
 function getVicioKey(date,vicio){return 'v_'+date+'_'+vicio;}
 function isVicioToday(vicio){var k=getVicioKey(getTK(),vicio);return ST.quiebre[k]===true;}
 function toggleVicio(vicio){var d=getTK();var k=getVicioKey(d,vicio);ST.quiebre[k]=!ST.quiebre[k];save();ra();}
@@ -637,11 +655,12 @@ function isDiaManchado(date){
 }
 function isTodayManchado(){return isDiaManchado(getTK());}
 function getCleanStreak(){
-  var today=new Date();var streak=0;var maxDays=365;
+  var today=new Date();var streak=0;var maxDays=3650;
   for(var i=0;i<maxDays;i++){
     var checkDate=new Date(today);
     checkDate.setDate(today.getDate()-i);
     var ds=checkDate.getFullYear()+'-'+pad(checkDate.getMonth()+1)+'-'+pad(checkDate.getDate());
+    if(ST.quiebre && Object.keys(ST.quiebre).length===0){break;}
     if(isDiaManchado(ds))break;
     streak++;
   }
@@ -732,6 +751,7 @@ var cV='d',cW=0,sCats=[],sPrio='media',sDue='',tFil='hoy';
 var cMetBiz='HYK',cMetWk=getWeekKey();
 var decCat='HYK';
 var revStep=0,revAnswers={};
+var editingTaskId=null;
 
 function sv(v,el){
   cV=v;
@@ -857,6 +877,8 @@ function setTType(type){
 
 function openModal(){
   sCats=[];sDue='';sActiveTpl=null;sTplSub='';
+  editingTaskId=null;
+  document.getElementById('modal-title').textContent='Nueva tarea';
   setTType('task');
   document.getElementById('overlay').classList.add('open');
   var di=document.getElementById('due-inp');if(di)di.value=getTK();
@@ -892,6 +914,50 @@ function addTask(){
   if(cV==='d'||cV==='k')ra();else sv('d',document.getElementById('nv-d'));
 }
 function hKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();addTask();}}
+
+function editTask(id){
+  var task=null;
+  for(var i=0;i<ST.tasks.length;i++){if(ST.tasks[i].id===id){task=ST.tasks[i];break;}}
+  if(!task)return;
+  editingTaskId=id;
+  document.getElementById('edit-cap').value=task.text;
+  document.getElementById('edit-due-inp').value=task.due||task.date;
+  renderEditPills(task.cats||[],task.prio);
+  document.getElementById('edit-overlay').classList.add('open');
+}
+function renderEditPills(cats,prio){
+  var cp=document.getElementById('edit-cat-pills');
+  if(cp)cp.innerHTML=CATS.map(function(cat){
+    var on=cats.indexOf(cat.id)>=0;
+    return '<div class="pill cat-'+cat.id+(on?' on':'')+'" onclick="togEditC(\''+cat.id+'\')">'+cat.lb+'</div>';
+  }).join('');
+  var pp=document.getElementById('edit-prio-pills');
+  if(pp)pp.innerHTML=PRIOS.map(function(pr){
+    var on=prio===pr.id;
+    return '<div class="pill p-'+pr.id+(on?' on':'')+'" onclick="togEditP(\''+pr.id+'\')">'+pr.lb+'</div>';
+  }).join('');
+}
+var editCats=[],editPrio='media';
+function togEditC(cat){var i=editCats.indexOf(cat);if(i>=0)editCats.splice(i,1);else editCats.push(cat);renderEditPills(editCats,editPrio);}
+function togEditP(p){editPrio=p;renderEditPills(editCats,editPrio);}
+function clearEditDue(){document.getElementById('edit-due-inp').value=getTK();}
+function saveEditTask(){
+  var txt=document.getElementById('edit-cap').value.trim();
+  if(!txt){closeEditModal();return;}
+  for(var i=0;i<ST.tasks.length;i++){
+    if(ST.tasks[i].id===editingTaskId){
+      ST.tasks[i].text=txt;
+      ST.tasks[i].cats=editCats.slice();
+      ST.tasks[i].prio=editPrio;
+      ST.tasks[i].due=document.getElementById('edit-due-inp').value;
+      break;
+    }
+  }
+  save();
+  closeEditModal();
+  ra();
+}
+function closeEditModal(e){if(e&&e.target!==document.getElementById('edit-overlay'))return;document.getElementById('edit-overlay').classList.remove('open');editCats=[];editPrio='media';editingTaskId=null;}
 
 function togTask(id){for(var i=0;i<ST.tasks.length;i++){if(ST.tasks[i].id===id){ST.tasks[i].done=!ST.tasks[i].done;break;}}save();ra();}
 function delTask(id){ST.tasks=ST.tasks.filter(function(t){return t.id!==id;});save();ra();}
@@ -1105,7 +1171,7 @@ function rHome(ey){
     var dot=t.prio==='alta'?'r':t.prio==='baja'?'g':'gold';
     return'<div class="task-item'+(t.done?' done-t':'')+'" onclick="togTask('+t.id+')">'
       +'<div class="tck">'+(t.done?chkSVG:'')+'</div>'
-      +'<div class="t-body"><div class="t-name">'+t.text+'</div>'+(meta?'<div class="t-meta">'+meta+'</div>':'')+'</div>'
+      +'<div class="t-body"><div class="t-name" onclick="event.stopPropagation();editTask('+t.id+')">'+t.text+'</div>'+(meta?'<div class="t-meta">'+meta+'</div>':'')+'</div>'
       +'<div class="t-dot '+dot+'"></div></div>';
   }).join('');
 
@@ -1209,7 +1275,7 @@ function rTasks(ey){
       var isRem=t.type==='rem';
       return'<div class="task-item'+(t.done?' done-t':'')+(isRem?' rem-t':'')+'" onclick="togTask('+t.id+')">'
         +'<div class="tck">'+(t.done?chkSVG:'')+'</div>'
-        +'<div class="t-body"><div class="t-name">'+t.text+'</div>'+(meta?'<div class="t-meta">'+meta+'</div>':'')+'</div>'
+        +'<div class="t-body"><div class="t-name" onclick="event.stopPropagation();editTask('+t.id+')">'+t.text+'</div>'+(meta?'<div class="t-meta">'+meta+'</div>':'')+'</div>'
         +'<div class="t-dot '+dot+'" style="cursor:pointer;width:20px;height:20px;border-radius:6px;display:flex;align-items:center;justify-content:center" onclick="event.stopPropagation();delTask('+t.id+')">'
         +'<svg viewBox="0 0 12 12" width="11" height="11" fill="none" stroke="var(--t5)" stroke-width="1.8" stroke-linecap="round"><line x1="1" y1="1" x2="11" y2="11"/><line x1="11" y1="1" x2="1" y2="11"/></svg>'
         +'</div></div>';
@@ -1292,7 +1358,7 @@ function rHab(){
     +'<div class="q-header"><div class="q-title">⛔ 20-23hs — El Quiebre</div><div class="q-badge">'+(isTodayManchado()?'MANCHADO':'LIMPIO')+'</div></div>'
     +'<div class="vicio-grid">'
     +VICIOS.map(function(v,i){var checked=isVicioToday(v);return'<div class="vicio-item'+(checked?' checked':'')+'" onclick="toggleVicio(\''+v+'\')">'
-      +'<div class="vicio-emoji">'+['🚬','🍺','🌿','🔞','🍔','😴'][i]+'</div>'
+      +'<div class="vicio-emoji">'+['🚬','🍺','🌿','🔥','🍔','😴'][i]+'</div>'
       +'<div class="vicio-name">'+VICIOS_NOMBRES[i]+'</div>'
       +'<div class="vicio-check"></div></div>';}).join('')
     +'</div>'
