@@ -673,13 +673,13 @@ function isMatutinoCompleto(date){
 }
 function isTodayMatutinoCompleto(){return isMatutinoCompleto(getTK());}
 function getMatutinoStreak(){
+  if(Object.keys(ST.matutino).length===0)return 0;
   var today=new Date();var streak=0;var maxDays=365;
   for(var i=0;i<maxDays;i++){
     var checkDate=new Date(today);
     checkDate.setDate(today.getDate()-i);
     var ds=checkDate.getFullYear()+'-'+pad(checkDate.getMonth()+1)+'-'+pad(checkDate.getDate());
-    if(i===0 && Object.keys(ST.matutino).length===0){return 0;}
-    if(!isMatutinoCompleto(ds)){break;}
+    if(!isMatutinoCompleto(ds))break;
     streak++;
   }
   return streak;
@@ -702,13 +702,13 @@ function isDiaManchado(date){
 }
 function isTodayManchado(){return isDiaManchado(getTK());}
 function getCleanStreak(){
+  if(Object.keys(ST.quiebre).length===0)return 0;
   var today=new Date();var streak=0;var maxDays=365;
   for(var i=0;i<maxDays;i++){
     var checkDate=new Date(today);
     checkDate.setDate(today.getDate()-i);
     var ds=checkDate.getFullYear()+'-'+pad(checkDate.getMonth()+1)+'-'+pad(checkDate.getDate());
-    if(i===0 && Object.keys(ST.quiebre).length===0){return 0;}
-    if(isDiaManchado(ds)){break;}
+    if(isDiaManchado(ds))break;
     streak++;
   }
   return streak;
