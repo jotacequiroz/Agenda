@@ -391,6 +391,19 @@ html,body{height:100%;height:-webkit-fill-available;overflow:hidden;position:fix
 .finanzas-trend-delta{font-size:12px;margin-top:2px}
 .finanzas-trend-delta.up{color:var(--green)}
 .finanzas-trend-delta.down{color:var(--red)}
+.finanzas-gastos-section{margin-top:16px;border-top:0.5px solid var(--c3);padding-top:16px}
+.finanzas-gastos-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.finanzas-gastos-title{font-size:12px;font-weight:600;color:var(--t3);letter-spacing:0.06em;text-transform:uppercase}
+.finanzas-add-gasto-btn{padding:6px 12px;background:var(--c3);border-radius:20px;font-size:11px;color:var(--t2);cursor:pointer}
+.finanzas-gasto-item{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:0.5px solid var(--c2)}
+.finanzas-gasto-info{display:flex;align-items:center;gap:12px;flex:1}
+.finanzas-gasto-cat{font-size:10px;padding:2px 8px;border-radius:10px;background:var(--c1);color:var(--t4)}
+.finanzas-gasto-concepto{font-size:13px;color:var(--t2);flex:1}
+.finanzas-gasto-monto{font-size:13px;font-weight:600;color:var(--red)}
+.finanzas-gasto-delete{width:28px;height:28px;display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:0.5}
+.finanzas-gasto-delete:hover{opacity:1}
+.finanzas-gasto-empty{text-align:center;padding:20px;color:var(--t5);font-size:12px}
+.finanzas-gastos-total{display:flex;justify-content:space-between;padding:12px 0 0;margin-top:8px;font-weight:600;color:var(--t1);border-top:0.5px solid var(--c3)}
 .finanzas-historial{margin-top:16px}
 .finanzas-historial-title{font-size:11px;color:var(--t4);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:10px}
 .finanzas-hist-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:0.5px solid var(--c3);font-size:12px}
@@ -401,6 +414,10 @@ html,body{height:100%;height:-webkit-fill-available;overflow:hidden;position:fix
 .finanzas-hist-values strong{color:var(--t1);font-weight:600}
 .finanzas-save-btn{width:100%;background:linear-gradient(145deg,var(--gold),var(--gold2));border:none;border-radius:14px;padding:14px;font-size:14px;font-weight:600;color:#1a1000;cursor:pointer;margin-top:16px;transition:opacity 0.15s;}
 .finanzas-save-btn:active{opacity:0.8}
+
+/* GASTO MODAL */
+.cat-pill{padding:6px 12px;border-radius:20px;font-size:12px;font-weight:500;background:var(--c1);color:var(--t4);border:0.5px solid var(--c4);cursor:pointer;display:inline-block;margin:3px;}
+.cat-pill.selected{background:var(--gold);color:#1a1000;border-color:var(--gold)}
 
 /* DECISION MODAL SEGS */
 .dec-modal-seg{display:flex;gap:7px;margin-bottom:14px}
@@ -518,6 +535,22 @@ html,body{height:100%;height:-webkit-fill-available;overflow:hidden;position:fix
       </div>
       <button class="btn-gold" id="edit-save-btn" onclick="saveEditTask()">Guardar cambios</button>
       <button class="btn-sec" onclick="closeEditModal()">Cancelar</button>
+    </div>
+  </div>
+
+  <!-- GASTO MODAL -->
+  <div class="overlay" id="gasto-overlay" onclick="closeGastoModal(event)">
+    <div class="modal">
+      <div class="modal-handle"></div>
+      <div class="modal-title">Agregar gasto</div>
+      <input type="date" id="gasto-fecha" class="inp" style="margin-bottom:12px" value="">
+      <input type="text" id="gasto-concepto" class="inp" placeholder="Concepto" style="margin-bottom:12px">
+      <input type="number" id="gasto-monto" class="inp" placeholder="Monto" style="margin-bottom:12px">
+      <div style="margin-bottom:16px">
+        <div style="font-size:12px;color:var(--t4);margin-bottom:8px">Categoría</div>
+        <div id="gasto-categorias" style="display:flex;flex-wrap:wrap;gap:6px"></div>
+      </div>
+      <button class="btn-gold" onclick="saveGasto()">Guardar gasto</button>
     </div>
   </div>
 
@@ -674,6 +707,9 @@ var PLAN=[
 
 var CATS=[{id:'HYK',lb:'HYK'},{id:'BAZ',lb:'Bazar'},{id:'TRD',lb:'Trading'},{id:'WIP',lb:'WIP'},{id:'PER',lb:'Personal'}];
 var PRIOS=[{id:'alta',lb:'Alta'},{id:'media',lb:'Media'},{id:'baja',lb:'Baja'}];
+var GASTO_CATEGORIAS=['Automovil','Facturas','Entretenimiento','Comida','Supermercado','Salud','Hogar','Mascota','General'];
+var GASTO_CATEGORIAS_EMOJIS=['🚗','📄','🎬','🍽️','🛒','💊','🏠','🐾','📌'];
+
 var MET_CFG={
   HYK:{fields:[{id:'ingresos',label:'Ingresos',placeholder:'ej: 250000',unit:'$'},{id:'pedidos',label:'Pedidos',placeholder:'ej: 45',unit:'#'},{id:'custom',label:'Metrica clave',placeholder:'ticket prom',unit:''}]},
   BAZ:{fields:[{id:'ingresos',label:'Ingresos',placeholder:'ej: 1700000',unit:'$'},{id:'ventas',label:'Ventas',placeholder:'ej: 120',unit:'#'},{id:'custom',label:'Metrica clave',placeholder:'margen %',unit:''}]},
@@ -698,6 +734,7 @@ if(!ST.cant)ST.cant={};
 if(!ST.quiebre)ST.quiebre={};
 if(!ST.matutino)ST.matutino={};
 if(!ST.finanzas)ST.finanzas={};
+if(!ST.gastos)ST.gastos=[];
 var save=function(){try{localStorage.setItem('ag_v5',JSON.stringify(ST));}catch(e){}};
 
 var gC=function(w,a,d){return!!(ST.hab[w+'_'+a+'_'+d]);};
@@ -764,7 +801,7 @@ function getWeekCleanCount(){
   return cnt;
 }
 
-// Finanzas Personales
+// Finanzas Personales con gastos diarios
 var MESES_NOMBRES=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
 function getCurrentMonthKey(){var d=new Date();return d.getFullYear()+'-'+pad(d.getMonth()+1);}
 function getMonthLabel(monthKey){var p=monthKey.split('-');return MESES_NOMBRES[parseInt(p[1])-1]+' '+p[0];}
@@ -775,6 +812,36 @@ function addMonths(monthKey,n){
 }
 function getFinanzas(monthKey,field){return ST.finanzas[monthKey+'_'+field]||'';}
 function setFinanzas(monthKey,field,val){ST.finanzas[monthKey+'_'+field]=val;save();}
+function getGastosDelMes(monthKey){
+  return ST.gastos.filter(function(g){return g.fecha.startsWith(monthKey);});
+}
+function getTotalGastosMes(monthKey){
+  var gastos=getGastosDelMes(monthKey);
+  var total=0;
+  for(var i=0;i<gastos.length;i++){total+=gastos[i].monto;}
+  return total;
+}
+function updateGastosField(monthKey){
+  var total=getTotalGastosMes(monthKey);
+  setFinanzas(monthKey,'gastos',total.toString());
+}
+function agregarGasto(fecha,concepto,monto,categoria){
+  ST.gastos.push({id:Date.now(),fecha:fecha,concepto:concepto,monto:parseFloat(monto),categoria:categoria});
+  var monthKey=fecha.substring(0,7);
+  updateGastosField(monthKey);
+  save();
+  ra();
+}
+function eliminarGasto(id){
+  var gasto=ST.gastos.find(function(g){return g.id===id;});
+  if(gasto){
+    ST.gastos=ST.gastos.filter(function(g){return g.id!==id;});
+    var monthKey=gasto.fecha.substring(0,7);
+    updateGastosField(monthKey);
+    save();
+    ra();
+  }
+}
 function getBalance(monthKey){
   var ingresos=parseFloat(getFinanzas(monthKey,'ingresos'))||0;
   var gastos=parseFloat(getFinanzas(monthKey,'gastos'))||0;
@@ -791,6 +858,35 @@ function getTasaAhorroClass(tasa){
   if(tasa>=20)return'buena';
   if(tasa>=10)return'baja';
   return'mala';
+}
+
+var selectedGastoCat=null;
+function openGastoModal(){
+  var today=getTK();
+  document.getElementById('gasto-fecha').value=today;
+  document.getElementById('gasto-concepto').value='';
+  document.getElementById('gasto-monto').value='';
+  selectedGastoCat='General';
+  renderGastoCategorias();
+  document.getElementById('gasto-overlay').classList.add('open');
+}
+function closeGastoModal(e){if(e&&e.target!==document.getElementById('gasto-overlay'))return;document.getElementById('gasto-overlay').classList.remove('open');}
+function renderGastoCategorias(){
+  var container=document.getElementById('gasto-categorias');
+  if(!container)return;
+  container.innerHTML=GASTO_CATEGORIAS.map(function(cat,i){
+    var emoji=GASTO_CATEGORIAS_EMOJIS[i];
+    return '<div class="cat-pill'+(selectedGastoCat===cat?' selected':'')+'" onclick="selectGastoCat(\''+cat+'\')">'+emoji+' '+cat+'</div>';
+  }).join('');
+}
+function selectGastoCat(cat){selectedGastoCat=cat;renderGastoCategorias();}
+function saveGasto(){
+  var fecha=document.getElementById('gasto-fecha').value;
+  var concepto=document.getElementById('gasto-concepto').value.trim();
+  var monto=parseFloat(document.getElementById('gasto-monto').value);
+  if(!fecha||!concepto||isNaN(monto)||monto<=0){return;}
+  agregarGasto(fecha,concepto,monto,selectedGastoCat);
+  closeGastoModal();
 }
 
 function getCant(dateKey){return ST.cant[dateKey]||false;}
@@ -1088,11 +1184,9 @@ function sCW2(i){cW=i;ra();}
 function finanzasNav(n){cFinanzasMonth=addMonths(cFinanzasMonth,n);ra();}
 function saveFinanzas(){
   var ingresos=document.getElementById('finanzas-ingresos').value;
-  var gastos=document.getElementById('finanzas-gastos').value;
   var ahorro=document.getElementById('finanzas-ahorro').value;
   var inversion=document.getElementById('finanzas-inversion').value;
   setFinanzas(cFinanzasMonth,'ingresos',ingresos);
-  setFinanzas(cFinanzasMonth,'gastos',gastos);
   setFinanzas(cFinanzasMonth,'ahorro',ahorro);
   setFinanzas(cFinanzasMonth,'inversion',inversion);
   ra();
@@ -1614,7 +1708,7 @@ function rPlan(){
     }
   }
 
-  // Finanzas Personales
+  // Finanzas Personales con gastos diarios
   var prevMonth=addMonths(cFinanzasMonth,-1);
   var ingresos=getFinanzas(cFinanzasMonth,'ingresos');
   var gastos=getFinanzas(cFinanzasMonth,'gastos');
@@ -1631,6 +1725,11 @@ function rPlan(){
   var deltaIngresos=prevIngresos===0?null:((currIngresos-prevIngresos)/prevIngresos*100);
   var deltaGastos=prevGastos===0?null:((currGastos-prevGastos)/prevGastos*100);
   
+  // Gastos del mes
+  var gastosDelMes=getGastosDelMes(cFinanzasMonth);
+  var totalGastos=0;
+  for(var i=0;i<gastosDelMes.length;i++){totalGastos+=gastosDelMes[i].monto;}
+  
   // Historial 4 meses
   var historial=[];
   for(var h=3;h>=0;h--){
@@ -1644,6 +1743,34 @@ function rPlan(){
     }
   }
   
+  var gastosListHTML='<div class="finanzas-gastos-section">'
+    +'<div class="finanzas-gastos-header">'
+    +'<div class="finanzas-gastos-title">💸 GASTOS DEL MES</div>'
+    +'<div class="finanzas-add-gasto-btn" onclick="openGastoModal()">+ Agregar gasto</div>'
+    +'</div>';
+  
+  if(gastosDelMes.length===0){
+    gastosListHTML+='<div class="finanzas-gasto-empty">No hay gastos registrados este mes.</div>';
+  } else {
+    for(var i=0;i<gastosDelMes.length;i++){
+      var g=gastosDelMes[i];
+      var fechaParts=g.fecha.split('-');
+      var fechaStr=fechaParts[2]+'/'+fechaParts[1];
+      var catIndex=GASTO_CATEGORIAS.indexOf(g.categoria);
+      var emoji=catIndex>=0?GASTO_CATEGORIAS_EMOJIS[catIndex]:'📌';
+      gastosListHTML+='<div class="finanzas-gasto-item">'
+        +'<div class="finanzas-gasto-info">'
+        +'<span class="finanzas-gasto-cat">'+emoji+' '+g.categoria+'</span>'
+        +'<span class="finanzas-gasto-concepto">'+fechaStr+' - '+g.concepto+'</span>'
+        +'</div>'
+        +'<div class="finanzas-gasto-monto">$'+g.monto.toLocaleString()+'</div>'
+        +'<div class="finanzas-gasto-delete" onclick="eliminarGasto('+g.id+')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--t5)" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>'
+        +'</div>';
+    }
+    gastosListHTML+='<div class="finanzas-gastos-total"><span>Total gastos</span><span>$'+totalGastos.toLocaleString()+'</span></div>';
+  }
+  gastosListHTML+='</div>';
+  
   var finanzasHTML='<div class="finanzas-card">'
     +'<div class="finanzas-header"><div class="finanzas-title">💰 Finanzas Personales</div></div>'
     +'<div class="finanzas-month-nav">'
@@ -1652,8 +1779,7 @@ function rPlan(){
     +'<div class="finanzas-nav-arrow" onclick="finanzasNav(1)">&#8250;</div>'
     +'</div>'
     +'<div class="finanzas-grid">'
-    +'<div class="finanzas-cell"><div class="finanzas-cell-label">Ingresos</div><input class="finanzas-cell-input" id="finanzas-ingresos" type="number" placeholder="0" value="'+ingresos+'"></div>'
-    +'<div class="finanzas-cell"><div class="finanzas-cell-label">Gastos</div><input class="finanzas-cell-input" id="finanzas-gastos" type="number" placeholder="0" value="'+gastos+'"></div>'
+    +'<div class="finanzas-cell full"><div class="finanzas-cell-label">Ingresos (manual)</div><input class="finanzas-cell-input" id="finanzas-ingresos" type="number" placeholder="0" value="'+ingresos+'"></div>'
     +'<div class="finanzas-cell"><div class="finanzas-cell-label">Ahorro</div><input class="finanzas-cell-input" id="finanzas-ahorro" type="number" placeholder="0" value="'+ahorro+'"></div>'
     +'<div class="finanzas-cell"><div class="finanzas-cell-label">Inversión</div><input class="finanzas-cell-input" id="finanzas-inversion" type="number" placeholder="0" value="'+inversion+'"></div>'
     +'</div>'
@@ -1677,8 +1803,10 @@ function rPlan(){
       +'</div>';
   }
   
+  finanzasHTML+=gastosListHTML;
+  
   if(historial.length>0){
-    finanzasHTML+='<div class="finanzas-historial"><div class="finanzas-historial-title">Historial</div>';
+    finanzasHTML+='<div class="finanzas-historial"><div class="finanzas-historial-title">Historial mensual</div>';
     for(var i=0;i<historial.length;i++){
       var h=historial[i];
       finanzasHTML+='<div class="finanzas-hist-row">'
