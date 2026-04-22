@@ -152,30 +152,27 @@ html,body{height:100%;height:-webkit-fill-available;overflow:hidden;position:fix
 /* EMPTY */
 .empty{text-align:center;padding:52px 16px;color:var(--t5);font-size:14px;line-height:2.2}
 
-/* HABITOS */
+/* HABITOS - DIARIOS FIJOS */
+.habitos-diarios{margin:16px 14px 0}
+.habito-card{padding:16px 18px;border-bottom:0.5px solid var(--c2)}
+.habito-card:last-child{border:none}
+.habito-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.habito-nombre{font-size:15px;font-weight:500;color:var(--t1);flex:1}
+.habito-badge{font-size:11px;font-weight:500;color:var(--t4);padding:3px 10px;background:var(--c2);border:0.5px solid var(--c4);border-radius:6px}
+.dias-row{display:flex;gap:5px}
+.dia-btn{width:38px;height:38px;border-radius:9px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;background:var(--c1);border:0.5px solid var(--c3);cursor:pointer}
+.dia-btn.today{border-color:rgba(191,156,107,0.4);background:#1c1a14}
+.dia-btn.checked{background:#0f2518;border-color:rgba(50,215,75,0.35)}
+.dia-d{font-size:9px;font-weight:500;color:var(--t5)}
+.dia-btn.today .dia-d{color:rgba(191,156,107,0.9)}
+.dia-btn.checked .dia-d{color:rgba(50,215,75,0.8)}
+.dia-n{font-size:13px;font-weight:600;color:var(--t4);line-height:1}
+.dia-btn.today .dia-n{color:var(--gold)}
+.dia-btn.checked .dia-n{color:var(--green)}
+
 .focus-box{margin:16px 14px 0;padding:14px 16px;border-radius:16px;background:linear-gradient(160deg,var(--c2),var(--c1));border:0.5px solid var(--c3);position:relative;overflow:hidden;}
 .focus-box::before{content:'';position:absolute;top:0;left:0;right:0;height:0.5px;background:linear-gradient(90deg,transparent,var(--c4),transparent)}
 .focus-txt{font-size:14px;font-weight:400;color:var(--t3);font-style:italic;line-height:1.55}
-.week-tabs{display:flex;gap:6px;padding:14px 14px 0}
-.wt{flex:1;text-align:center;padding:8px 4px;border-radius:10px;font-size:12px;font-weight:500;color:var(--t5);background:var(--c1);border:0.5px solid var(--c3);cursor:pointer;-webkit-user-select:none;}
-.wt.on{background:linear-gradient(160deg,var(--c3),var(--c2));color:var(--t1);border-color:var(--c5);box-shadow:inset 0 0.5px 0 rgba(255,255,255,0.06);}
-.wt.lk{opacity:0.3;pointer-events:none}
-.hab-card{padding:16px 18px;border-bottom:0.5px solid var(--c2)}
-.hab-card:last-child{border:none}
-.hab-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
-.hab-name{font-size:15px;font-weight:500;color:var(--t1);flex:1;padding-right:10px;line-height:1.35}
-.hab-badge{font-size:11px;font-weight:500;color:var(--t4);padding:3px 10px;background:var(--c2);border:0.5px solid var(--c4);border-radius:6px;letter-spacing:0.03em;flex-shrink:0;}
-.days-row{display:flex;gap:5px}
-.day{width:34px;height:36px;border-radius:9px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;background:var(--c1);border:0.5px solid var(--c3);cursor:pointer;-webkit-user-select:none;}
-.day.today{border-color:rgba(191,156,107,0.4);background:#1c1a14}
-.day.checked{background:#0f2518;border-color:rgba(50,215,75,0.35)}
-.day:active{opacity:0.6}
-.day-d{font-size:9px;font-weight:500;color:var(--t5);letter-spacing:0.04em}
-.day.today .day-d{color:rgba(191,156,107,0.9)}
-.day.checked .day-d{color:rgba(50,215,75,0.8)}
-.day-n{font-size:13px;font-weight:600;color:var(--t4);line-height:1}
-.day.today .day-n{color:var(--gold)}
-.day.checked .day-n{color:var(--green)}
 
 /* NOTE AREA */
 .note-wrap{padding:0 14px;margin-top:16px}
@@ -317,23 +314,22 @@ html,body{height:100%;height:-webkit-fill-available;overflow:hidden;position:fix
 .insight-it:last-child{border:none}
 .insight-it::before{content:'▸';position:absolute;left:0;font-size:11px;color:var(--t5)}
 
-/* METRICAS */
+/* METRICAS - MENSIAL */
 .met-tabs{display:flex;gap:7px;padding:14px 14px 0}
 .mt-btn{flex:1;text-align:center;padding:10px 4px;border-radius:11px;font-size:13px;font-weight:500;color:var(--t4);background:var(--c1);border:0.5px solid var(--c3);cursor:pointer;-webkit-user-select:none;}
 .mt-btn.on.hyk{background:#0f2518;color:var(--green);border-color:#1a3a20}
 .mt-btn.on.baz{background:#101828;color:#4a9eff;border-color:#1a2a40}
 .mt-btn.on.trd{background:#2a1010;color:var(--red);border-color:#3a1515}
-.met-week-nav{display:flex;align-items:center;justify-content:space-between;padding:12px 14px 0}
-.mwn-arrow{width:36px;height:36px;border-radius:10px;background:var(--c1);border:0.5px solid var(--c4);display:flex;align-items:center;justify-content:center;cursor:pointer;-webkit-user-select:none;font-size:18px;color:var(--t3);}
-.mwn-arrow:active{opacity:0.6}
-.mwn-label{font-size:13px;font-weight:500;color:var(--t2);}
+.met-month-nav{display:flex;align-items:center;justify-content:space-between;padding:12px 14px 0}
+.met-nav-arrow{width:36px;height:36px;border-radius:10px;background:var(--c1);border:0.5px solid var(--c4);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;color:var(--t3);}
+.met-nav-label{font-size:13px;font-weight:500;color:var(--t2);}
 .met-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 14px 0}
 .met-cell{border-radius:16px;padding:16px;background:linear-gradient(160deg,var(--c2),var(--c1));border:0.5px solid var(--c3);position:relative;overflow:hidden;}
 .met-cell::before{content:'';position:absolute;top:0;left:0;right:0;height:0.5px;background:linear-gradient(90deg,transparent,var(--c4),transparent)}
 .met-cell.full{grid-column:1/-1}
 .mc-lbl{font-size:11px;color:var(--t4);letter-spacing:0.06em;text-transform:uppercase;font-weight:500;margin-bottom:8px}
-.mc-inp{width:100%;background:transparent;border:none;outline:none;font-size:24px;font-weight:700;color:var(--t1);letter-spacing:-0.03em;font-family:var(--f);-webkit-appearance:none;padding:0;}
-.mc-inp::placeholder{color:var(--t5);font-weight:400;font-size:20px}
+.mc-inp{width:100%;background:transparent;border:none;outline:none;font-size:20px;font-weight:700;color:var(--t1);letter-spacing:-0.03em;font-family:var(--f);-webkit-appearance:none;padding:0;}
+.mc-inp::placeholder{color:var(--t5);font-weight:400;font-size:16px}
 .mc-sub{font-size:11px;color:var(--t4);margin-top:4px}
 .met-trend{display:flex;gap:10px;margin:10px 14px 0}
 .trend-card{flex:1;border-radius:14px;padding:13px;background:linear-gradient(160deg,var(--c2),var(--c1));border:0.5px solid var(--c3);position:relative;overflow:hidden;}
@@ -346,7 +342,7 @@ html,body{height:100%;height:-webkit-fill-available;overflow:hidden;position:fix
 .met-hist{margin:10px 14px 0;border-radius:16px;background:var(--c1);border:0.5px solid var(--c3);overflow:hidden}
 .mh-row{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:0.5px solid var(--c2);}
 .mh-row:last-child{border:none}
-.mh-week{font-size:12px;color:var(--t4);min-width:65px}
+.mh-month{font-size:12px;color:var(--t4);min-width:65px}
 .mh-vals{display:flex;gap:14px;flex:1;justify-content:flex-end}
 .mh-v{font-size:13px;color:var(--t2);text-align:right}
 .mh-v span{font-size:10px;color:var(--t5);display:block;margin-top:1px}
@@ -358,7 +354,7 @@ html,body{height:100%;height:-webkit-fill-available;overflow:hidden;position:fix
 .trd-st.on.pausado{background:#201a10;color:var(--gold);border-color:#302510}
 .trd-st.on.perdida{background:#2a1010;color:var(--red);border-color:#3a1515}
 
-/* FINANZAS PERSONALES */
+/* FINANZAS PERSONALES - GASTOS PRIMERO */
 .finanzas-card{margin:16px 14px 0;border-radius:20px;padding:18px;background:linear-gradient(160deg,var(--c2),var(--c1));border:0.5px solid var(--c3);position:relative;overflow:hidden;}
 .finanzas-card::before{content:'';position:absolute;top:0;left:0;right:0;height:0.5px;background:linear-gradient(90deg,transparent,var(--c4),transparent)}
 .finanzas-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
@@ -366,7 +362,20 @@ html,body{height:100%;height:-webkit-fill-available;overflow:hidden;position:fix
 .finanzas-month-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
 .finanzas-nav-arrow{width:36px;height:36px;border-radius:10px;background:var(--c1);border:0.5px solid var(--c4);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;color:var(--t3);}
 .finanzas-nav-label{font-size:13px;font-weight:500;color:var(--t2);}
-.finanzas-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.finanzas-gastos-section{margin-bottom:16px}
+.finanzas-gastos-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.finanzas-gastos-title{font-size:12px;font-weight:600;color:var(--t3);letter-spacing:0.06em;text-transform:uppercase}
+.finanzas-add-gasto-btn{padding:6px 12px;background:var(--c3);border-radius:20px;font-size:11px;color:var(--t2);cursor:pointer}
+.finanzas-gasto-item{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:0.5px solid var(--c2)}
+.finanzas-gasto-info{display:flex;align-items:center;gap:12px;flex:1}
+.finanzas-gasto-cat{font-size:10px;padding:2px 8px;border-radius:10px;background:var(--c1);color:var(--t4)}
+.finanzas-gasto-concepto{font-size:13px;color:var(--t2);flex:1}
+.finanzas-gasto-monto{font-size:13px;font-weight:600;color:var(--red)}
+.finanzas-gasto-delete{width:28px;height:28px;display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:0.5}
+.finanzas-gasto-delete:hover{opacity:1}
+.finanzas-gasto-empty{text-align:center;padding:20px;color:var(--t5);font-size:12px}
+.finanzas-gastos-total{display:flex;justify-content:space-between;padding:12px 0 0;margin-top:8px;font-weight:600;color:var(--t1);border-top:0.5px solid var(--c3)}
+.finanzas-resumen-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
 .finanzas-cell{border-radius:14px;padding:14px;background:linear-gradient(160deg,var(--c3),var(--c2));border:0.5px solid var(--c4);position:relative;overflow:hidden;}
 .finanzas-cell.full{grid-column:1/-1}
 .finanzas-cell-label{font-size:10px;color:var(--t4);letter-spacing:0.06em;text-transform:uppercase;font-weight:500;margin-bottom:6px}
@@ -391,19 +400,6 @@ html,body{height:100%;height:-webkit-fill-available;overflow:hidden;position:fix
 .finanzas-trend-delta{font-size:12px;margin-top:2px}
 .finanzas-trend-delta.up{color:var(--green)}
 .finanzas-trend-delta.down{color:var(--red)}
-.finanzas-gastos-section{margin-top:16px;border-top:0.5px solid var(--c3);padding-top:16px}
-.finanzas-gastos-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
-.finanzas-gastos-title{font-size:12px;font-weight:600;color:var(--t3);letter-spacing:0.06em;text-transform:uppercase}
-.finanzas-add-gasto-btn{padding:6px 12px;background:var(--c3);border-radius:20px;font-size:11px;color:var(--t2);cursor:pointer}
-.finanzas-gasto-item{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:0.5px solid var(--c2)}
-.finanzas-gasto-info{display:flex;align-items:center;gap:12px;flex:1}
-.finanzas-gasto-cat{font-size:10px;padding:2px 8px;border-radius:10px;background:var(--c1);color:var(--t4)}
-.finanzas-gasto-concepto{font-size:13px;color:var(--t2);flex:1}
-.finanzas-gasto-monto{font-size:13px;font-weight:600;color:var(--red)}
-.finanzas-gasto-delete{width:28px;height:28px;display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:0.5}
-.finanzas-gasto-delete:hover{opacity:1}
-.finanzas-gasto-empty{text-align:center;padding:20px;color:var(--t5);font-size:12px}
-.finanzas-gastos-total{display:flex;justify-content:space-between;padding:12px 0 0;margin-top:8px;font-weight:600;color:var(--t1);border-top:0.5px solid var(--c3)}
 .finanzas-historial{margin-top:16px}
 .finanzas-historial-title{font-size:11px;color:var(--t4);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:10px}
 .finanzas-hist-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:0.5px solid var(--c3);font-size:12px}
@@ -661,26 +657,10 @@ function fmtGroup(k){
   return DSH[dt.getDay()].toUpperCase()+' '+p[2]+' '+mn[+p[1]-1];
 }
 
-var WKS=[
-  {id:0,lb:'Sem 0',focus:'Instalar los 3 anclajes base',u:true,anc:[
-    {id:'a1',nm:'Bloque de trabajo productivo',tg:'Negocio'},
-    {id:'a2',nm:'Deporte',tg:'Fisico'}
-  ]},
-  {id:1,lb:'Sem 1',focus:'Movimiento + reducir cantineo',u:false,anc:[
-    {id:'b1',nm:'Entrenamiento minimo',tg:'Fisico'},
-    {id:'b2',nm:'Sin sustancias Lun-Mie',tg:'Habito'},
-    {id:'b3',nm:'Decision diaria negocio 1',tg:'Negocio'}
-  ]},
-  {id:2,lb:'Sem 2',focus:'Adelantar el inicio del dia',u:false,anc:[
-    {id:'c1',nm:'Levantarse a las 6:30am',tg:'Inicio'},
-    {id:'c2',nm:'Bloque profundo 6:30-9am',tg:'Negocio'},
-    {id:'c3',nm:'Revision semanal - domingo',tg:'Mental'}
-  ]},
-  {id:3,lb:'Sem 3',focus:'Consolidar y medir',u:false,anc:[
-    {id:'d1',nm:'Protocolo de sueno completo',tg:'Habito'},
-    {id:'d2',nm:'Metricas negocio 1',tg:'Negocio'},
-    {id:'d3',nm:'Accion concreta negocio 2',tg:'Negocio'}
-  ]}
+// Habitos diarios fijos (sin tabs semanales)
+var HABITOS_DIARIOS_FIJOS=[
+  {id:'trabajo',nombre:'Bloque de trabajo productivo',tg:'Negocio',emoji:'💼'},
+  {id:'deporte',nombre:'Deporte',tg:'Fisico',emoji:'🏋️'}
 ];
 
 var PLAN=[
@@ -711,8 +691,8 @@ var GASTO_CATEGORIAS=['Automovil','Facturas','Entretenimiento','Comida','Superme
 var GASTO_CATEGORIAS_EMOJIS=['🚗','📄','🎬','🍽️','🛒','💊','🏠','🐾','📌'];
 
 var MET_CFG={
-  HYK:{fields:[{id:'ingresos',label:'Ingresos',placeholder:'ej: 250000',unit:'$'},{id:'pedidos',label:'Pedidos',placeholder:'ej: 45',unit:'#'},{id:'custom',label:'Metrica clave',placeholder:'ticket prom',unit:''}]},
-  BAZ:{fields:[{id:'ingresos',label:'Ingresos',placeholder:'ej: 1700000',unit:'$'},{id:'ventas',label:'Ventas',placeholder:'ej: 120',unit:'#'},{id:'custom',label:'Metrica clave',placeholder:'margen %',unit:''}]},
+  HYK:{fields:[{id:'ingresos',label:'Ingresos HYK',placeholder:'ej: 250000',unit:'$'},{id:'pedidos',label:'Pedidos',placeholder:'ej: 45',unit:'#'},{id:'custom',label:'Metrica clave',placeholder:'ticket prom',unit:''}]},
+  BAZ:{fields:[{id:'ingresos',label:'Ingresos Bazar',placeholder:'ej: 1700000',unit:'$'},{id:'ventas',label:'Ventas',placeholder:'ej: 120',unit:'#'},{id:'custom',label:'Metrica clave',placeholder:'margen %',unit:''}]},
   TRD:{fields:[{id:'resultado',label:'Resultado',placeholder:'ej: +2.3%',unit:''},{id:'operaciones',label:'Operaciones',placeholder:'ej: 12',unit:'#'},{id:'estado',label:'Estado',placeholder:'',unit:''}]}
 };
 
@@ -737,10 +717,26 @@ if(!ST.finanzas)ST.finanzas={};
 if(!ST.gastos)ST.gastos=[];
 var save=function(){try{localStorage.setItem('ag_v5',JSON.stringify(ST));}catch(e){}};
 
-var gC=function(w,a,d){return!!(ST.hab[w+'_'+a+'_'+d]);};
-var tC=function(w,a,d){ST.hab[w+'_'+a+'_'+d]=!ST.hab[w+'_'+a+'_'+d];save();ra();};
-var gN=function(w,k){return ST['n_'+w+'_'+k]||'';};
-var sN=function(w,k,v){ST['n_'+w+'_'+k]=v;save();};
+// Habitos diarios fijos
+function getHabitoDiarioKey(habitoId,date){return 'hd_'+habitoId+'_'+date;}
+function isHabitoDiarioChecked(habitoId,date){return ST.hab[getHabitoDiarioKey(habitoId,date)]===true;}
+function toggleHabitoDiario(habitoId){var d=getTK();var k=getHabitoDiarioKey(habitoId,d);ST.hab[k]=!ST.hab[k];save();ra();}
+function getHabitoDiarioStreak(habitoId){
+  var today=new Date();var streak=0;var maxDays=365;
+  for(var i=0;i<maxDays;i++){
+    var checkDate=new Date(today);
+    checkDate.setDate(today.getDate()-i);
+    var ds=checkDate.getFullYear()+'-'+pad(checkDate.getMonth()+1)+'-'+pad(checkDate.getDate());
+    if(!isHabitoDiarioChecked(habitoId,ds))break;
+    streak++;
+  }
+  return streak;
+}
+function getHabitoDiarioWeekCount(habitoId){
+  var d=new Date(),dow=d.getDay()===0?6:d.getDay()-1,cnt=0;
+  for(var i=0;i<=dow;i++){var dd=new Date(d);dd.setDate(d.getDate()-dow+i);var k=dd.getFullYear()+'-'+pad(dd.getMonth()+1)+'-'+pad(dd.getDate());if(isHabitoDiarioChecked(habitoId,k))cnt++;}
+  return cnt;
+}
 
 // Habitos Matutinos
 var HABITOS_MATUTINOS=['despertar','ducha','agua','skincare','desayuno','paseo','meditacion'];
@@ -860,6 +856,13 @@ function getTasaAhorroClass(tasa){
   return'mala';
 }
 
+// Metricas mensuales
+function getCurrentMonthKeyMet(){var d=new Date();return d.getFullYear()+'-'+pad(d.getMonth()+1);}
+function getMetMensual(biz,monthKey,field){return ST.met[biz+'_'+monthKey+'_'+field]||'';}
+function setMetMensual(biz,monthKey,field,val){ST.met[biz+'_'+monthKey+'_'+field]=val;save();}
+function getTrdStatusMensual(monthKey){return ST.met['TRD_'+monthKey+'_estatus']||'';}
+function setTrdStatusMensual(monthKey,v){ST.met['TRD_'+monthKey+'_estatus']=v;save();ra();}
+
 var selectedGastoCat=null;
 function openGastoModal(){
   var today=getTK();
@@ -897,11 +900,6 @@ function getCantWeek(){
   return cnt;
 }
 
-function getMet(biz,wk,field){return ST.met[biz+'_'+wk+'_'+field]||'';}
-function setMet(biz,wk,field,val){ST.met[biz+'_'+wk+'_'+field]=val;save();}
-function getTrdStatus(wk){return ST.met['TRD_'+wk+'_estatus']||'';}
-function setTrdStatus(wk,v){ST.met['TRD_'+wk+'_estatus']=v;save();ra();}
-
 function getTodayDec(){return ST.dec[getTK()]||null;}
 function saveTodayDec(text,cat){ST.dec[getTK()]={text:text,cat:cat,done:false,date:getTK()};save();}
 function markDecExec(){var d=ST.dec[getTK()];if(d){d.done=true;save();}}
@@ -931,14 +929,28 @@ function getTaskWeekStats(){
 }
 function calcScore(){
   var habTot=0,habDn=0;
-  WKS.forEach(function(w,wi){w.anc.forEach(function(a){DS.forEach(function(_,d){habTot++;if(gC(wi,a.id,d))habDn++;});});});
+  // Habitos diarios fijos
+  for(var i=0;i<HABITOS_DIARIOS_FIJOS.length;i++){
+    for(var d=0;d<7;d++){
+      habTot++;
+      var date=new Date();
+      var dow=date.getDay()===0?6:date.getDay()-1;
+      var monday=new Date(date);
+      monday.setDate(date.getDate()-dow);
+      var dd=new Date(monday);
+      dd.setDate(monday.getDate()+d);
+      var ds=dd.getFullYear()+'-'+pad(dd.getMonth()+1)+'-'+pad(dd.getDate());
+      if(isHabitoDiarioChecked(HABITOS_DIARIOS_FIJOS[i].id,ds))habDn++;
+    }
+  }
   var habPct=habTot>0?habDn/habTot:0;
   var ds=getDecWeekStats();
   var decPct=ds.tot>0?ds.exec/ds.tot:0;
   if(!getTodayDec())decPct=decPct*0.8;
   var ts=getTaskWeekStats();
-  var wk=getWeekKey();
-  var metFilled=(getMet('HYK',wk,'ingresos')||getMet('BAZ',wk,'ingresos'))?1:0;
+  // Metrica mensual se evalua si se cargaron datos del mes actual (simplificado)
+  var currentMonth=getCurrentMonthKeyMet();
+  var metFilled=(getMetMensual('HYK',currentMonth,'ingresos')||getMetMensual('BAZ',currentMonth,'ingresos'))?1:0;
   var score=Math.round((habPct*25)+(decPct*25)+(ts.pct*35)+(metFilled*15));
   return{score:score,hab:Math.round(habPct*25),dec:Math.round(decPct*25),tasks:Math.round(ts.pct*35),met:metFilled*15,taskStats:ts};
 }
@@ -956,16 +968,8 @@ function scoreTag(s){
   return'SEMANA PERDIDA';
 }
 
-function cStat(wi){
-  var w=WKS[wi],tot=0,dn=0,str=0;
-  w.anc.forEach(function(a){DS.forEach(function(_,d){tot++;if(gC(wi,a.id,d))dn++;});});
-  for(var d=6;d>=0;d--){if(w.anc.every(function(a){return gC(wi,a.id,d);}))str++;else break;}
-  return{tot:tot,dn:dn,str:str,pct:Math.round(dn/tot*100)};
-}
-function uChk(){WKS.forEach(function(w,i){if(i===0){w.u=true;return;}w.u=cStat(i-1).pct>=60;});}
-
 var cV='d',cW=0,sCats=[],sPrio='media',sDue='',tFil='hoy';
-var cMetBiz='HYK',cMetWk=getWeekKey();
+var cMetBiz='HYK',cMetMonth=getCurrentMonthKeyMet();
 var cFinanzasMonth=getCurrentMonthKey();
 var decCat='HYK';
 var revStep=0,revAnswers={};
@@ -1180,8 +1184,8 @@ function closeEditModal(e){if(e&&e.target!==document.getElementById('edit-overla
 function togTask(id){for(var i=0;i<ST.tasks.length;i++){if(ST.tasks[i].id===id){ST.tasks[i].done=!ST.tasks[i].done;break;}}save();ra();}
 function delTask(id){ST.tasks=ST.tasks.filter(function(t){return t.id!==id;});save();ra();}
 function setF(f){tFil=f;ra();}
-function sCW2(i){cW=i;ra();}
 function finanzasNav(n){cFinanzasMonth=addMonths(cFinanzasMonth,n);ra();}
+function metMonthNav(n){cMetMonth=addMonths(cMetMonth,n);ra();}
 function saveFinanzas(){
   var ingresos=document.getElementById('finanzas-ingresos').value;
   var ahorro=document.getElementById('finanzas-ahorro').value;
@@ -1191,6 +1195,20 @@ function saveFinanzas(){
   setFinanzas(cFinanzasMonth,'inversion',inversion);
   ra();
 }
+function saveMetricsMensual(){
+  var cfg=MET_CFG[cMetBiz];
+  cfg.fields.forEach(function(f){
+    var el=document.getElementById('mc-'+f.id);
+    if(el&&f.id!=='estado')setMetMensual(cMetBiz,cMetMonth,f.id,el.value);
+  });
+  if(cMetBiz==='TRD'){
+    var trdSt=document.querySelector('.trd-st.on')?.getAttribute('data-value')||'';
+    setTrdStatusMensual(cMetMonth,trdSt);
+  }
+  ra();
+}
+function setTrdStMensual(v){setTrdStatusMensual(cMetMonth,v);ra();}
+function setMetBizMensual(b){cMetBiz=b;ra();}
 
 function openDecModal(){
   document.getElementById('dec-overlay').classList.add('open');
@@ -1312,22 +1330,9 @@ function revNext(){
   }
 }
 
-function setMetBiz(b){cMetBiz=b;ra();}
-function metWkNav(n){cMetWk=addWeeks(cMetWk,n);ra();}
-function setTrdSt(v){setTrdStatus(cMetWk,v);}
-function saveMetrics(){
-  var cfg=MET_CFG[cMetBiz];
-  cfg.fields.forEach(function(f){
-    var el=document.getElementById('mc-'+f.id);
-    if(el&&f.id!=='estado')setMet(cMetBiz,cMetWk,f.id,el.value);
-  });
-  ra();
-}
-
 var chkSVG='<svg viewBox="0 0 12 12" fill="none" width="10" height="10"><polyline points="1.5,6 4.5,9.5 10.5,2.5" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>';
 
 function ra(){
-  uChk();
   var d=new Date();
   var ey=DAYS_ES[d.getDay()]+' '+d.getDate()+' de '+MONTHS[d.getMonth()];
   if(cV==='d')rHome(ey);
@@ -1550,38 +1555,45 @@ function rTasks(ey){
 }
 
 function rHab(){
-  uChk();
-  var w=WKS[cW],s=cStat(cW);
   var d=new Date();
   var ey=DAYS_ES[d.getDay()]+' '+d.getDate()+' de '+MONTHS[d.getMonth()];
   var dow=d.getDay()===0?6:d.getDay()-1;
-  var monday=new Date(d);monday.setDate(d.getDate()-dow);
-
-  var tabs=WKS.map(function(wk,i){
-    return'<div class="wt'+(i===cW?' on':'')+((!wk.u&&i!==0)?' lk':'')+'" onclick="'+(wk.u||i===0?'sCW2('+i+')':'')+'">'+(wk.lb)+'</div>';
-  }).join('');
-
-  var cards=w.anc.map(function(a){
-    var days=DS.map(function(dl,di){
-      var dd=new Date(monday);dd.setDate(monday.getDate()+di);
-      var isT=di===dow,isC=gC(cW,a.id,di);
-      return'<div class="day'+(isT?' today':'')+(isC?' checked':'')+'" onclick="tC('+cW+',\''+a.id+'\','+di+')">'
-        +'<div class="day-d">'+dl+'</div><div class="day-n">'+dd.getDate()+'</div></div>';
-    }).join('');
-    return'<div class="hab-card">'
-      +'<div class="hab-top"><div class="hab-name">'+a.nm+'</div><div class="hab-badge">'+a.tg+'</div></div>'
-      +'<div class="days-row">'+days+'</div></div>';
-  }).join('');
-
-  var notes=DS.map(function(dl,i){
-    var dd=new Date(monday);dd.setDate(monday.getDate()+i);
-    var isT=i===dow;
-    return'<div style="margin-bottom:10px">'
-      +'<div class="note-lbl" style="'+(isT?'color:var(--gold)':'')+'">'+dl+' '+dd.getDate()+'</div>'
-      +'<textarea class="note-inp" rows="2" placeholder="Una cosa que avance..." onchange="sN('+cW+',\'d'+i+'\',this.value)">'+gN(cW,'d'+i)+'</textarea>'
+  var monday=new Date(d);
+  monday.setDate(d.getDate()-dow);
+  
+  // Focus semanal (se mantiene de la semana actual)
+  var currentWeekIndex=0;
+  var focusText=WKS[0].focus;
+  
+  // Cards de habitos diarios fijos
+  var cardsHTML='';
+  for(var i=0;i<HABITOS_DIARIOS_FIJOS.length;i++){
+    var h=HABITOS_DIARIOS_FIJOS[i];
+    var daysHTML='';
+    for(var di=0;di<7;di++){
+      var dd=new Date(monday);
+      dd.setDate(monday.getDate()+di);
+      var ds=dd.getFullYear()+'-'+pad(dd.getMonth()+1)+'-'+pad(dd.getDate()));
+      var isT=di===dow;
+      var isC=isHabitoDiarioChecked(h.id,ds);
+      daysHTML+='<div class="dia-btn'+(isT?' today':'')+(isC?' checked':'')+'" onclick="toggleHabitoDiario(\''+h.id+'\')">'
+        +'<div class="dia-d">'+DS[di]+'</div><div class="dia-n">'+dd.getDate()+'</div></div>';
+    }
+    cardsHTML+='<div class="habito-card">'
+      +'<div class="habito-header"><div class="habito-nombre">'+h.emoji+' '+h.nombre+'</div><div class="habito-badge">'+h.tg+'</div></div>'
+      +'<div class="dias-row">'+daysHTML+'</div>'
       +'</div>';
-  }).join('');
-
+  }
+  
+  // KPI de habitos diarios
+  var trabajoCompletado=getHabitoDiarioWeekCount('trabajo');
+  var deporteCompletado=getHabitoDiarioWeekCount('deporte');
+  var habKPIHTML='<div class="hab-kpi">'
+    +'<div class="hkpi"><div class="hkpi-val">'+trabajoCompletado+'/7</div><div class="hkpi-lbl">Trabajo</div></div>'
+    +'<div class="hkpi"><div class="hkpi-val">'+deporteCompletado+'/7</div><div class="hkpi-lbl">Deporte</div></div>'
+    +'<div class="hkpi"><div class="hkpi-val">'+(trabajoCompletado+deporteCompletado)+'/14</div><div class="hkpi-lbl">Total</div></div>'
+    +'</div>';
+  
   // Habitos Matutinos
   var matutinoHTML='<div class="matutino-card">'
     +'<div class="matutino-header"><div class="matutino-title">🌅 Habitos Matutinos</div><div class="matutino-badge">'+(isTodayMatutinoCompleto()?'COMPLETO':'PENDIENTE')+'</div></div>'
@@ -1607,20 +1619,32 @@ function rHab(){
     +'<div class="q-streak"><div><div class="streak-label">Racha limpia</div><div class="streak-val">'+getCleanStreak()+'</div></div>'
     +'<div><div class="streak-label">Esta semana</div><div class="streak-val" style="font-size:22px">'+getWeekCleanCount()+'/7</div></div></div>'
     +'</div>';
-
+    
+  var notesHTML='<div class="note-wrap">'
+    +DS.map(function(dl,i){
+      var dd=new Date(monday);
+      dd.setDate(monday.getDate()+i);
+      var isT=i===dow;
+      var noteKey='note_'+dd.getFullYear()+'-'+pad(dd.getMonth()+1)+'-'+pad(dd.getDate());
+      var noteValue=ST[noteKey]||'';
+      return'<div style="margin-bottom:10px">'
+        +'<div class="note-lbl" style="'+(isT?'color:var(--gold)':'')+'">'+dl+' '+dd.getDate()+'</div>'
+        +'<textarea class="note-inp" rows="2" placeholder="Una cosa que avance..." onchange="saveNote(\''+noteKey+'\',this.value)">'+noteValue+'</textarea>'
+        +'</div>';
+    }).join('')
+    +'</div>';
+  
+  function saveNote(key,val){ST[key]=val;save();}
+  
   document.getElementById('body').innerHTML='<div class="pg">'
     +'<div class="page-hdr"><div class="page-eyebrow">'+ey+'</div><div class="page-title">Habitos</div></div>'
-    +'<div class="focus-box"><div class="focus-txt">"'+w.focus+'"</div></div>'
-    +'<div class="hab-kpi">'+
-    '<div class="hkpi"><div class="hkpi-val">'+s.pct+'%</div><div class="hkpi-lbl">Completado</div></div>'
-    +'<div class="hkpi"><div class="hkpi-val">'+s.str+'</div><div class="hkpi-lbl">Racha</div></div>'
-    +'</div>'
-    +'<div class="week-tabs" style="margin-top:16px">'+tabs+'</div>'
+    +'<div class="focus-box"><div class="focus-txt">"'+focusText+'"</div></div>'
+    +habKPIHTML
+    +cardsHTML
     +matutinoHTML
-    +cards
     +quiebreEnHab
     +'<div class="divr"></div>'
-    +'<div class="note-wrap">'+notes+'</div>'
+    +notesHTML
     +'</div>';
 }
 
@@ -1662,18 +1686,17 @@ function rLife(){
 }
 
 function rPlan(){
-  var sc=calcScore();
   var d=new Date();
   var ey=DAYS_ES[d.getDay()]+' '+d.getDate()+' de '+MONTHS[d.getMonth()];
-  var isCurrentWk=cMetWk===getWeekKey();
-  var prevWk=addWeeks(cMetWk,-1);
+  var isCurrentMonth=cMetMonth===getCurrentMonthKeyMet();
+  var prevMonth=addMonths(cMetMonth,-1);
   var cfg=MET_CFG[cMetBiz];
-
-  // Memento Mori card (primero)
+  
+  // Memento Mori
   var mementoHTML='<div style="margin:12px 14px 0;padding:13px 16px;border-radius:14px;background:var(--c1);border:0.5px solid var(--c3);display:flex;align-items:center;justify-content:space-between;cursor:pointer" onclick="sv(\'l\',null)"><div style="font-size:14px;color:var(--t2);font-weight:500">Memento Mori</div><div style="font-size:13px;color:var(--t4)">'+getWL().toLocaleString()+' vividas - '+getWR().toLocaleString()+' restantes</div></div>';
   
-  // Finanzas Personales con gastos diarios (segundo)
-  var prevMonth=addMonths(cFinanzasMonth,-1);
+  // Finanzas - GASTOS PRIMERO
+  var prevMonthFin=addMonths(cFinanzasMonth,-1);
   var ingresos=getFinanzas(cFinanzasMonth,'ingresos');
   var gastos=getFinanzas(cFinanzasMonth,'gastos');
   var ahorro=getFinanzas(cFinanzasMonth,'ahorro');
@@ -1682,8 +1705,8 @@ function rPlan(){
   var tasaAhorro=getTasaAhorro(cFinanzasMonth);
   var tasaClass=getTasaAhorroClass(tasaAhorro);
   
-  var prevIngresos=parseFloat(getFinanzas(prevMonth,'ingresos'))||0;
-  var prevGastos=parseFloat(getFinanzas(prevMonth,'gastos'))||0;
+  var prevIngresos=parseFloat(getFinanzas(prevMonthFin,'ingresos'))||0;
+  var prevGastos=parseFloat(getFinanzas(prevMonthFin,'gastos'))||0;
   var currIngresos=parseFloat(ingresos)||0;
   var currGastos=parseFloat(gastos)||0;
   var deltaIngresos=prevIngresos===0?null:((currIngresos-prevIngresos)/prevIngresos*100);
@@ -1740,7 +1763,8 @@ function rPlan(){
     +'<div class="finanzas-nav-label">'+getMonthLabel(cFinanzasMonth)+'</div>'
     +'<div class="finanzas-nav-arrow" onclick="finanzasNav(1)">&#8250;</div>'
     +'</div>'
-    +'<div class="finanzas-grid">'
+    +gastosListHTML
+    +'<div class="finanzas-resumen-grid">'
     +'<div class="finanzas-cell full"><div class="finanzas-cell-label">Ingresos (manual)</div><input class="finanzas-cell-input" id="finanzas-ingresos" type="number" placeholder="0" value="'+ingresos+'"></div>'
     +'<div class="finanzas-cell"><div class="finanzas-cell-label">Ahorro</div><input class="finanzas-cell-input" id="finanzas-ahorro" type="number" placeholder="0" value="'+ahorro+'"></div>'
     +'<div class="finanzas-cell"><div class="finanzas-cell-label">Inversión</div><input class="finanzas-cell-input" id="finanzas-inversion" type="number" placeholder="0" value="'+inversion+'"></div>'
@@ -1765,8 +1789,6 @@ function rPlan(){
       +'</div>';
   }
   
-  finanzasHTML+=gastosListHTML;
-  
   if(historial.length>0){
     finanzasHTML+='<div class="finanzas-historial"><div class="finanzas-historial-title">Historial mensual</div>';
     for(var i=0;i<historial.length;i++){
@@ -1782,63 +1804,63 @@ function rPlan(){
     }
     finanzasHTML+='</div>';
   }
-  
   finanzasHTML+='<button class="finanzas-save-btn" onclick="saveFinanzas()">Guardar</button></div>';
   
-  // Métricas (tercero)
+  // Metricas mensuales de negocio
   var metTabs='<div class="met-tabs">'
-    +'<div class="mt-btn'+(cMetBiz==='HYK'?' on hyk':'')+'" onclick="setMetBiz(\'HYK\')">HYK</div>'
-    +'<div class="mt-btn'+(cMetBiz==='BAZ'?' on baz':'')+'" onclick="setMetBiz(\'BAZ\')">Bazarista</div>'
-    +'<div class="mt-btn'+(cMetBiz==='TRD'?' on trd':'')+'" onclick="setMetBiz(\'TRD\')">Trading</div>'
+    +'<div class="mt-btn'+(cMetBiz==='HYK'?' on hyk':'')+'" onclick="setMetBizMensual(\'HYK\')">HYK</div>'
+    +'<div class="mt-btn'+(cMetBiz==='BAZ'?' on baz':'')+'" onclick="setMetBizMensual(\'BAZ\')">Bazarista</div>'
+    +'<div class="mt-btn'+(cMetBiz==='TRD'?' on trd':'')+'" onclick="setMetBizMensual(\'TRD\')">Trading</div>'
     +'</div>';
-  var wkNav='<div class="met-week-nav">'
-    +'<div class="mwn-arrow" onclick="metWkNav(-1)">&#8249;</div>'
-    +'<div class="mwn-label">Sem '+getWeekLabel(cMetWk)+(isCurrentWk?' - actual':'')+'</div>'
-    +'<div class="mwn-arrow" onclick="metWkNav(1)">&#8250;</div>'
+  var metMonthNav='<div class="met-month-nav">'
+    +'<div class="met-nav-arrow" onclick="metMonthNav(-1)">&#8249;</div>'
+    +'<div class="met-nav-label">'+getMonthLabel(cMetMonth)+(isCurrentMonth?' - actual':'')+'</div>'
+    +'<div class="met-nav-arrow" onclick="metMonthNav(1)">&#8250;</div>'
     +'</div>';
 
   var metFields='';
   if(cMetBiz==='TRD'){
-    var trdSt=getTrdStatus(cMetWk);
+    var trdSt=getTrdStatusMensual(cMetMonth);
     metFields='<div class="met-grid">'
-      +'<div class="met-cell"><div class="mc-lbl">Resultado</div><input class="mc-inp" id="mc-resultado" type="text" placeholder="ej: +2.3%" value="'+getMet('TRD',cMetWk,'resultado')+'"></div>'
-      +'<div class="met-cell"><div class="mc-lbl">Operaciones</div><input class="mc-inp" id="mc-operaciones" type="number" placeholder="ej: 12" value="'+getMet('TRD',cMetWk,'operaciones')+'"></div>'
+      +'<div class="met-cell"><div class="mc-lbl">Resultado</div><input class="mc-inp" id="mc-resultado" type="text" placeholder="ej: +2.3%" value="'+getMetMensual('TRD',cMetMonth,'resultado')+'"></div>'
+      +'<div class="met-cell"><div class="mc-lbl">Operaciones</div><input class="mc-inp" id="mc-operaciones" type="number" placeholder="ej: 12" value="'+getMetMensual('TRD',cMetMonth,'operaciones')+'"></div>'
       +'</div>'
       +'<div class="trd-status-row">'
-      +'<div class="trd-st'+(trdSt==='activo'?' on activo':'')+'" onclick="setTrdSt(\'activo\')">Sistema activo</div>'
-      +'<div class="trd-st'+(trdSt==='pausado'?' on pausado':'')+'" onclick="setTrdSt(\'pausado\')">Pausado</div>'
-      +'<div class="trd-st'+(trdSt==='perdida'?' on perdida':'')+'" onclick="setTrdSt(\'perdida\')">Stop loss</div>'
+      +'<div class="trd-st'+(trdSt==='activo'?' on activo':'')+'" data-value="activo" onclick="setTrdStMensual(\'activo\')">Sistema activo</div>'
+      +'<div class="trd-st'+(trdSt==='pausado'?' on pausado':'')+'" data-value="pausado" onclick="setTrdStMensual(\'pausado\')">Pausado</div>'
+      +'<div class="trd-st'+(trdSt==='perdida'?' on perdida':'')+'" data-value="perdida" onclick="setTrdStMensual(\'perdida\')">Stop loss</div>'
       +'</div>';
   } else {
     var f=cfg.fields;
-    var d0=calcDelta(getMet(cMetBiz,cMetWk,f[0].id),getMet(cMetBiz,prevWk,f[0].id));
+    var d0=calcDelta(getMetMensual(cMetBiz,cMetMonth,f[0].id),getMetMensual(cMetBiz,prevMonth,f[0].id));
     metFields='<div class="met-grid">'
-      +'<div class="met-cell full"><div class="mc-lbl">'+f[0].label+'</div><input class="mc-inp" id="mc-'+f[0].id+'" type="number" placeholder="'+f[0].placeholder+'" value="'+getMet(cMetBiz,cMetWk,f[0].id)+'"><div class="mc-sub">'+(getMet(cMetBiz,cMetWk,f[0].id)?fmtM(getMet(cMetBiz,cMetWk,f[0].id)):'')+'</div></div>'
-      +'<div class="met-cell"><div class="mc-lbl">'+f[1].label+'</div><input class="mc-inp" id="mc-'+f[1].id+'" type="number" placeholder="'+f[1].placeholder+'" value="'+getMet(cMetBiz,cMetWk,f[1].id)+'"></div>'
-      +'<div class="met-cell"><div class="mc-lbl">'+f[2].label+'</div><input class="mc-inp" id="mc-'+f[2].id+'" type="text" placeholder="'+f[2].placeholder+'" value="'+getMet(cMetBiz,cMetWk,f[2].id)+'"></div>'
+      +'<div class="met-cell full"><div class="mc-lbl">'+f[0].label+'</div><input class="mc-inp" id="mc-'+f[0].id+'" type="number" placeholder="'+f[0].placeholder+'" value="'+getMetMensual(cMetBiz,cMetMonth,f[0].id)+'"><div class="mc-sub">'+(getMetMensual(cMetBiz,cMetMonth,f[0].id)?fmtM(getMetMensual(cMetBiz,cMetMonth,f[0].id)):'')+'</div></div>'
+      +'<div class="met-cell"><div class="mc-lbl">'+f[1].label+'</div><input class="mc-inp" id="mc-'+f[1].id+'" type="number" placeholder="'+f[1].placeholder+'" value="'+getMetMensual(cMetBiz,cMetMonth,f[1].id)+'"></div>'
+      +'<div class="met-cell"><div class="mc-lbl">'+f[2].label+'</div><input class="mc-inp" id="mc-'+f[2].id+'" type="text" placeholder="'+f[2].placeholder+'" value="'+getMetMensual(cMetBiz,cMetMonth,f[2].id)+'"></div>'
       +'</div>';
     if(d0!==null){
       metFields+='<div class="met-trend">'
-        +'<div class="trend-card"><div class="tc-lbl">vs semana anterior</div><div class="tc-val '+(d0>0?'pos':d0<0?'neg':'neu')+'">'+(d0>0?'+':'')+d0+'%</div></div>'
-        +'<div class="trend-card"><div class="tc-lbl">Sem anterior</div><div class="tc-val neu">'+fmtM(getMet(cMetBiz,prevWk,f[0].id))+'</div></div>'
+        +'<div class="trend-card"><div class="tc-lbl">vs mes anterior</div><div class="tc-val '+(d0>0?'pos':d0<0?'neg':'neu')+'">'+(d0>0?'+':'')+d0+'%</div></div>'
+        +'<div class="trend-card"><div class="tc-lbl">Mes anterior</div><div class="tc-val neu">'+fmtM(getMetMensual(cMetBiz,prevMonth,f[0].id))+'</div></div>'
         +'</div>';
     }
   }
   
   var histRows='';
-  for(var hw=3;hw>=0;hw--){
-    var hwk=addWeeks(getWeekKey(),-hw);
+  for(var h=3;h>=0;h--){
+    var hMonth=addMonths(cMetMonth,-h);
     if(cMetBiz!=='TRD'){
       var hf=MET_CFG[cMetBiz].fields;
-      var v0=getMet(cMetBiz,hwk,hf[0].id),v1=getMet(cMetBiz,hwk,hf[1].id);
-      if(v0||v1)histRows+='<div class="mh-row"><div class="mh-week">'+getWeekLabel(hwk)+(hwk===getWeekKey()?' -':'')+'</div><div class="mh-vals"><div class="mh-v">'+fmtM(v0)+'<span>'+hf[0].label+'</span></div><div class="mh-v">'+fmtM(v1)+'<span>'+hf[1].label+'</span></div></div></div>';
+      var v0=getMetMensual(cMetBiz,hMonth,hf[0].id),v1=getMetMensual(cMetBiz,hMonth,hf[1].id);
+      if(v0||v1)histRows+='<div class="mh-row"><div class="mh-month">'+getMonthLabel(hMonth)+(hMonth===cMetMonth?' - actual':'')+'</div><div class="mh-vals"><div class="mh-v">'+fmtM(v0)+'<span>'+hf[0].label+'</span></div><div class="mh-v">'+fmtM(v1)+'<span>'+hf[1].label+'</span></div></div></div>';
     } else {
-      var tr=getMet('TRD',hwk,'resultado'),tst=getTrdStatus(hwk);
-      if(tr||tst)histRows+='<div class="mh-row"><div class="mh-week">'+getWeekLabel(hwk)+'</div><div class="mh-vals"><div class="mh-v">'+(tr||'--')+'<span>resultado</span></div><div class="mh-v">'+(tst||'--')+'<span>estado</span></div></div></div>';
+      var tr=getMetMensual('TRD',hMonth,'resultado'),tst=getTrdStatusMensual(hMonth);
+      if(tr||tst)histRows+='<div class="mh-row"><div class="mh-month">'+getMonthLabel(hMonth)+'</div><div class="mh-vals"><div class="mh-v">'+(tr||'--')+'<span>resultado</span></div><div class="mh-v">'+(tst||'--')+'<span>estado</span></div></div></div>';
     }
   }
   var histHTML=histRows?'<div class="sec-row" style="padding-top:16px"><div class="sec-t">Historial</div></div><div class="met-hist">'+histRows+'</div>':'';
-
+  
+  // Score historico (sigue semanal)
   var revKeys=Object.keys(ST.rev).sort().reverse().slice(0,6);
   var scoreHistHTML='';
   if(revKeys.length>0){
@@ -1887,18 +1909,15 @@ function rPlan(){
       }).join('')+'</div>';
   }
 
-  var s0=cStat(0);
-  var tls=[
-    {t:'Sem 0 - Anclajes base',s:'3 habitos estructurales',done:s0.pct>0,now:true},
-    {t:'Sem 1-3 - Cuerpo + cantineo',s:'Entrenamiento, alimentacion, reduccion',done:false,now:false},
-    {t:'Sem 4-13 - Consolidacion',s:'Metricas, sistema, arquitectura',done:false,now:false},
-    {t:'Fase 2 - Mes 2 a 6',s:'Sistema estable, negocio escalando',done:false,now:false},
-    {t:'Fase 3 - Ano 1',s:'Monopolio local + cuerpo transformado',done:false,now:false},
-    {t:'Horizonte - Anos 2 a 5',s:'Expansion + hedge fund + WIP',done:false,now:false}
-  ];
-  var tlHTML=tls.map(function(it){
-    return'<div class="tl-item"><div class="tl-dot'+(it.done?' done':it.now?' now':'')+'"></div><div class="tl-t'+(it.now?' now':'')+'">'+it.t+'</div><div class="tl-s">'+it.s+'</div></div>';
-  }).join('');
+  var tlHTML='<div class="tl-wrap"><div class="tl-line"></div>'
+    +'<div class="tl-item"><div class="tl-dot now"></div><div class="tl-t now">Sem 0 - Anclajes base</div><div class="tl-s">3 habitos estructurales</div></div>'
+    +'<div class="tl-item"><div class="tl-dot"></div><div class="tl-t">Sem 1-3 - Cuerpo + cantineo</div><div class="tl-s">Entrenamiento, alimentacion, reduccion</div></div>'
+    +'<div class="tl-item"><div class="tl-dot"></div><div class="tl-t">Sem 4-13 - Consolidacion</div><div class="tl-s">Metricas, sistema, arquitectura</div></div>'
+    +'<div class="tl-item"><div class="tl-dot"></div><div class="tl-t">Fase 2 - Mes 2 a 6</div><div class="tl-s">Sistema estable, negocio escalando</div></div>'
+    +'<div class="tl-item"><div class="tl-dot"></div><div class="tl-t">Fase 3 - Ano 1</div><div class="tl-s">Monopolio local + cuerpo transformado</div></div>'
+    +'<div class="tl-item"><div class="tl-dot"></div><div class="tl-t">Horizonte - Anos 2 a 5</div><div class="tl-s">Expansion + hedge fund + WIP</div></div>'
+    +'</div>';
+    
   var phCards=PLAN.map(function(ph,pi){
     var axes=ph.axes.map(function(ax){
       return'<div class="plan-axis"><div class="plan-axis-name">'+ax.n+'</div>'+ax.it.map(function(it){return'<div class="plan-it">'+it.t+'<div class="plan-it-s">'+it.p+'</div></div>';}).join('')+'</div>';
@@ -1910,15 +1929,15 @@ function rPlan(){
     +'<div class="page-hdr"><div class="page-eyebrow">'+ey+'</div><div class="page-title">Plan.</div></div>'
     +mementoHTML
     +finanzasHTML
-    +'<div class="sec-row" style="padding-top:20px"><div class="sec-t">📊 Metricas</div></div>'
-    +metTabs+wkNav+metFields
-    +'<button class="met-save-btn" onclick="saveMetrics()">Guardar metricas</button>'
+    +'<div class="sec-row" style="padding-top:20px"><div class="sec-t">📊 Metricas Negocios</div></div>'
+    +metTabs+metMonthNav+metFields
+    +'<button class="met-save-btn" onclick="saveMetricsMensual()">Guardar metricas</button>'
     +histHTML
     +scoreHistHTML
     +decHistHTML
     +quiebreHistory
     +'<div class="sec-row" style="padding-top:26px"><div class="sec-t">Timeline</div></div>'
-    +'<div class="tl-wrap"><div class="tl-line"></div>'+tlHTML+'</div>'
+    +tlHTML
     +'<div class="sec-row" style="padding-top:20px"><div class="sec-t">Fases</div></div>'
     +phCards
     +'</div>';
