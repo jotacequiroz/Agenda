@@ -1573,7 +1573,7 @@ function rHab(){
     for(var di=0;di<7;di++){
       var dd=new Date(monday);
       dd.setDate(monday.getDate()+di);
-      var ds=dd.getFullYear()+'-'+pad(dd.getMonth()+1)+'-'+pad(dd.getDate()));
+      var ds=dd.getFullYear()+'-'+pad(dd.getMonth()+1)+'-'+pad(dd.getDate());
       var isT=di===dow;
       var isC=isHabitoDiarioChecked(h.id,ds);
       daysHTML+='<div class="dia-btn'+(isT?' today':'')+(isC?' checked':'')+'" onclick="toggleHabitoDiario(\''+h.id+'\')">'
