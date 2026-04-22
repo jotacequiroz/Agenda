@@ -369,6 +369,27 @@ html,body{height:100%;height:-webkit-fill-available;overflow:hidden;background:v
 .sh-bar-wrap{flex:1;height:4px;background:var(--c3);border-radius:2px;margin:0 10px}
 .sh-bar{height:100%;border-radius:2px;background:var(--gold)}
 .sh-val{font-size:13px;font-weight:600;color:var(--t2);min-width:36px;text-align:right}
+
+/* TYPE TOGGLE */
+.type-toggle{display:flex;gap:0;background:var(--c1);border-radius:11px;padding:3px;margin-bottom:10px;border:0.5px solid var(--c3)}
+.tt-btn{flex:1;text-align:center;padding:8px;border-radius:9px;font-size:13px;font-weight:500;color:var(--t5);cursor:pointer;-webkit-user-select:none;transition:all 0.15s;}
+.tt-btn.on{background:var(--c3);color:var(--t1)}
+.tt-btn.on.rem{background:#1c1610;color:var(--gold)}
+/* TEMPLATES */
+.tpl-wrap{margin-bottom:12px}
+.tpl-lbl{font-size:9px;color:var(--c5);letter-spacing:0.1em;text-transform:uppercase;font-family:var(--m);margin-bottom:7px}
+.tpl-grid{display:flex;flex-wrap:wrap;gap:5px}
+.tpl-btn{padding:6px 12px;border-radius:20px;font-size:11px;font-weight:500;cursor:pointer;-webkit-user-select:none;background:var(--c1);color:var(--t5);border:0.5px solid var(--c3);}
+.tpl-btn.sel{background:var(--c3);color:var(--t1);border-color:var(--c5)}
+.tpl-btn.hyk{color:var(--green);border-color:#1a3a20;background:#0a1a0f}
+.tpl-btn.baz{color:#4a9eff;border-color:#1a2a40;background:#0a1020}
+.tpl-extra{display:none;margin-bottom:10px}
+.tpl-extra.show{display:block}
+.tpl-sub-row{display:flex;flex-wrap:wrap;gap:5px;margin-top:7px}
+.tpl-sub{padding:5px 11px;border-radius:20px;font-size:11px;font-weight:500;background:var(--c1);color:var(--t5);border:0.5px solid var(--c3);cursor:pointer;-webkit-user-select:none;}
+.tpl-sub.on{background:var(--c2);color:var(--t1);border-color:var(--c4)}
+.task-item.rem-t .tck{border-style:dashed;border-color:var(--gold2)}
+.task-item.rem-t .t-name{color:var(--t4)}
 </style>
 </head>
 <body>
@@ -380,6 +401,18 @@ html,body{height:100%;height:-webkit-fill-available;overflow:hidden;background:v
     <div class="modal" id="modal">
       <div class="modal-handle"></div>
       <div class="modal-title">Nueva tarea</div>
+      <div class="type-toggle">
+        <div class="tt-btn on" id="tt-task" onclick="setTType('task')">Tarea</div>
+        <div class="tt-btn rem" id="tt-rem" onclick="setTType('rem')">Recordatorio</div>
+      </div>
+      <div class="tpl-wrap" id="tpl-wrap" style="display:none">
+        <div class="tpl-lbl">Templates rápidos</div>
+        <div class="tpl-grid" id="tpl-grid"></div>
+      </div>
+      <div class="tpl-extra" id="tpl-extra">
+        <input class="inp inp-sm" id="tpl-inp" placeholder="" autocomplete="off" autocorrect="off">
+        <div class="tpl-sub-row" id="tpl-subs"></div>
+      </div>
       <input class="inp" id="cap" placeholder="¿Qué tenés que hacer?" autocomplete="off" autocorrect="off" autocapitalize="sentences" spellcheck="false" style="margin-bottom:10px" onkeydown="hKey(event)">
       <div class="pill-row" id="cat-pills"></div>
       <div class="pill-row" id="prio-pills"></div>
@@ -388,7 +421,7 @@ html,body{height:100%;height:-webkit-fill-available;overflow:hidden;background:v
         <input type="date" id="due-inp" style="flex:1;background:transparent;border:none;outline:none;font-size:13px;color:var(--t1);font-family:inherit;-webkit-appearance:none;cursor:pointer" onchange="sDue=this.value">
         <div style="font-size:18px;color:var(--t5);cursor:pointer;padding:0 2px" onclick="clearDue()">×</div>
       </div>
-      <button class="btn-gold" onclick="addTask()">Agregar tarea</button>
+      <button class="btn-gold" id="add-btn" onclick="addTask()">Agregar tarea</button>
     </div>
   </div>
 
@@ -437,7 +470,7 @@ html,body{height:100%;height:-webkit-fill-available;overflow:hidden;background:v
       <div class="plus-lbl">Nueva</div>
     </div>
     <div class="nav-item" id="nv-t" onclick="sv('t',this)">
-      <svg viewBox="0 0 24 24"><polyline points="9,11 12,14 22,4"/><path d="M21,12v7a2,2 0 0,1-2,2H5a2,2 0 0,1-2-2V5a2,2 0 0,1,2-2h11"/><circle cx="7" cy="7" r="2" fill="none"/></svg>
+      <svg viewBox="0 0 24 24"><polyline points="9,11 12,14 22,4"/><path d="M21,12v7a2,2 0 0,1-2,2H5a2,2 0 0,1-2-2V5a2,2 0 0,1,2-2h11"/></svg>
       <div class="nav-lbl">Hábitos</div><div class="nav-pip"></div>
     </div>
     <div class="nav-item" id="nv-p" onclick="sv('p',this)">
@@ -608,14 +641,14 @@ function hasRevWeek(){return!!ST.rev[getWeekKey()];}
 function saveRev(data){ST.rev[getWeekKey()]=data;save();}
 
 // =====================
-// SCORE — Hábitos 25 · Decisión 25 · Tareas 35 · Métricas 15
+// SCORE: Habitos 25 / Decision 25 / Tareas 35 / Metricas 15
 // =====================
 function getTaskWeekStats(){
   var d=new Date(),dow=d.getDay()===0?6:d.getDay()-1;
   var monday=new Date(d);monday.setDate(d.getDate()-dow);
   var wkDates=[];
   for(var i=0;i<=dow;i++){var dd=new Date(monday);dd.setDate(monday.getDate()+i);wkDates.push(dd.getFullYear()+'-'+pad(dd.getMonth()+1)+'-'+pad(dd.getDate()));}
-  var wkTasks=ST.tasks.filter(function(t){return wkDates.indexOf(t.due||t.date)>=0;});
+  var wkTasks=ST.tasks.filter(function(t){return wkDates.indexOf(t.due||t.date)>=0&&t.type!=='rem';});
   var tot=wkTasks.length,done=wkTasks.filter(function(t){return t.done;}).length;
   var alta=wkTasks.filter(function(t){return t.prio==='alta';}),altaDone=alta.filter(function(t){return t.done;}).length;
   var weightedTot=0,weightedDone=0;
@@ -636,6 +669,7 @@ function calcScore(){
   var score=Math.round((habPct*25)+(decPct*25)+(ts.pct*35)+(metFilled*15));
   return{score:score,hab:Math.round(habPct*25),dec:Math.round(decPct*25),tasks:Math.round(ts.pct*35),met:metFilled*15,taskStats:ts};
 }
+
 function scoreClass(s){
   if(s>=80)return'elite';
   if(s>=60)return'building';
@@ -673,35 +707,165 @@ function sv(v,el){
   ra();
 }
 
+
+// =====================
+// TEMPLATES
+// =====================
+var TPLS={
+  HYK:[
+    {id:'pedido',  lb:'Pedido',            extra:'Cliente',     prio:'alta',  sub:[],                                                                         rem:false},
+    {id:'uber',    lb:'Pago Uber',          extra:'Cant. viajes',prio:'media', sub:[],                                                                         rem:false},
+    {id:'devol',   lb:'Devolucion/Retiro',  extra:'Cliente',     prio:'alta',  sub:['Retiro Uber','Retiro personal','NC pendiente'],                            rem:false},
+    {id:'cc',      lb:'Enviar ctas. ctes.', extra:'',            prio:'media', sub:[],                                                                         rem:false},
+    {id:'retpago', lb:'Retirar pago',       extra:'Cliente',     prio:'alta',  sub:[],                                                                         rem:false},
+    {id:'presup',  lb:'Presupuesto',        extra:'Cliente',     prio:'media', sub:[],                                                                         rem:false},
+    {id:'pago',    lb:'Pago',              extra:'',            prio:'alta',  sub:['Proveedor','IVA','IIBB','Autonomo','Contador','Sistema','Tienda Nube','Claro'],rem:false},
+    {id:'echeq',   lb:'Cubrir eCheq',       extra:'Monto $',     prio:'alta',  sub:[],                                                                         rem:true},
+    {id:'aumento', lb:'Aumento de lista',   extra:'Proveedor',   prio:'media', sub:[],                                                                         rem:false}
+  ],
+  BAZ:[
+    {id:'aumento', lb:'Aumento de lista',   extra:'Proveedor',   prio:'media', sub:[],rem:false}
+  ],
+  TRD:[],WIP:[],PER:[]
+};
+var sTaskType='task',sActiveTpl=null,sTplSub='';
+
+function getTplsForCats(cats){
+  var result=[],seen={};
+  cats.forEach(function(cat){
+    if(!TPLS[cat])return;
+    TPLS[cat].forEach(function(t){if(!seen[t.id]){seen[t.id]=true;result.push({tpl:t,cat:cat});}});
+  });
+  return result;
+}
+
+function renderTemplates(){
+  var wrap=document.getElementById('tpl-wrap');
+  var grid=document.getElementById('tpl-grid');
+  if(!wrap||!grid)return;
+  var tpls=getTplsForCats(sCats);
+  if(tpls.length===0){wrap.style.display='none';return;}
+  wrap.style.display='block';
+  grid.innerHTML=tpls.map(function(item){
+    var t=item.tpl,cat=item.cat.toLowerCase();
+    var isSel=sActiveTpl&&sActiveTpl.id===t.id;
+    return '<div class="tpl-btn '+cat+(isSel?' sel':'')+'" onclick="pickTpl(\''+t.id+'\',\''+item.cat+'\')">'+t.lb+'</div>';
+  }).join('');
+}
+
+function pickTpl(id,cat){
+  var tpl=null;
+  for(var i=0;i<TPLS[cat].length;i++){if(TPLS[cat][i].id===id){tpl=TPLS[cat][i];break;}}
+  if(!tpl)return;
+  if(sActiveTpl&&sActiveTpl.id===id){
+    sActiveTpl=null;sTplSub='';
+    var cap=document.getElementById('cap');
+    if(cap){cap.value='';cap.placeholder='Que tenes que hacer?';}
+    document.getElementById('tpl-extra').classList.remove('show');
+    renderTemplates();return;
+  }
+  sActiveTpl=tpl;sTplSub='';
+  setTType(tpl.rem?'rem':'task');
+  sPrio=tpl.prio;
+  if(sCats.indexOf(cat)<0)sCats=[cat];
+  renderModalPills();
+  var capEl=document.getElementById('cap');
+  if(capEl){capEl.value=tpl.lb;capEl.placeholder='';}
+  var ex=document.getElementById('tpl-extra');
+  var exInp=document.getElementById('tpl-inp');
+  var subsEl=document.getElementById('tpl-subs');
+  if(tpl.extra){
+    ex.classList.add('show');
+    if(exInp){exInp.placeholder=tpl.extra;exInp.value='';exInp.oninput=buildTplText;}
+    setTimeout(function(){if(exInp)exInp.focus();},80);
+  } else {
+    ex.classList.remove('show');
+    setTimeout(function(){if(capEl)capEl.focus();},80);
+  }
+  if(subsEl){
+    if(tpl.sub&&tpl.sub.length){
+      subsEl.innerHTML=tpl.sub.map(function(s,idx){
+        return '<div class="tpl-sub" id="ts'+idx+'" onclick="pickSub(this,\''+s.replace(/\'/g,"\\'")+'\')" >'+s+'</div>';
+      }).join('');
+    } else {subsEl.innerHTML='';}
+  }
+}
+
+function pickSub(el,s){
+  sTplSub=s;
+  document.querySelectorAll('.tpl-sub').forEach(function(e){e.classList.remove('on');});
+  el.classList.add('on');
+  buildTplText();
+}
+
+function buildTplText(){
+  if(!sActiveTpl)return;
+  var exInp=document.getElementById('tpl-inp');
+  var extra=exInp?exInp.value.trim():'';
+  var cap=document.getElementById('cap');if(!cap)return;
+  var txt=sActiveTpl.lb;
+  if(extra)txt+=' - '+extra;
+  if(sTplSub)txt+=' ('+sTplSub+')';
+  cap.value=txt;
+}
+
+function setTType(type){
+  sTaskType=type;
+  var tb=document.getElementById('tt-task');
+  var rb=document.getElementById('tt-rem');
+  var btn=document.getElementById('add-btn');
+  if(type==='task'){
+    if(tb){tb.classList.add('on');tb.classList.remove('rem');}
+    if(rb)rb.classList.remove('on');
+    if(btn)btn.textContent='Agregar tarea';
+  } else {
+    if(rb)rb.classList.add('on');
+    if(tb)tb.classList.remove('on');
+    if(btn)btn.textContent='Agregar recordatorio';
+  }
+}
+
 // =====================
 // TASK MODAL
 // =====================
 function openModal(){
-  sCats=[];sDue='';
+  sCats=[];sDue='';sActiveTpl=null;sTplSub='';
+  setTType('task');
   document.getElementById('overlay').classList.add('open');
   var di=document.getElementById('due-inp');if(di)di.value=getTK();
+  var ex=document.getElementById('tpl-extra');if(ex)ex.classList.remove('show');
+  var subsEl=document.getElementById('tpl-subs');if(subsEl)subsEl.innerHTML='';
+  var wrap=document.getElementById('tpl-wrap');if(wrap)wrap.style.display='none';
   renderModalPills();
-  setTimeout(function(){var i=document.getElementById('cap');if(i)i.focus();},100);
+  setTimeout(function(){var i=document.getElementById('cap');if(i){i.value='';i.placeholder='Que tenes que hacer?';i.focus();}},100);
 }
 function closeModal(e){if(e&&e.target!==document.getElementById('overlay'))return;document.getElementById('overlay').classList.remove('open');}
 function closeModalForce(){document.getElementById('overlay').classList.remove('open');}
 function renderModalPills(){
   var cp=document.getElementById('cat-pills');
-  if(cp)cp.innerHTML=CATS.map(function(c){return'<div class="pill cat-'+c.id+(sCats.indexOf(c.id)>=0?' on':'')+'" onclick="togC(\''+c.id+'\')">'+c.lb+'</div>';}).join('');
+  if(cp)cp.innerHTML=CATS.map(function(cat){
+    var on=sCats.indexOf(cat.id)>=0;
+    return '<div class="pill cat-'+cat.id+(on?' on':'')+'" onclick="togC(\''+cat.id+'\')">'+cat.lb+'</div>';
+  }).join('');
   var pp=document.getElementById('prio-pills');
-  if(pp)pp.innerHTML=PRIOS.map(function(p){return'<div class="pill p-'+p.id+(sPrio===p.id?' on':'')+'" onclick="togP(\''+p.id+'\')">'+p.lb+'</div>';}).join('');
+  if(pp)pp.innerHTML=PRIOS.map(function(pr){
+    var on=sPrio===pr.id;
+    return '<div class="pill p-'+pr.id+(on?' on':'')+'" onclick="togP(\''+pr.id+'\')">'+pr.lb+'</div>';
+  }).join('');
+  renderTemplates();
 }
-function togC(c){var i=sCats.indexOf(c);if(i>=0)sCats.splice(i,1);else sCats.push(c);renderModalPills();}
+function togC(cat){var i=sCats.indexOf(cat);if(i>=0)sCats.splice(i,1);else sCats.push(cat);sActiveTpl=null;sTplSub='';var ex=document.getElementById('tpl-extra');if(ex)ex.classList.remove('show');renderModalPills();}
 function togP(p){sPrio=p;renderModalPills();}
 function clearDue(){sDue='';var di=document.getElementById('due-inp');if(di)di.value=getTK();}
 function addTask(){
   var inp=document.getElementById('cap'),txt=inp?inp.value.trim():'';
   if(!txt)return;
-  ST.tasks.unshift({id:Date.now(),text:txt,cats:sCats.slice(),prio:sPrio,done:false,date:getTK(),due:sDue||getTK()});
-  save();closeModalForce();if(inp)inp.value='';sCats=[];sDue='';
-  if(cV==='d')ra();else sv('d',document.getElementById('nv-d'));
+  ST.tasks.unshift({id:Date.now(),text:txt,cats:sCats.slice(),prio:sPrio,done:false,date:getTK(),due:sDue||getTK(),type:sTaskType});
+  save();closeModalForce();if(inp)inp.value='';sCats=[];sDue='';sActiveTpl=null;sTplSub='';
+  if(cV==='d'||cV==='k')ra();else sv('d',document.getElementById('nv-d'));
 }
 function hKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();addTask();}}
+
 function togTask(id){for(var i=0;i<ST.tasks.length;i++){if(ST.tasks[i].id===id){ST.tasks[i].done=!ST.tasks[i].done;break;}}save();ra();}
 function delTask(id){ST.tasks=ST.tasks.filter(function(t){return t.id!==id;});save();ra();}
 function setF(f){tFil=f;ra();}
@@ -861,6 +1025,7 @@ function ra(){
   if(cV==='d')rHome(ey);
   else if(cV==='k')rTasks(ey);
   else if(cV==='t')rHab();
+  else if(cV==='l')rLife();
   else rPlan();
 }
 
@@ -885,10 +1050,10 @@ function rHome(ey){
     +'<div class="sc-tag">'+tag+'</div>'
     +'<div class="sc-rule"></div>'
     +'<div class="sc-breakdown">'
-    +'<div class="scb"><div class="scb-val">'+sc.hab+'</div><div class="scb-lbl">Hábitos /25</div></div>'
-    +'<div class="scb"><div class="scb-val">'+sc.dec+'</div><div class="scb-lbl">Decisión /25</div></div>'
+    +'<div class="scb"><div class="scb-val">'+sc.hab+'</div><div class="scb-lbl">Habitos /25</div></div>'
+    +'<div class="scb"><div class="scb-val">'+sc.dec+'</div><div class="scb-lbl">Decision /25</div></div>'
     +'<div class="scb"><div class="scb-val">'+sc.tasks+'</div><div class="scb-lbl">Tareas /35</div></div>'
-    +'<div class="scb"><div class="scb-val">'+sc.met+'</div><div class="scb-lbl">Métricas /15</div></div>'
+    +'<div class="scb"><div class="scb-val">'+sc.met+'</div><div class="scb-lbl">Metricas /15</div></div>'
     +'</div></div>';
 
   // Decisión
@@ -937,16 +1102,38 @@ function rHome(ey){
       +'<div class="t-dot '+dot+'"></div></div>';
   }).join('');
 
-  // Compact task analytics for Home
+
+  // Task analytics compact
   var allT=ST.tasks;
   var totalAgend=allT.length;
   var totalDone=allT.filter(function(t){return t.done;}).length;
   var totalPend=allT.filter(function(t){return!t.done;}).length;
   var tasksRate=totalAgend>0?Math.round(totalDone/totalAgend*100):0;
   var twStats=getTaskWeekStats();
-  var homeAnalytics='<div style="margin:10px 14px 0;border-radius:16px;padding:14px;background:linear-gradient(160deg,var(--c2),var(--c1));border:0.5px solid var(--c3);position:relative;overflow:hidden;cursor:pointer" onclick="sv(\'k\',document.getElementById(\'nv-k\'))">'    +'<div style="position:absolute;top:0;left:0;right:0;height:0.5px;background:linear-gradient(90deg,transparent,var(--c4),transparent)"></div>'    +'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">'    +'<div style="font-size:10px;color:var(--t5);letter-spacing:0.1em;text-transform:uppercase;font-family:var(--m)">Tareas</div>'    +'<div style="font-size:10px;color:var(--t5)">ver todas →</div>'    +'</div>'    +'<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px">'    +'<div style="text-align:center"><div style="font-size:20px;font-weight:700;color:var(--t1);letter-spacing:-0.03em">'+totalAgend+'</div><div style="font-size:8px;color:var(--c5);font-family:var(--m)">Total</div></div>'    +'<div style="text-align:center"><div style="font-size:20px;font-weight:700;color:var(--green);letter-spacing:-0.03em">'+totalDone+'</div><div style="font-size:8px;color:var(--c5);font-family:var(--m)">Hechas</div></div>'    +'<div style="text-align:center"><div style="font-size:20px;font-weight:700;color:'+(totalPend>10?'var(--red)':totalPend>5?'var(--gold)':'var(--t1)')+';letter-spacing:-0.03em">'+totalPend+'</div><div style="font-size:8px;color:var(--c5);font-family:var(--m)">Pendientes</div></div>'    +'<div style="text-align:center"><div style="font-size:20px;font-weight:700;color:'+(tasksRate>=70?'var(--green)':tasksRate>=50?'var(--gold)':'var(--red)')+';letter-spacing:-0.03em">'+tasksRate+'%</div><div style="font-size:8px;color:var(--c5);font-family:var(--m)">Ejecución</div></div>'    +'</div>'    +'<div style="height:0.5px;background:var(--c3);margin:10px 0 8px"></div>'    +'<div style="display:flex;justify-content:space-between">'    +'<span style="font-size:11px;color:var(--t5)">Esta semana: '+twStats.done+'/'+twStats.tot+'</span>'    +'<span style="font-size:11px;color:var(--t5)">Alta: '+twStats.altaDone+'/'+twStats.alta+' ej.</span>'    +'</div>'    +'</div>';
+  var homeAnalytics='<div style="margin:10px 14px 0;border-radius:16px;padding:14px;background:linear-gradient(160deg,var(--c2),var(--c1));border:0.5px solid var(--c3);position:relative;overflow:hidden;cursor:pointer" onclick="sv(\'k\',document.getElementById(\'nv-k\'))">'
+    +'<div style="position:absolute;top:0;left:0;right:0;height:0.5px;background:linear-gradient(90deg,transparent,var(--c4),transparent)"></div>'
+    +'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">'
+    +'<div style="font-size:10px;color:var(--t5);letter-spacing:0.1em;text-transform:uppercase;font-family:var(--m)">Tareas</div>'
+    +'<div style="font-size:10px;color:var(--t5)">ver todas →</div>'
+    +'</div>'
+    +'<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px">'
+    +'<div style="text-align:center"><div style="font-size:20px;font-weight:700;color:var(--t1);letter-spacing:-0.03em">'+totalAgend+'</div><div style="font-size:8px;color:var(--c5);font-family:var(--m)">Total</div></div>'
+    +'<div style="text-align:center"><div style="font-size:20px;font-weight:700;color:var(--green);letter-spacing:-0.03em">'+totalDone+'</div><div style="font-size:8px;color:var(--c5);font-family:var(--m)">Hechas</div></div>'
+    +'<div style="text-align:center"><div style="font-size:20px;font-weight:700;color:'+(totalPend>10?'var(--red)':totalPend>5?'var(--gold)':'var(--t1)')+';letter-spacing:-0.03em">'+totalPend+'</div><div style="font-size:8px;color:var(--c5);font-family:var(--m)">Pendientes</div></div>'
+    +'<div style="text-align:center"><div style="font-size:20px;font-weight:700;color:'+(tasksRate>=70?'var(--green)':tasksRate>=50?'var(--gold)':'var(--red)')+';letter-spacing:-0.03em">'+tasksRate+'%</div><div style="font-size:8px;color:var(--c5);font-family:var(--m)">Ejecucion</div></div>'
+    +'</div>'
+    +'<div style="height:0.5px;background:var(--c3);margin:10px 0 8px"></div>'
+    +'<div style="display:flex;justify-content:space-between">'
+    +'<span style="font-size:11px;color:var(--t5)">Esta semana: '+twStats.done+'/'+twStats.tot+'</span>'
+    +'<span style="font-size:11px;color:var(--t5)">Alta: '+twStats.altaDone+'/'+twStats.alta+' ej.</span>'
+    +'</div>'
+    +'</div>';
 
-  document.getElementById('body').innerHTML='<div class="pg">'    +'<div class="page-hdr"><div class="page-eyebrow">'+ey+'</div><div class="page-title">Buenos días.</div></div>'    +scoreHTML    +homeAnalytics    +decHTML
+  document.getElementById('body').innerHTML='<div class="pg">'
+    +'<div class="page-hdr"><div class="page-eyebrow">'+ey+'</div><div class="page-title">Buenos días.</div></div>'
+    +scoreHTML
+    +homeAnalytics
+    +decHTML
     +revHTML
     +statsHTML
     +(venc>0?'<div class="venc-alert" onclick="sv(\'k\',document.getElementById(\'nv-k\'));setF(\'venc\')"><div class="va-t">'+venc+' tarea'+(venc>1?'s':'')+' vencida'+(venc>1?'s':'')+'</div><div class="va-a">Ver →</div></div>':'')
@@ -986,7 +1173,8 @@ function rTasks(ey){
       var cats=t.cats&&t.cats.length?t.cats:(t.cat?[t.cat]:[]);
       var meta=cats.join(' · ')+(t.prio?' · '+t.prio:'');
       var dot=t.prio==='alta'?'r':t.prio==='baja'?'g':'gold';
-      return'<div class="task-item'+(t.done?' done-t':'')+'" onclick="togTask('+t.id+')">'
+      var isRem=t.type==='rem';
+      return'<div class="task-item'+(t.done?' done-t':'')+(isRem?' rem-t':'')+'" onclick="togTask('+t.id+')">'
         +'<div class="tck">'+(t.done?chkSVG:'')+'</div>'
         +'<div class="t-body"><div class="t-name">'+t.text+'</div>'+(meta?'<div class="t-meta">'+meta+'</div>':'')+'</div>'
         +'<div class="t-dot '+dot+'" style="cursor:pointer;width:18px;height:18px;border-radius:5px;display:flex;align-items:center;justify-content:center" onclick="event.stopPropagation();delTask('+t.id+')">'
@@ -996,32 +1184,79 @@ function rTasks(ey){
     return'<div class="group-hdr"><div class="gh-l"'+cls+'>'+fmtGroup(date)+'</div><div class="gh-c">'+dn+'/'+byD[date].length+'</div></div>'+rows;
   }).join('');
 
-  // Analytics
+  // ── Analytics ──────────────────────────────────────────────────────────────
   var allT=ST.tasks;
   var totalAgend=allT.length;
   var totalDone=allT.filter(function(t){return t.done;}).length;
   var totalPend=allT.filter(function(t){return!t.done;}).length;
   var tasksRate=totalAgend>0?Math.round(totalDone/totalAgend*100):0;
-  // Por categoría
-  var catCount={HYK:0,BAZ:0,TRD:0,WIP:0,PER:0,Sin:0};
-  var catDone={HYK:0,BAZ:0,TRD:0,WIP:0,PER:0,Sin:0};
+  var CATS_LIST=['HYK','BAZ','TRD','WIP','PER'];
+  var catColors={HYK:'var(--green)',BAZ:'#4a9eff',TRD:'var(--red)',WIP:'var(--gold)',PER:'#a0a0f0'};
+  var catLabels={HYK:'HYK',BAZ:'Bazar',TRD:'Trading',WIP:'WIP',PER:'Personal'};
+  var catCount={HYK:0,BAZ:0,TRD:0,WIP:0,PER:0};
+  var catDone={HYK:0,BAZ:0,TRD:0,WIP:0,PER:0};
+  var catAlta={HYK:0,BAZ:0,TRD:0,WIP:0,PER:0};
   allT.forEach(function(t){
-    var cats=t.cats&&t.cats.length?t.cats:(t.cat?[t.cat]:null);
-    if(!cats||cats.length===0){catCount.Sin++;if(t.done)catDone.Sin++;}
-    else{cats.forEach(function(c){if(catCount[c]!==undefined){catCount[c]++;if(t.done)catDone[c]++;}});}
+    var cats=t.cats&&t.cats.length?t.cats:(t.cat?[t.cat]:[]);
+    cats.forEach(function(c){
+      if(catCount[c]!==undefined){catCount[c]++;if(t.done)catDone[c]++;if(t.prio==='alta'&&!t.done)catAlta[c]++;}
+    });
   });
-  // Semana actual stats
-  var twStats=getTaskWeekStats();
-  var catColors={HYK:'var(--green)',BAZ:'#4a9eff',TRD:'var(--red)',WIP:'var(--gold)',PER:'#a0a0f0',Sin:'var(--c5)'};
-  var catLabels={HYK:'HYK',BAZ:'Bazar',TRD:'Trading',WIP:'WIP',PER:'Personal',Sin:'Sin cat'};
-  var catBars=Object.keys(catCount).filter(function(k){return catCount[k]>0;}).map(function(k){
-    var pct=catCount[k]>0?Math.round(catDone[k]/catCount[k]*100):0;
-    return'<div style="margin-bottom:10px">'      +'<div style="display:flex;justify-content:space-between;margin-bottom:4px">'      +'<span style="font-size:11px;color:var(--t4)">'+catLabels[k]+'</span>'      +'<span style="font-size:11px;color:var(--t5);font-family:var(--m)">'+catDone[k]+'/'+catCount[k]+' · '+pct+'%</span>'      +'</div>'      +'<div style="height:4px;background:var(--c3);border-radius:2px">'      +'<div style="height:100%;width:'+pct+'%;background:'+catColors[k]+';border-radius:2px;transition:width 0.3s"></div>'      +'</div></div>';
+  var catBarsHTML=CATS_LIST.filter(function(k){return catCount[k]>0;}).map(function(k){
+    var pct=Math.round(catDone[k]/catCount[k]*100);
+    return '<div style="margin-bottom:11px">'
+      +'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px">'
+      +'<span style="font-size:12px;font-weight:500;color:var(--t3)">'+catLabels[k]+'</span>'
+      +'<div style="display:flex;gap:8px;align-items:center">'
+      +(catAlta[k]>0?'<span style="font-size:10px;color:var(--red);font-family:var(--m)">'+catAlta[k]+' alta pend.</span>':'')
+      +'<span style="font-size:11px;color:var(--t5);font-family:var(--m)">'+catDone[k]+'/'+catCount[k]+' · '+pct+'%</span>'
+      +'</div></div>'
+      +'<div style="height:5px;background:var(--c3);border-radius:3px">'
+      +'<div style="height:100%;width:'+pct+'%;background:'+catColors[k]+';border-radius:3px"></div>'
+      +'</div></div>';
   }).join('');
+  var noCatData=CATS_LIST.every(function(k){return catCount[k]===0;});
+  var twStats=getTaskWeekStats();
+  var twRate=twStats.tot>0?Math.round(twStats.done/twStats.tot*100):0;
+  var emptyState=totalAgend===0;
 
-  var analyticsHTML='<div style="margin:12px 14px 0;border-radius:16px;padding:14px;background:linear-gradient(160deg,var(--c2),var(--c1));border:0.5px solid var(--c3);position:relative;overflow:hidden">'    +'<div style="position:absolute;top:0;left:0;right:0;height:0.5px;background:linear-gradient(90deg,transparent,var(--c4),transparent)"></div>'    +'<div style="font-size:10px;color:var(--t5);letter-spacing:0.1em;text-transform:uppercase;font-family:var(--m);margin-bottom:12px">Ejecución histórica</div>'    +'<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px">'    +'<div style="text-align:center"><div style="font-size:24px;font-weight:700;color:var(--t1);letter-spacing:-0.03em">'+totalAgend+'</div><div style="font-size:9px;color:var(--c5);font-family:var(--m)">Agendadas</div></div>'    +'<div style="text-align:center"><div style="font-size:24px;font-weight:700;color:var(--green);letter-spacing:-0.03em">'+totalDone+'</div><div style="font-size:9px;color:var(--c5);font-family:var(--m)">Completadas</div></div>'    +'<div style="text-align:center"><div style="font-size:24px;font-weight:700;color:'+(tasksRate>=70?'var(--green)':tasksRate>=50?'var(--gold)':'var(--red)')+';letter-spacing:-0.03em">'+tasksRate+'%</div><div style="font-size:9px;color:var(--c5);font-family:var(--m)">Tasa ejec.</div></div>'    +'</div>'    +'<div style="height:0.5px;background:var(--c3);margin-bottom:12px"></div>'    +'<div style="font-size:9px;color:var(--c5);letter-spacing:0.08em;text-transform:uppercase;font-family:var(--m);margin-bottom:10px">Por categoría</div>'    +catBars    +'<div style="height:0.5px;background:var(--c3);margin:4px 0 12px"></div>'    +'<div style="display:flex;justify-content:space-between;align-items:center">'    +'<span style="font-size:11px;color:var(--t5)">Esta semana</span>'    +'<span style="font-size:13px;font-weight:600;color:var(--t2)">'+twStats.done+'/'+twStats.tot+' tareas</span>'    +'</div>'    +'<div style="display:flex;gap:12px;margin-top:6px">'    +'<span style="font-size:10px;color:var(--c5)">Alta: '+twStats.altaDone+'/'+twStats.alta+' ej.</span>'    +'<span style="font-size:10px;color:'+(totalPend>10?'var(--red)':totalPend>5?'var(--gold)':'var(--green)')+'">'+totalPend+' pendientes total</span>'    +'</div>'    +'</div>';
+  var analyticsHTML='<div style="margin:12px 14px 0;border-radius:16px;padding:16px;background:linear-gradient(160deg,var(--c2),var(--c1));border:0.5px solid var(--c3);position:relative;overflow:hidden">'
+    +'<div style="position:absolute;top:0;left:0;right:0;height:0.5px;background:linear-gradient(90deg,transparent,var(--c4),transparent)"></div>'
+    +'<div style="font-size:10px;color:var(--t5);letter-spacing:0.1em;text-transform:uppercase;font-family:var(--m);margin-bottom:14px">Ejecucion historica</div>'
+    +'<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px">'
+    +'<div style="text-align:center"><div style="font-size:28px;font-weight:800;color:var(--t1);letter-spacing:-0.04em;line-height:1">'+totalAgend+'</div><div style="font-size:9px;color:var(--c5);font-family:var(--m);margin-top:3px">Agendadas</div></div>'
+    +'<div style="text-align:center"><div style="font-size:28px;font-weight:800;color:var(--green);letter-spacing:-0.04em;line-height:1">'+totalDone+'</div><div style="font-size:9px;color:var(--c5);font-family:var(--m);margin-top:3px">Completadas</div></div>'
+    +'<div style="text-align:center"><div style="font-size:28px;font-weight:800;color:'+(emptyState?'var(--c5)':tasksRate>=70?'var(--green)':tasksRate>=50?'var(--gold)':'var(--red)')+';letter-spacing:-0.04em;line-height:1">'+(emptyState?'-':tasksRate+'%')+'</div><div style="font-size:9px;color:var(--c5);font-family:var(--m);margin-top:3px">Tasa ejec.</div></div>'
+    +'</div>'
+    +'<div style="height:0.5px;background:var(--c3);margin-bottom:14px"></div>'
+    +'<div style="font-size:9px;color:var(--c5);letter-spacing:0.08em;text-transform:uppercase;font-family:var(--m);margin-bottom:10px">Por categoria</div>'
+    +(noCatData?'<div style="font-size:12px;color:var(--c5);padding:4px 0 8px">Los datos apareceran cuando empieces a cargar tareas.</div>':catBarsHTML)
+    +'<div style="height:0.5px;background:var(--c3);margin:4px 0 12px"></div>'
+    +'<div style="display:flex;justify-content:space-between;align-items:flex-start">'
+    +'<div><div style="font-size:9px;color:var(--c5);letter-spacing:0.08em;text-transform:uppercase;font-family:var(--m);margin-bottom:6px">Esta semana</div>'
+    +'<div style="font-size:13px;font-weight:600;color:var(--t2)">'+twStats.done+'/'+twStats.tot+' tareas</div>'
+    +'<div style="font-size:11px;color:var(--c5);margin-top:3px">Alta: '+twStats.altaDone+'/'+twStats.alta+' ej.'+(venc.length>0?' · <span style="color:var(--red)">'+venc.length+' vencida'+(venc.length>1?'s':'')+'</span>':'')+'</div>'
+    +'</div>'
+    +'<div style="text-align:right"><div style="font-size:32px;font-weight:800;color:'+(twStats.tot===0?'var(--c5)':twRate>=70?'var(--green)':twRate>=50?'var(--gold)':'var(--red)')+';letter-spacing:-0.04em;line-height:1">'+(twStats.tot===0?'-':twRate+'%')+'</div>'
+    +'<div style="font-size:9px;color:var(--c5);font-family:var(--m);margin-top:3px">esta sem.</div></div>'
+    +'</div>'
+    +'</div>';
 
-  document.getElementById('body').innerHTML='<div class="pg">'    +'<div class="page-hdr"><div class="page-eyebrow">'+ey+'</div><div class="page-title">Tareas</div></div>'    +analyticsHTML    +'<div class="filter-wrap">'    +'<div class="ft'+(tFil==='hoy'?' on':'')+'" onclick="setF(\'hoy\')">Hoy</div>'    +'<div class="ft'+(tFil==='prox'?' on':'')+'" onclick="setF(\'prox\')">Próximas</div>'    +'<div class="ft'+(tFil==='all'?' on':'')+'" onclick="setF(\'all\')">Todas</div>'    +(venc.length>0?'<div class="ft danger'+(tFil==='venc'?' on':'')+'" onclick="setF(\'venc\')">Vencidas ('+venc.length+')</div>':'')    +'<div class="ft'+(tFil==='pend'?' on':'')+'" onclick="setF(\'pend\')">Pendientes</div>'    +'<div class="ft'+(tFil==='alta'?' on':'')+'" onclick="setF(\'alta\')">Alta prioridad</div>'    +'<div class="ft success'+(tFil==='done'?' on':'')+'" onclick="setF(\'done\')">Completadas</div>'    +'</div>'    +(dates.length===0?'<div class="empty">Sin tareas aquí.</div>':groups)    +'</div>';
+  document.getElementById('body').innerHTML='<div class="pg">'
+    +'<div class="page-hdr"><div class="page-eyebrow">'+ey+'</div><div class="page-title">Tareas</div></div>'
+    +analyticsHTML
+    +'<div class="filter-wrap">'
+    +'<div class="ft'+(tFil==='hoy'?' on':'')+'" onclick="setF(\'hoy\')">Hoy</div>'
+    +'<div class="ft'+(tFil==='prox'?' on':'')+'" onclick="setF(\'prox\')">Proximas</div>'
+    +'<div class="ft'+(tFil==='all'?' on':'')+'" onclick="setF(\'all\')">Todas</div>'
+    +(venc.length>0?'<div class="ft danger'+(tFil==='venc'?' on':'')+'" onclick="setF(\'venc\')">Vencidas ('+venc.length+')</div>':'')
+    +'<div class="ft'+(tFil==='pend'?' on':'')+'" onclick="setF(\'pend\')">Pendientes</div>'
+    +'<div class="ft'+(tFil==='alta'?' on':'')+'" onclick="setF(\'alta\')">Alta prioridad</div>'
+    +'<div class="ft success'+(tFil==='done'?' on':'')+'" onclick="setF(\'done\')">Completadas</div>'
+    +'</div>'
+    +(dates.length===0?'<div class="empty">Sin tareas aqui.</div>':groups)
+    +'</div>';
+
 }
 
 // =====================
