@@ -169,6 +169,7 @@ html,body{height:100%;height:-webkit-fill-available;overflow:hidden;position:fix
 .dia-n{font-size:13px;font-weight:600;color:var(--t4);line-height:1}
 .dia-btn.today .dia-n{color:var(--gold)}
 .dia-btn.checked .dia-n{color:var(--green)}
+.dia-btn.disabled{opacity:0.5;cursor:not-allowed;pointer-events:none}
 
 .focus-box{margin:16px 14px 0;padding:14px 16px;border-radius:16px;background:linear-gradient(160deg,var(--c2),var(--c1));border:0.5px solid var(--c3);position:relative;overflow:hidden;}
 .focus-box::before{content:'';position:absolute;top:0;left:0;right:0;height:0.5px;background:linear-gradient(90deg,transparent,var(--c4),transparent)}
@@ -206,6 +207,7 @@ html,body{height:100%;height:-webkit-fill-available;overflow:hidden;position:fix
 .matutino-streak{display:flex;align-items:center;justify-content:space-between;padding:12px;background:rgba(50,215,75,0.05);border-radius:14px;margin-bottom:8px}
 .matutino-streak-val{font-size:28px;font-weight:800;color:var(--green);letter-spacing:-0.03em}
 .matutino-streak-label{font-size:11px;color:var(--t4)}
+.matutino-item.disabled{opacity:0.5;cursor:not-allowed;pointer-events:none}
 
 /* QUieBRE SECTION (20-23hs) */
 .quiebre-card{margin:16px 14px 0;border-radius:20px;padding:18px;background:linear-gradient(160deg,#1a1208,#111113);border:0.5px solid rgba(191,156,107,0.3);position:relative;overflow:hidden;}
@@ -220,15 +222,22 @@ html,body{height:100%;height:-webkit-fill-available;overflow:hidden;position:fix
 .q-status-sub{font-size:11px;color:var(--t4)}
 .vicio-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:16px}
 .vicio-item{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--c1);border:0.5px solid var(--c3);border-radius:12px;cursor:pointer;-webkit-user-select:none;}
-.vicio-item.checked{background:#1a0f0f;border-color:rgba(255,69,58,0.4)}
+.vicio-item.checked{background:#0a1a0f;border-color:rgba(50,215,75,0.4)}
 .vicio-emoji{font-size:18px}
 .vicio-name{flex:1;font-size:13px;font-weight:500;color:var(--t3)}
 .vicio-check{width:20px;height:20px;border-radius:6px;border:1.5px solid var(--c4);background:transparent}
-.vicio-item.checked .vicio-check{background:var(--red);border-color:var(--red);position:relative}
+.vicio-item.checked .vicio-check{background:var(--green);border-color:var(--green);position:relative}
 .vicio-item.checked .vicio-check::after{content:'✓';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:white;font-size:11px;font-weight:bold}
 .q-streak{display:flex;align-items:center;justify-content:space-between;padding:12px;background:rgba(191,156,107,0.05);border-radius:14px;margin-bottom:8px}
 .streak-val{font-size:28px;font-weight:800;color:var(--gold);letter-spacing:-0.03em}
 .streak-label{font-size:11px;color:var(--t4)}
+.vicio-item.disabled{opacity:0.5;cursor:not-allowed;pointer-events:none}
+
+/* WEEK TABS */
+.week-tabs{display:flex;gap:6px;padding:14px 14px 0}
+.wt{flex:1;text-align:center;padding:8px 4px;border-radius:10px;font-size:12px;font-weight:500;color:var(--t5);background:var(--c1);border:0.5px solid var(--c3);cursor:pointer;-webkit-user-select:none;}
+.wt.on{background:linear-gradient(160deg,var(--c3),var(--c2));color:var(--t1);border-color:var(--c5);box-shadow:inset 0 0.5px 0 rgba(255,255,255,0.06);}
+.wt.lk{opacity:0.3;pointer-events:none}
 
 /* LIFE */
 .life-wrap{margin:16px;border-radius:20px;padding:16px;background:linear-gradient(160deg,var(--c2),var(--c1));border:0.5px solid var(--c3);position:relative;overflow:hidden;}
@@ -629,6 +638,11 @@ function addWeeks(wk,n){
   d.setDate(d.getDate()+n*7);
   return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
 }
+function addWeeksToDate(date,weeks){
+  var d=new Date(date);
+  d.setDate(d.getDate()+weeks*7);
+  return d;
+}
 function fmtM(v){
   if(!v&&v!==0)return'--';var n=parseFloat(v);if(isNaN(n))return v||'--';
   if(n>=1000000)return(n/1000000).toFixed(1)+'M';
@@ -658,26 +672,18 @@ function fmtGroup(k){
   return DSH[dt.getDay()].toUpperCase()+' '+p[2]+' '+mn[+p[1]-1];
 }
 
-// ESTRUCTURA DE DATOS - Mantenemos WKS para compatibilidad con score
+// Estructura de semanas históricas (solo visualización)
+var SEMANAS_HISTORICAS=[
+  {id:0, nombre:'Semana 0', fechaInicio:new Date(2026,3,20)}, // 20/4/2026
+  {id:1, nombre:'Semana 1', fechaInicio:addWeeksToDate(new Date(2026,3,20),1)},
+  {id:2, nombre:'Semana 2', fechaInicio:addWeeksToDate(new Date(2026,3,20),2)},
+  {id:3, nombre:'Semana 3', fechaInicio:addWeeksToDate(new Date(2026,3,20),3)}
+];
+
 var WKS=[
   {id:0,lb:'Sem 0',focus:'Instalar los 3 anclajes base',u:true,anc:[
     {id:'trabajo',nm:'Bloque de trabajo productivo',tg:'Negocio'},
     {id:'deporte',nm:'Deporte',tg:'Fisico'}
-  ]},
-  {id:1,lb:'Sem 1',focus:'Movimiento + reducir cantineo',u:false,anc:[
-    {id:'b1',nm:'Entrenamiento minimo',tg:'Fisico'},
-    {id:'b2',nm:'Sin sustancias Lun-Mie',tg:'Habito'},
-    {id:'b3',nm:'Decision diaria negocio 1',tg:'Negocio'}
-  ]},
-  {id:2,lb:'Sem 2',focus:'Adelantar el inicio del dia',u:false,anc:[
-    {id:'c1',nm:'Levantarse a las 6:30am',tg:'Inicio'},
-    {id:'c2',nm:'Bloque profundo 6:30-9am',tg:'Negocio'},
-    {id:'c3',nm:'Revision semanal - domingo',tg:'Mental'}
-  ]},
-  {id:3,lb:'Sem 3',focus:'Consolidar y medir',u:false,anc:[
-    {id:'d1',nm:'Protocolo de sueno completo',tg:'Habito'},
-    {id:'d2',nm:'Metricas negocio 1',tg:'Negocio'},
-    {id:'d3',nm:'Accion concreta negocio 2',tg:'Negocio'}
   ]}
 ];
 
@@ -739,22 +745,15 @@ var save=function(){try{localStorage.setItem('ag_v5',JSON.stringify(ST));}catch(
 function getHabitoKey(habitoId,date){return 'hd_'+habitoId+'_'+date;}
 function isHabitoChecked(habitoId,date){return ST.hab[getHabitoKey(habitoId,date)]===true;}
 function toggleHabito(habitoId){var d=getTK();var k=getHabitoKey(habitoId,d);ST.hab[k]=!ST.hab[k];save();ra();}
-function getHabitoWeekCount(habitoId){
-  var d=new Date(),dow=d.getDay()===0?6:d.getDay()-1,cnt=0;
-  for(var i=0;i<=dow;i++){var dd=new Date(d);dd.setDate(d.getDate()-dow+i);var k=dd.getFullYear()+'-'+pad(dd.getMonth()+1)+'-'+pad(dd.getDate());if(isHabitoChecked(habitoId,k))cnt++;}
-  return cnt;
-}
-function getHabitoStreak(habitoId){
-  if(Object.keys(ST.hab).length===0)return 0;
-  var today=new Date();var streak=0;var maxDays=365;
-  for(var i=0;i<maxDays;i++){
-    var checkDate=new Date(today);
-    checkDate.setDate(today.getDate()-i);
-    var ds=checkDate.getFullYear()+'-'+pad(checkDate.getMonth()+1)+'-'+pad(checkDate.getDate());
-    if(!isHabitoChecked(habitoId,ds))break;
-    streak++;
+function getHabitoWeekCount(habitoId,weekStartDate){
+  var cnt=0;
+  for(var i=0;i<7;i++){
+    var dd=new Date(weekStartDate);
+    dd.setDate(weekStartDate.getDate()+i);
+    var ds=dd.getFullYear()+'-'+pad(dd.getMonth()+1)+'-'+pad(dd.getDate());
+    if(isHabitoChecked(habitoId,ds))cnt++;
   }
-  return streak;
+  return cnt;
 }
 
 // Habitos Matutinos
@@ -762,59 +761,56 @@ var HABITOS_MATUTINOS=['despertar','ducha','agua','skincare','desayuno','paseo',
 var HABITOS_MATUTINOS_NOMBRES=['Despertar 7AM','Ducha','Vaso agua','Skincare','Desayuno','Paseo Okley','Meditacion'];
 var HABITOS_MATUTINOS_EMOJIS=['🛏️','🚿','💧','✨','🍳','🐕','🧘'];
 function getMatutinoKey(date,habito){return 'm_'+date+'_'+habito;}
-function isMatutinoToday(habito){var k=getMatutinoKey(getTK(),habito);return ST.matutino[k]===true;}
+function isMatutinoChecked(date,habito){return ST.matutino[getMatutinoKey(date,habito)]===true;}
 function toggleMatutino(habito){var d=getTK();var k=getMatutinoKey(d,habito);ST.matutino[k]=!ST.matutino[k];save();ra();}
 function isMatutinoCompleto(date){
   for(var i=0;i<HABITOS_MATUTINOS.length;i++){if(!ST.matutino[getMatutinoKey(date,HABITOS_MATUTINOS[i])])return false;}
   return true;
 }
-function isTodayMatutinoCompleto(){return isMatutinoCompleto(getTK());}
-function getMatutinoStreak(){
-  if(Object.keys(ST.matutino).length===0)return 0;
-  var today=new Date();var streak=0;var maxDays=365;
-  for(var i=0;i<maxDays;i++){
-    var checkDate=new Date(today);
-    checkDate.setDate(today.getDate()-i);
-    var ds=checkDate.getFullYear()+'-'+pad(checkDate.getMonth()+1)+'-'+pad(checkDate.getDate());
-    if(!isMatutinoCompleto(ds))break;
-    streak++;
+function getMatutinoWeekCount(weekStartDate){
+  var cnt=0;
+  for(var i=0;i<7;i++){
+    var dd=new Date(weekStartDate);
+    dd.setDate(weekStartDate.getDate()+i);
+    var ds=dd.getFullYear()+'-'+pad(dd.getMonth()+1)+'-'+pad(dd.getDate());
+    if(isMatutinoCompleto(ds))cnt++;
   }
-  return streak;
-}
-function getMatutinoWeekCount(){
-  var d=new Date(),dow=d.getDay()===0?6:d.getDay()-1,cnt=0;
-  for(var i=0;i<=dow;i++){var dd=new Date(d);dd.setDate(d.getDate()-dow+i);var k=dd.getFullYear()+'-'+pad(dd.getMonth()+1)+'-'+pad(dd.getDate());if(isMatutinoCompleto(k))cnt++;}
   return cnt;
 }
 
-// Quiebre functions - NoFap
-var VICIOS=['cigarro','alcohol','marihuana','nofap','comida','dormir'];
-var VICIOS_NOMBRES=['Cigarrillo','Alcohol','Marihuana','NoFap (recaída)','Comida limpia','Dormir antes 23:30'];
+// Quiebre functions - Check = día limpio (NO consumí)
 function getVicioKey(date,vicio){return 'v_'+date+'_'+vicio;}
-function isVicioToday(vicio){var k=getVicioKey(getTK(),vicio);return ST.quiebre[k]===true;}
+function isVicioChecked(date,vicio){return ST.quiebre[getVicioKey(date,vicio)]===true;}
 function toggleVicio(vicio){var d=getTK();var k=getVicioKey(d,vicio);ST.quiebre[k]=!ST.quiebre[k];save();ra();}
-function isDiaManchado(date){
-  for(var i=0;i<VICIOS.length;i++){if(ST.quiebre[getVicioKey(date,VICIOS[i])])return true;}
-  return false;
+function isDiaLimpio(date){
+  for(var i=0;i<VICIOS.length;i++){if(!ST.quiebre[getVicioKey(date,VICIOS[i])])return false;}
+  return true;
 }
-function isTodayManchado(){return isDiaManchado(getTK());}
-function getCleanStreak(){
+function isTodayLimpio(){return isDiaLimpio(getTK());}
+function getLimpioStreak(){
   if(Object.keys(ST.quiebre).length===0)return 0;
   var today=new Date();var streak=0;var maxDays=365;
   for(var i=0;i<maxDays;i++){
     var checkDate=new Date(today);
     checkDate.setDate(today.getDate()-i);
     var ds=checkDate.getFullYear()+'-'+pad(checkDate.getMonth()+1)+'-'+pad(checkDate.getDate());
-    if(isDiaManchado(ds))break;
+    if(!isDiaLimpio(ds))break;
     streak++;
   }
   return streak;
 }
-function getWeekCleanCount(){
-  var d=new Date(),dow=d.getDay()===0?6:d.getDay()-1,cnt=0;
-  for(var i=0;i<=dow;i++){var dd=new Date(d);dd.setDate(d.getDate()-dow+i);var k=dd.getFullYear()+'-'+pad(dd.getMonth()+1)+'-'+pad(dd.getDate());if(!isDiaManchado(k))cnt++;}
+function getWeekLimpioCount(weekStartDate){
+  var cnt=0;
+  for(var i=0;i<7;i++){
+    var dd=new Date(weekStartDate);
+    dd.setDate(weekStartDate.getDate()+i);
+    var ds=dd.getFullYear()+'-'+pad(dd.getMonth()+1)+'-'+pad(dd.getDate());
+    if(isDiaLimpio(ds))cnt++;
+  }
   return cnt;
 }
+var VICIOS=['cigarro','alcohol','marihuana','nofap','comida','dormir'];
+var VICIOS_NOMBRES=['Cigarrillo','Alcohol','Marihuana','NoFap','Comida limpia','Dormir antes 23:30'];
 
 // Finanzas Personales con gastos diarios
 var MESES_NOMBRES=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
@@ -947,20 +943,15 @@ function getTaskWeekStats(){
 
 function calcScore(){
   var habTot=0,habDn=0;
-  // Solo contamos los hábitos de la Semana 0 (Bloque trabajo y Deporte)
-  var w0=WKS[0];
-  for(var i=0;i<w0.anc.length;i++){
-    var a=w0.anc[i];
+  var currentWeekStart=getMondayOfCurrentWeek();
+  for(var i=0;i<2;i++){
+    var habId=i===0?'trabajo':'deporte';
     for(var d=0;d<7;d++){
       habTot++;
-      var date=new Date();
-      var dow=date.getDay()===0?6:date.getDay()-1;
-      var monday=new Date(date);
-      monday.setDate(date.getDate()-dow);
-      var dd=new Date(monday);
-      dd.setDate(monday.getDate()+d);
+      var dd=new Date(currentWeekStart);
+      dd.setDate(currentWeekStart.getDate()+d);
       var ds=dd.getFullYear()+'-'+pad(dd.getMonth()+1)+'-'+pad(dd.getDate());
-      if(isHabitoChecked(a.id,ds))habDn++;
+      if(isHabitoChecked(habId,ds))habDn++;
     }
   }
   var habPct=habTot>0?habDn/habTot:0;
@@ -987,11 +978,25 @@ function scoreTag(s){
   return'SEMANA PERDIDA';
 }
 
-function uChk(){}
+function getMondayOfCurrentWeek(){
+  var d=new Date();
+  var dow=d.getDay()===0?6:d.getDay()-1;
+  var monday=new Date(d);
+  monday.setDate(d.getDate()-dow);
+  return monday;
+}
+
+function getMondayOfWeek(weekIndex){
+  var baseMonday=new Date(2026,3,20); // 20/4/2026
+  var monday=new Date(baseMonday);
+  monday.setDate(baseMonday.getDate()+(weekIndex*7));
+  return monday;
+}
 
 var cV='d',sCats=[],sPrio='media',sDue='',tFil='hoy';
 var cMetBiz='HYK',cMetWk=getWeekKey();
 var cFinanzasMonth=getCurrentMonthKey();
+var cSemanaHistorial=0; // 0=Semana actual, 1=Semana 1, 2=Semana 2, 3=Semana 3
 var decCat='HYK';
 var revStep=0,revAnswers={};
 var editingTaskId=null;
@@ -1205,6 +1210,10 @@ function closeEditModal(e){if(e&&e.target!==document.getElementById('edit-overla
 function togTask(id){for(var i=0;i<ST.tasks.length;i++){if(ST.tasks[i].id===id){ST.tasks[i].done=!ST.tasks[i].done;break;}}save();ra();}
 function delTask(id){ST.tasks=ST.tasks.filter(function(t){return t.id!==id;});save();ra();}
 function setF(f){tFil=f;ra();}
+function setSemanaHistorial(semana){
+  cSemanaHistorial=semana;
+  ra();
+}
 function finanzasNav(n){cFinanzasMonth=addMonths(cFinanzasMonth,n);ra();}
 
 function openDecModal(){
@@ -1575,24 +1584,59 @@ function rTasks(ey){
 function rHab(){
   var d=new Date();
   var ey=DAYS_ES[d.getDay()]+' '+d.getDate()+' de '+MONTHS[d.getMonth()];
-  var dow=d.getDay()===0?6:d.getDay()-1;
-  var monday=new Date(d);
-  monday.setDate(d.getDate()-dow);
   
-  // Focus semanal (de la Semana 0)
+  // Determinar qué semana mostrar
+  var isCurrentWeek=(cSemanaHistorial===0);
+  var weekStartDate;
+  if(cSemanaHistorial===0){
+    weekStartDate=getMondayOfCurrentWeek();
+  } else {
+    weekStartDate=getMondayOfWeek(cSemanaHistorial);
+  }
+  
+  var todayDate=new Date();
+  var todayStr=todayDate.getFullYear()+'-'+pad(todayDate.getMonth()+1)+'-'+pad(todayDate.getDate());
+  
+  // Tabs de semanas
+  var tabsHTML='<div class="week-tabs">';
+  for(var i=0;i<=3;i++){
+    var isActive=(cSemanaHistorial===i);
+    var isDisabled=(i>0 && !isCurrentWeek); // Semanas históricas solo lectura
+    tabsHTML+='<div class="wt'+(isActive?' on':'')+(isDisabled?' lk':'')+'" onclick="'+(i===0||!isDisabled?'setSemanaHistorial('+i+')':'')+'">'+(i===0?'Actual':'Sem '+i)+'</div>';
+  }
+  tabsHTML+='</div>';
+  
+  // Focus (solo para semana actual)
   var focusText=WKS[0].focus;
+  if(cSemanaHistorial!==0){
+    focusText='HISTORIAL - Solo consulta';
+  }
   
   // Habitos Matutinos
+  var matutinoCompleto=0;
+  for(var i=0;i<7;i++){
+    var dd=new Date(weekStartDate);
+    dd.setDate(weekStartDate.getDate()+i);
+    var ds=dd.getFullYear()+'-'+pad(dd.getMonth()+1)+'-'+pad(dd.getDate());
+    if(isMatutinoCompleto(ds))matutinoCompleto++;
+  }
+  var matutinoBadgeText=(cSemanaHistorial===0?(isTodayMatutinoCompleto()?'COMPLETO':'PENDIENTE'):'HISTORIAL');
+  var matutinoGridHTML='';
+  for(var h=0;h<HABITOS_MATUTINOS.length;h++){
+    var hab=HABITOS_MATUTINOS[h];
+    var isChecked=(cSemanaHistorial===0)?isMatutinoChecked(getTK(),hab):false;
+    var disabledClass=(cSemanaHistorial!==0)?' disabled':'';
+    matutinoGridHTML+='<div class="matutino-item'+(isChecked?' checked':'')+disabledClass+'" onclick="'+(cSemanaHistorial===0?'toggleMatutino(\''+hab+'\')':'')+'">'
+      +'<div class="matutino-emoji">'+HABITOS_MATUTINOS_EMOJIS[h]+'</div>'
+      +'<div class="matutino-name">'+HABITOS_MATUTINOS_NOMBRES[h]+'</div>'
+      +'<div class="matutino-check"></div></div>';
+  }
+  
   var matutinoHTML='<div class="matutino-card">'
-    +'<div class="matutino-header"><div class="matutino-title">🌅 Habitos Matutinos</div><div class="matutino-badge">'+(isTodayMatutinoCompleto()?'COMPLETO':'PENDIENTE')+'</div></div>'
-    +'<div class="matutino-grid">'
-    +HABITOS_MATUTINOS.map(function(h,i){var checked=isMatutinoToday(h);return'<div class="matutino-item'+(checked?' checked':'')+'" onclick="toggleMatutino(\''+h+'\')">'
-      +'<div class="matutino-emoji">'+HABITOS_MATUTINOS_EMOJIS[i]+'</div>'
-      +'<div class="matutino-name">'+HABITOS_MATUTINOS_NOMBRES[i]+'</div>'
-      +'<div class="matutino-check"></div></div>';}).join('')
-    +'</div>'
-    +'<div class="matutino-streak"><div><div class="matutino-streak-label">Racha completa</div><div class="matutino-streak-val">'+getMatutinoStreak()+'</div></div>'
-    +'<div><div class="matutino-streak-label">Esta semana</div><div class="matutino-streak-val" style="font-size:22px">'+getMatutinoWeekCount()+'/7</div></div></div>'
+    +'<div class="matutino-header"><div class="matutino-title">🌅 Habitos Matutinos</div><div class="matutino-badge">'+matutinoBadgeText+'</div></div>'
+    +'<div class="matutino-grid">'+matutinoGridHTML+'</div>'
+    +'<div class="matutino-streak"><div><div class="matutino-streak-label">Racha completa</div><div class="matutino-streak-val">'+(cSemanaHistorial===0?getMatutinoStreak():'--')+'</div></div>'
+    +'<div><div class="matutino-streak-label">Esta semana</div><div class="matutino-streak-val" style="font-size:22px">'+matutinoCompleto+'/7</div></div></div>'
     +'</div>';
   
   // Cards de habitos diarios (Bloque trabajo y Deporte)
@@ -1604,63 +1648,81 @@ function rHab(){
   var cardsHTML='';
   for(var idx=0;idx<habitosDiarios.length;idx++){
     var hid=habitosDiarios[idx];
-    var daysHTML='';
+    var diasHTML='';
+    var completados=0;
     for(var di=0;di<7;di++){
-      var dd=new Date(monday);
-      dd.setDate(monday.getDate()+di);
+      var dd=new Date(weekStartDate);
+      dd.setDate(weekStartDate.getDate()+di);
       var ds=dd.getFullYear()+'-'+pad(dd.getMonth()+1)+'-'+pad(dd.getDate());
-      var isT=di===dow;
+      var isT=(ds===todayStr && cSemanaHistorial===0);
       var isC=isHabitoChecked(hid,ds);
-      daysHTML+='<div class="dia-btn'+(isT?' today':'')+(isC?' checked':'')+'" onclick="toggleHabito(\''+hid+'\')">'
+      var disabledClass=(cSemanaHistorial!==0)?' disabled':'';
+      if(isC)completados++;
+      diasHTML+='<div class="dia-btn'+(isT?' today':'')+(isC?' checked':'')+disabledClass+'" onclick="'+(cSemanaHistorial===0?'toggleHabito(\''+hid+'\')':'')+'">'
         +'<div class="dia-d">'+DS[di]+'</div><div class="dia-n">'+dd.getDate()+'</div></div>';
     }
     cardsHTML+='<div class="habito-card">'
       +'<div class="habito-header"><div class="habito-nombre">'+habitosEmojis[idx]+' '+habitosNombres[idx]+'</div><div class="habito-badge">'+habitosTgs[idx]+'</div></div>'
-      +'<div class="dias-row">'+daysHTML+'</div>'
+      +'<div class="dias-row">'+diasHTML+'</div>'
       +'</div>';
   }
   
-  // KPI de habitos diarios
-  var trabajoCompletado=getHabitoWeekCount('trabajo');
-  var deporteCompletado=getHabitoWeekCount('deporte');
+  // KPI de habitos diarios (solo para semana actual)
+  var trabajoCompletado=(cSemanaHistorial===0)?getHabitoWeekCount('trabajo',weekStartDate):0;
+  var deporteCompletado=(cSemanaHistorial===0)?getHabitoWeekCount('deporte',weekStartDate):0;
   var habKPIHTML='<div class="hab-kpi">'
-    +'<div class="hkpi"><div class="hkpi-val">'+trabajoCompletado+'/7</div><div class="hkpi-lbl">Trabajo</div></div>'
-    +'<div class="hkpi"><div class="hkpi-val">'+deporteCompletado+'/7</div><div class="hkpi-lbl">Deporte</div></div>'
-    +'<div class="hkpi"><div class="hkpi-val">'+(trabajoCompletado+deporteCompletado)+'/14</div><div class="hkpi-lbl">Total</div></div>'
+    +'<div class="hkpi"><div class="hkpi-val">'+(cSemanaHistorial===0?trabajoCompletado:matutinoCompleto)+'/7</div><div class="hkpi-lbl">'+(cSemanaHistorial===0?'Trabajo':'Matutinos')+'</div></div>'
+    +'<div class="hkpi"><div class="hkpi-val">'+(cSemanaHistorial===0?deporteCompletado:0)+'/7</div><div class="hkpi-lbl">Deporte</div></div>'
+    +'<div class="hkpi"><div class="hkpi-val">'+(cSemanaHistorial===0?(trabajoCompletado+deporteCompletado):matutinoCompleto)+'/14</div><div class="hkpi-lbl">Total</div></div>'
     +'</div>';
   
   // El Quiebre
+  var quiebreLimpios=0;
+  for(var i=0;i<7;i++){
+    var dd=new Date(weekStartDate);
+    dd.setDate(weekStartDate.getDate()+i);
+    var ds=dd.getFullYear()+'-'+pad(dd.getMonth()+1)+'-'+pad(dd.getDate());
+    if(isDiaLimpio(ds))quiebreLimpios++;
+  }
+  var quiebreBadgeText=(cSemanaHistorial===0?(isTodayLimpio()?'LIMPIO':'MANCHADO'):'HISTORIAL');
+  var vicioGridHTML='';
+  for(var v=0;v<VICIOS.length;v++){
+    var vic=VICIOS[v];
+    var isChecked=(cSemanaHistorial===0)?isVicioChecked(getTK(),vic):false;
+    var disabledClass=(cSemanaHistorial!==0)?' disabled':'';
+    vicioGridHTML+='<div class="vicio-item'+(isChecked?' checked':'')+disabledClass+'" onclick="'+(cSemanaHistorial===0?'toggleVicio(\''+vic+'\')':'')+'">'
+      +'<div class="vicio-emoji">'+['🚬','🍺','🌿','🔥','🍔','😴'][v]+'</div>'
+      +'<div class="vicio-name">'+VICIOS_NOMBRES[v]+'</div>'
+      +'<div class="vicio-check"></div></div>';
+  }
+  
   var quiebreEnHab='<div class="quiebre-card">'
-    +'<div class="q-header"><div class="q-title">⛔ 20-23hs — El Quiebre</div><div class="q-badge">'+(isTodayManchado()?'MANCHADO':'LIMPIO')+'</div></div>'
-    +'<div class="vicio-grid">'
-    +VICIOS.map(function(v,i){var checked=isVicioToday(v);return'<div class="vicio-item'+(checked?' checked':'')+'" onclick="toggleVicio(\''+v+'\')">'
-      +'<div class="vicio-emoji">'+['🚬','🍺','🌿','🔥','🍔','😴'][i]+'</div>'
-      +'<div class="vicio-name">'+VICIOS_NOMBRES[i]+'</div>'
-      +'<div class="vicio-check"></div></div>';}).join('')
-    +'</div>'
-    +'<div class="q-streak"><div><div class="streak-label">Racha limpia</div><div class="streak-val">'+getCleanStreak()+'</div></div>'
-    +'<div><div class="streak-label">Esta semana</div><div class="streak-val" style="font-size:22px">'+getWeekCleanCount()+'/7</div></div></div>'
+    +'<div class="q-header"><div class="q-title">⛔ 20-23hs — El Quiebre</div><div class="q-badge">'+quiebreBadgeText+'</div></div>'
+    +'<div class="vicio-grid">'+vicioGridHTML+'</div>'
+    +'<div class="q-streak"><div><div class="streak-label">Racha limpia</div><div class="streak-val">'+(cSemanaHistorial===0?getLimpioStreak():'--')+'</div></div>'
+    +'<div><div class="streak-label">Esta semana</div><div class="streak-val" style="font-size:22px">'+quiebreLimpios+'/7</div></div></div>'
     +'</div>';
   
-  // Notas
-  var notesHTML='<div class="note-wrap">'
-    +DS.map(function(dl,i){
-      var dd=new Date(monday);
-      dd.setDate(monday.getDate()+i);
-      var isT=i===dow;
-      var noteKey='note_'+dd.getFullYear()+'-'+pad(dd.getMonth()+1)+'-'+pad(dd.getDate());
-      var noteValue=ST[noteKey]||'';
-      return'<div style="margin-bottom:10px">'
-        +'<div class="note-lbl" style="'+(isT?'color:var(--gold)':'')+'">'+dl+' '+dd.getDate()+'</div>'
-        +'<textarea class="note-inp" rows="2" placeholder="Una cosa que avance..." onchange="saveNote(\''+noteKey+'\',this.value)">'+noteValue+'</textarea>'
-        +'</div>';
-    }).join('')
-    +'</div>';
+  // Notas (solo para semana actual)
+  var notesHTML='<div class="note-wrap">';
+  for(var i=0;i<7;i++){
+    var dd=new Date(weekStartDate);
+    dd.setDate(weekStartDate.getDate()+i);
+    var isT=(dd.toDateString()===todayDate.toDateString() && cSemanaHistorial===0);
+    var noteKey='note_'+dd.getFullYear()+'-'+pad(dd.getMonth()+1)+'-'+pad(dd.getDate());
+    var noteValue=ST[noteKey]||'';
+    notesHTML+='<div style="margin-bottom:10px">'
+      +'<div class="note-lbl" style="'+(isT?'color:var(--gold)':'')+'">'+DS[i]+' '+dd.getDate()+'</div>'
+      +'<textarea class="note-inp" rows="2" placeholder="Una cosa que avance..." '+(cSemanaHistorial===0?'onchange="saveNote(\''+noteKey+'\',this.value)"':'readonly')+'>'+noteValue+'</textarea>'
+      +'</div>';
+  }
+  notesHTML+='</div>';
   
   function saveNote(key,val){ST[key]=val;save();}
   
   document.getElementById('body').innerHTML='<div class="pg">'
     +'<div class="page-hdr"><div class="page-eyebrow">'+ey+'</div><div class="page-title">Habitos</div></div>'
+    +tabsHTML
     +'<div class="focus-box"><div class="focus-txt">"'+focusText+'"</div></div>'
     +habKPIHTML
     +matutinoHTML
@@ -1917,17 +1979,17 @@ function rPlan(){
   }
 
   var quiebreHistory='';
-  var lastManchados=Object.keys(ST.quiebre).filter(function(k){return k.startsWith('v_');}).sort().reverse().slice(0,10);
-  if(lastManchados.length>0){
+  var lastLimpios=Object.keys(ST.quiebre).filter(function(k){return k.startsWith('v_');}).sort().reverse().slice(0,10);
+  if(lastLimpios.length>0){
     var uniqueDates=[];
-    lastManchados.forEach(function(k){var dk=k.split('_')[1];if(uniqueDates.indexOf(dk)===-1)uniqueDates.push(dk);});
+    lastLimpios.forEach(function(k){var dk=k.split('_')[1];if(uniqueDates.indexOf(dk)===-1)uniqueDates.push(dk);});
     uniqueDates=uniqueDates.slice(0,7);
-    quiebreHistory='<div class="sec-row" style="padding-top:20px"><div class="sec-t">Dias manchados recientes</div></div>'
+    quiebreHistory='<div class="sec-row" style="padding-top:20px"><div class="sec-t">Dias recientes</div></div>'
       +'<div style="margin:0 14px;border-radius:16px;background:var(--c1);border:0.5px solid var(--c3);overflow:hidden">'
       +uniqueDates.map(function(dk){
         var p=dk.split('-');var mn=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
-        var isM=isDiaManchado(dk);
-        return'<div class="dec-hist-row"><div class="dhr-date">'+p[2]+' '+mn[+p[1]-1]+'</div><div class="dhr-body"><div class="dhr-text">'+(isM?'Dia manchado':'Dia limpio')+'</div><span class="dhr-status '+(isM?'manchado':'ej')+'">'+(isM?'MANCHADO':'LIMPIO')+'</span></div></div>';
+        var isL=isDiaLimpio(dk);
+        return'<div class="dec-hist-row"><div class="dhr-date">'+p[2]+' '+mn[+p[1]-1]+'</div><div class="dhr-body"><div class="dhr-text">'+(isL?'Dia limpio':'Dia manchado')+'</div><span class="dhr-status '+(isL?'ej':'manchado')+'">'+(isL?'LIMPIO':'MANCHADO')+'</span></div></div>';
       }).join('')+'</div>';
   }
 
