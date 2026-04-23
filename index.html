@@ -152,30 +152,27 @@ html,body{height:100%;height:-webkit-fill-available;overflow:hidden;position:fix
 /* EMPTY */
 .empty{text-align:center;padding:52px 16px;color:var(--t5);font-size:14px;line-height:2.2}
 
-/* HABITOS */
+/* HABITOS - DIARIOS FIJOS */
+.habitos-diarios{margin:16px 14px 0}
+.habito-card{padding:16px 18px;border-bottom:0.5px solid var(--c2)}
+.habito-card:last-child{border:none}
+.habito-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.habito-nombre{font-size:15px;font-weight:500;color:var(--t1);flex:1}
+.habito-badge{font-size:11px;font-weight:500;color:var(--t4);padding:3px 10px;background:var(--c2);border:0.5px solid var(--c4);border-radius:6px}
+.dias-row{display:flex;gap:5px}
+.dia-btn{width:38px;height:38px;border-radius:9px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;background:var(--c1);border:0.5px solid var(--c3);cursor:pointer}
+.dia-btn.today{border-color:rgba(191,156,107,0.4);background:#1c1a14}
+.dia-btn.checked{background:#0f2518;border-color:rgba(50,215,75,0.35)}
+.dia-d{font-size:9px;font-weight:500;color:var(--t5)}
+.dia-btn.today .dia-d{color:rgba(191,156,107,0.9)}
+.dia-btn.checked .dia-d{color:rgba(50,215,75,0.8)}
+.dia-n{font-size:13px;font-weight:600;color:var(--t4);line-height:1}
+.dia-btn.today .dia-n{color:var(--gold)}
+.dia-btn.checked .dia-n{color:var(--green)}
+
 .focus-box{margin:16px 14px 0;padding:14px 16px;border-radius:16px;background:linear-gradient(160deg,var(--c2),var(--c1));border:0.5px solid var(--c3);position:relative;overflow:hidden;}
 .focus-box::before{content:'';position:absolute;top:0;left:0;right:0;height:0.5px;background:linear-gradient(90deg,transparent,var(--c4),transparent)}
 .focus-txt{font-size:14px;font-weight:400;color:var(--t3);font-style:italic;line-height:1.55}
-.week-tabs{display:flex;gap:6px;padding:14px 14px 0}
-.wt{flex:1;text-align:center;padding:8px 4px;border-radius:10px;font-size:12px;font-weight:500;color:var(--t5);background:var(--c1);border:0.5px solid var(--c3);cursor:pointer;-webkit-user-select:none;}
-.wt.on{background:linear-gradient(160deg,var(--c3),var(--c2));color:var(--t1);border-color:var(--c5);box-shadow:inset 0 0.5px 0 rgba(255,255,255,0.06);}
-.wt.lk{opacity:0.3;pointer-events:none}
-.hab-card{padding:16px 18px;border-bottom:0.5px solid var(--c2)}
-.hab-card:last-child{border:none}
-.hab-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
-.hab-name{font-size:15px;font-weight:500;color:var(--t1);flex:1;padding-right:10px;line-height:1.35}
-.hab-badge{font-size:11px;font-weight:500;color:var(--t4);padding:3px 10px;background:var(--c2);border:0.5px solid var(--c4);border-radius:6px;letter-spacing:0.03em;flex-shrink:0;}
-.days-row{display:flex;gap:5px}
-.day{width:34px;height:36px;border-radius:9px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;background:var(--c1);border:0.5px solid var(--c3);cursor:pointer;-webkit-user-select:none;}
-.day.today{border-color:rgba(191,156,107,0.4);background:#1c1a14}
-.day.checked{background:#0f2518;border-color:rgba(50,215,75,0.35)}
-.day:active{opacity:0.6}
-.day-d{font-size:9px;font-weight:500;color:var(--t5);letter-spacing:0.04em}
-.day.today .day-d{color:rgba(191,156,107,0.9)}
-.day.checked .day-d{color:rgba(50,215,75,0.8)}
-.day-n{font-size:13px;font-weight:600;color:var(--t4);line-height:1}
-.day.today .day-n{color:var(--gold)}
-.day.checked .day-n{color:var(--green)}
 
 /* NOTE AREA */
 .note-wrap{padding:0 14px;margin-top:16px}
@@ -358,7 +355,7 @@ html,body{height:100%;height:-webkit-fill-available;overflow:hidden;position:fix
 .trd-st.on.pausado{background:#201a10;color:var(--gold);border-color:#302510}
 .trd-st.on.perdida{background:#2a1010;color:var(--red);border-color:#3a1515}
 
-/* FINANZAS PERSONALES */
+/* FINANZAS PERSONALES - GASTOS PRIMERO */
 .finanzas-card{margin:16px 14px 0;border-radius:20px;padding:18px;background:linear-gradient(160deg,var(--c2),var(--c1));border:0.5px solid var(--c3);position:relative;overflow:hidden;}
 .finanzas-card::before{content:'';position:absolute;top:0;left:0;right:0;height:0.5px;background:linear-gradient(90deg,transparent,var(--c4),transparent)}
 .finanzas-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
@@ -366,7 +363,20 @@ html,body{height:100%;height:-webkit-fill-available;overflow:hidden;position:fix
 .finanzas-month-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
 .finanzas-nav-arrow{width:36px;height:36px;border-radius:10px;background:var(--c1);border:0.5px solid var(--c4);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;color:var(--t3);}
 .finanzas-nav-label{font-size:13px;font-weight:500;color:var(--t2);}
-.finanzas-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.finanzas-gastos-section{margin-bottom:16px}
+.finanzas-gastos-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.finanzas-gastos-title{font-size:12px;font-weight:600;color:var(--t3);letter-spacing:0.06em;text-transform:uppercase}
+.finanzas-add-gasto-btn{padding:6px 12px;background:var(--c3);border-radius:20px;font-size:11px;color:var(--t2);cursor:pointer}
+.finanzas-gasto-item{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:0.5px solid var(--c2)}
+.finanzas-gasto-info{display:flex;align-items:center;gap:12px;flex:1}
+.finanzas-gasto-cat{font-size:10px;padding:2px 8px;border-radius:10px;background:var(--c1);color:var(--t4)}
+.finanzas-gasto-concepto{font-size:13px;color:var(--t2);flex:1}
+.finanzas-gasto-monto{font-size:13px;font-weight:600;color:var(--red)}
+.finanzas-gasto-delete{width:28px;height:28px;display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:0.5}
+.finanzas-gasto-delete:hover{opacity:1}
+.finanzas-gasto-empty{text-align:center;padding:20px;color:var(--t5);font-size:12px}
+.finanzas-gastos-total{display:flex;justify-content:space-between;padding:12px 0 0;margin-top:8px;font-weight:600;color:var(--t1);border-top:0.5px solid var(--c3)}
+.finanzas-resumen-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
 .finanzas-cell{border-radius:14px;padding:14px;background:linear-gradient(160deg,var(--c3),var(--c2));border:0.5px solid var(--c4);position:relative;overflow:hidden;}
 .finanzas-cell.full{grid-column:1/-1}
 .finanzas-cell-label{font-size:10px;color:var(--t4);letter-spacing:0.06em;text-transform:uppercase;font-weight:500;margin-bottom:6px}
@@ -391,19 +401,6 @@ html,body{height:100%;height:-webkit-fill-available;overflow:hidden;position:fix
 .finanzas-trend-delta{font-size:12px;margin-top:2px}
 .finanzas-trend-delta.up{color:var(--green)}
 .finanzas-trend-delta.down{color:var(--red)}
-.finanzas-gastos-section{margin-top:16px;border-top:0.5px solid var(--c3);padding-top:16px}
-.finanzas-gastos-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
-.finanzas-gastos-title{font-size:12px;font-weight:600;color:var(--t3);letter-spacing:0.06em;text-transform:uppercase}
-.finanzas-add-gasto-btn{padding:6px 12px;background:var(--c3);border-radius:20px;font-size:11px;color:var(--t2);cursor:pointer}
-.finanzas-gasto-item{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:0.5px solid var(--c2)}
-.finanzas-gasto-info{display:flex;align-items:center;gap:12px;flex:1}
-.finanzas-gasto-cat{font-size:10px;padding:2px 8px;border-radius:10px;background:var(--c1);color:var(--t4)}
-.finanzas-gasto-concepto{font-size:13px;color:var(--t2);flex:1}
-.finanzas-gasto-monto{font-size:13px;font-weight:600;color:var(--red)}
-.finanzas-gasto-delete{width:28px;height:28px;display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:0.5}
-.finanzas-gasto-delete:hover{opacity:1}
-.finanzas-gasto-empty{text-align:center;padding:20px;color:var(--t5);font-size:12px}
-.finanzas-gastos-total{display:flex;justify-content:space-between;padding:12px 0 0;margin-top:8px;font-weight:600;color:var(--t1);border-top:0.5px solid var(--c3)}
 .finanzas-historial{margin-top:16px}
 .finanzas-historial-title{font-size:11px;color:var(--t4);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:10px}
 .finanzas-hist-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:0.5px solid var(--c3);font-size:12px}
@@ -661,10 +658,11 @@ function fmtGroup(k){
   return DSH[dt.getDay()].toUpperCase()+' '+p[2]+' '+mn[+p[1]-1];
 }
 
+// ESTRUCTURA DE DATOS - Mantenemos WKS para compatibilidad con score
 var WKS=[
   {id:0,lb:'Sem 0',focus:'Instalar los 3 anclajes base',u:true,anc:[
-    {id:'a1',nm:'Bloque de trabajo productivo',tg:'Negocio'},
-    {id:'a2',nm:'Deporte',tg:'Fisico'}
+    {id:'trabajo',nm:'Bloque de trabajo productivo',tg:'Negocio'},
+    {id:'deporte',nm:'Deporte',tg:'Fisico'}
   ]},
   {id:1,lb:'Sem 1',focus:'Movimiento + reducir cantineo',u:false,anc:[
     {id:'b1',nm:'Entrenamiento minimo',tg:'Fisico'},
@@ -737,10 +735,27 @@ if(!ST.finanzas)ST.finanzas={};
 if(!ST.gastos)ST.gastos=[];
 var save=function(){try{localStorage.setItem('ag_v5',JSON.stringify(ST));}catch(e){}};
 
-var gC=function(w,a,d){return!!(ST.hab[w+'_'+a+'_'+d]);};
-var tC=function(w,a,d){ST.hab[w+'_'+a+'_'+d]=!ST.hab[w+'_'+a+'_'+d];save();ra();};
-var gN=function(w,k){return ST['n_'+w+'_'+k]||'';};
-var sN=function(w,k,v){ST['n_'+w+'_'+k]=v;save();};
+// Funciones para hábitos diarios (Bloque trabajo y Deporte)
+function getHabitoKey(habitoId,date){return 'hd_'+habitoId+'_'+date;}
+function isHabitoChecked(habitoId,date){return ST.hab[getHabitoKey(habitoId,date)]===true;}
+function toggleHabito(habitoId){var d=getTK();var k=getHabitoKey(habitoId,d);ST.hab[k]=!ST.hab[k];save();ra();}
+function getHabitoWeekCount(habitoId){
+  var d=new Date(),dow=d.getDay()===0?6:d.getDay()-1,cnt=0;
+  for(var i=0;i<=dow;i++){var dd=new Date(d);dd.setDate(d.getDate()-dow+i);var k=dd.getFullYear()+'-'+pad(dd.getMonth()+1)+'-'+pad(dd.getDate());if(isHabitoChecked(habitoId,k))cnt++;}
+  return cnt;
+}
+function getHabitoStreak(habitoId){
+  if(Object.keys(ST.hab).length===0)return 0;
+  var today=new Date();var streak=0;var maxDays=365;
+  for(var i=0;i<maxDays;i++){
+    var checkDate=new Date(today);
+    checkDate.setDate(today.getDate()-i);
+    var ds=checkDate.getFullYear()+'-'+pad(checkDate.getMonth()+1)+'-'+pad(checkDate.getDate());
+    if(!isHabitoChecked(habitoId,ds))break;
+    streak++;
+  }
+  return streak;
+}
 
 // Habitos Matutinos
 var HABITOS_MATUTINOS=['despertar','ducha','agua','skincare','desayuno','paseo','meditacion'];
@@ -929,9 +944,25 @@ function getTaskWeekStats(){
   var pct=weightedTot>0?weightedDone/weightedTot:0;
   return{tot:tot,done:done,pct:pct,alta:alta.length,altaDone:altaDone};
 }
+
 function calcScore(){
   var habTot=0,habDn=0;
-  WKS.forEach(function(w,wi){w.anc.forEach(function(a){DS.forEach(function(_,d){habTot++;if(gC(wi,a.id,d))habDn++;});});});
+  // Solo contamos los hábitos de la Semana 0 (Bloque trabajo y Deporte)
+  var w0=WKS[0];
+  for(var i=0;i<w0.anc.length;i++){
+    var a=w0.anc[i];
+    for(var d=0;d<7;d++){
+      habTot++;
+      var date=new Date();
+      var dow=date.getDay()===0?6:date.getDay()-1;
+      var monday=new Date(date);
+      monday.setDate(date.getDate()-dow);
+      var dd=new Date(monday);
+      dd.setDate(monday.getDate()+d);
+      var ds=dd.getFullYear()+'-'+pad(dd.getMonth()+1)+'-'+pad(dd.getDate());
+      if(isHabitoChecked(a.id,ds))habDn++;
+    }
+  }
   var habPct=habTot>0?habDn/habTot:0;
   var ds=getDecWeekStats();
   var decPct=ds.tot>0?ds.exec/ds.tot:0;
@@ -956,15 +987,9 @@ function scoreTag(s){
   return'SEMANA PERDIDA';
 }
 
-function cStat(wi){
-  var w=WKS[wi],tot=0,dn=0,str=0;
-  w.anc.forEach(function(a){DS.forEach(function(_,d){tot++;if(gC(wi,a.id,d))dn++;});});
-  for(var d=6;d>=0;d--){if(w.anc.every(function(a){return gC(wi,a.id,d);}))str++;else break;}
-  return{tot:tot,dn:dn,str:str,pct:Math.round(dn/tot*100)};
-}
-function uChk(){WKS.forEach(function(w,i){if(i===0){w.u=true;return;}w.u=cStat(i-1).pct>=60;});}
+function uChk(){}
 
-var cV='d',cW=0,sCats=[],sPrio='media',sDue='',tFil='hoy';
+var cV='d',sCats=[],sPrio='media',sDue='',tFil='hoy';
 var cMetBiz='HYK',cMetWk=getWeekKey();
 var cFinanzasMonth=getCurrentMonthKey();
 var decCat='HYK';
@@ -1180,17 +1205,7 @@ function closeEditModal(e){if(e&&e.target!==document.getElementById('edit-overla
 function togTask(id){for(var i=0;i<ST.tasks.length;i++){if(ST.tasks[i].id===id){ST.tasks[i].done=!ST.tasks[i].done;break;}}save();ra();}
 function delTask(id){ST.tasks=ST.tasks.filter(function(t){return t.id!==id;});save();ra();}
 function setF(f){tFil=f;ra();}
-function sCW2(i){cW=i;ra();}
 function finanzasNav(n){cFinanzasMonth=addMonths(cFinanzasMonth,n);ra();}
-function saveFinanzas(){
-  var ingresos=document.getElementById('finanzas-ingresos').value;
-  var ahorro=document.getElementById('finanzas-ahorro').value;
-  var inversion=document.getElementById('finanzas-inversion').value;
-  setFinanzas(cFinanzasMonth,'ingresos',ingresos);
-  setFinanzas(cFinanzasMonth,'ahorro',ahorro);
-  setFinanzas(cFinanzasMonth,'inversion',inversion);
-  ra();
-}
 
 function openDecModal(){
   document.getElementById('dec-overlay').classList.add('open');
@@ -1323,11 +1338,19 @@ function saveMetrics(){
   });
   ra();
 }
+function saveFinanzas(){
+  var ingresos=document.getElementById('finanzas-ingresos').value;
+  var ahorro=document.getElementById('finanzas-ahorro').value;
+  var inversion=document.getElementById('finanzas-inversion').value;
+  setFinanzas(cFinanzasMonth,'ingresos',ingresos);
+  setFinanzas(cFinanzasMonth,'ahorro',ahorro);
+  setFinanzas(cFinanzasMonth,'inversion',inversion);
+  ra();
+}
 
 var chkSVG='<svg viewBox="0 0 12 12" fill="none" width="10" height="10"><polyline points="1.5,6 4.5,9.5 10.5,2.5" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>';
 
 function ra(){
-  uChk();
   var d=new Date();
   var ey=DAYS_ES[d.getDay()]+' '+d.getDate()+' de '+MONTHS[d.getMonth()];
   if(cV==='d')rHome(ey);
@@ -1550,38 +1573,15 @@ function rTasks(ey){
 }
 
 function rHab(){
-  uChk();
-  var w=WKS[cW],s=cStat(cW);
   var d=new Date();
   var ey=DAYS_ES[d.getDay()]+' '+d.getDate()+' de '+MONTHS[d.getMonth()];
   var dow=d.getDay()===0?6:d.getDay()-1;
-  var monday=new Date(d);monday.setDate(d.getDate()-dow);
-
-  var tabs=WKS.map(function(wk,i){
-    return'<div class="wt'+(i===cW?' on':'')+((!wk.u&&i!==0)?' lk':'')+'" onclick="'+(wk.u||i===0?'sCW2('+i+')':'')+'">'+(wk.lb)+'</div>';
-  }).join('');
-
-  var cards=w.anc.map(function(a){
-    var days=DS.map(function(dl,di){
-      var dd=new Date(monday);dd.setDate(monday.getDate()+di);
-      var isT=di===dow,isC=gC(cW,a.id,di);
-      return'<div class="day'+(isT?' today':'')+(isC?' checked':'')+'" onclick="tC('+cW+',\''+a.id+'\','+di+')">'
-        +'<div class="day-d">'+dl+'</div><div class="day-n">'+dd.getDate()+'</div></div>';
-    }).join('');
-    return'<div class="hab-card">'
-      +'<div class="hab-top"><div class="hab-name">'+a.nm+'</div><div class="hab-badge">'+a.tg+'</div></div>'
-      +'<div class="days-row">'+days+'</div></div>';
-  }).join('');
-
-  var notes=DS.map(function(dl,i){
-    var dd=new Date(monday);dd.setDate(monday.getDate()+i);
-    var isT=i===dow;
-    return'<div style="margin-bottom:10px">'
-      +'<div class="note-lbl" style="'+(isT?'color:var(--gold)':'')+'">'+dl+' '+dd.getDate()+'</div>'
-      +'<textarea class="note-inp" rows="2" placeholder="Una cosa que avance..." onchange="sN('+cW+',\'d'+i+'\',this.value)">'+gN(cW,'d'+i)+'</textarea>'
-      +'</div>';
-  }).join('');
-
+  var monday=new Date(d);
+  monday.setDate(d.getDate()-dow);
+  
+  // Focus semanal (de la Semana 0)
+  var focusText=WKS[0].focus;
+  
   // Habitos Matutinos
   var matutinoHTML='<div class="matutino-card">'
     +'<div class="matutino-header"><div class="matutino-title">🌅 Habitos Matutinos</div><div class="matutino-badge">'+(isTodayMatutinoCompleto()?'COMPLETO':'PENDIENTE')+'</div></div>'
@@ -1594,9 +1594,43 @@ function rHab(){
     +'<div class="matutino-streak"><div><div class="matutino-streak-label">Racha completa</div><div class="matutino-streak-val">'+getMatutinoStreak()+'</div></div>'
     +'<div><div class="matutino-streak-label">Esta semana</div><div class="matutino-streak-val" style="font-size:22px">'+getMatutinoWeekCount()+'/7</div></div></div>'
     +'</div>';
-
+  
+  // Cards de habitos diarios (Bloque trabajo y Deporte)
+  var habitosDiarios=['trabajo','deporte'];
+  var habitosNombres=['Bloque de trabajo productivo','Deporte'];
+  var habitosEmojis=['💼','🏋️'];
+  var habitosTgs=['Negocio','Fisico'];
+  
+  var cardsHTML='';
+  for(var idx=0;idx<habitosDiarios.length;idx++){
+    var hid=habitosDiarios[idx];
+    var daysHTML='';
+    for(var di=0;di<7;di++){
+      var dd=new Date(monday);
+      dd.setDate(monday.getDate()+di);
+      var ds=dd.getFullYear()+'-'+pad(dd.getMonth()+1)+'-'+pad(dd.getDate());
+      var isT=di===dow;
+      var isC=isHabitoChecked(hid,ds);
+      daysHTML+='<div class="dia-btn'+(isT?' today':'')+(isC?' checked':'')+'" onclick="toggleHabito(\''+hid+'\')">'
+        +'<div class="dia-d">'+DS[di]+'</div><div class="dia-n">'+dd.getDate()+'</div></div>';
+    }
+    cardsHTML+='<div class="habito-card">'
+      +'<div class="habito-header"><div class="habito-nombre">'+habitosEmojis[idx]+' '+habitosNombres[idx]+'</div><div class="habito-badge">'+habitosTgs[idx]+'</div></div>'
+      +'<div class="dias-row">'+daysHTML+'</div>'
+      +'</div>';
+  }
+  
+  // KPI de habitos diarios
+  var trabajoCompletado=getHabitoWeekCount('trabajo');
+  var deporteCompletado=getHabitoWeekCount('deporte');
+  var habKPIHTML='<div class="hab-kpi">'
+    +'<div class="hkpi"><div class="hkpi-val">'+trabajoCompletado+'/7</div><div class="hkpi-lbl">Trabajo</div></div>'
+    +'<div class="hkpi"><div class="hkpi-val">'+deporteCompletado+'/7</div><div class="hkpi-lbl">Deporte</div></div>'
+    +'<div class="hkpi"><div class="hkpi-val">'+(trabajoCompletado+deporteCompletado)+'/14</div><div class="hkpi-lbl">Total</div></div>'
+    +'</div>';
+  
   // El Quiebre
-  var quiebreEnHab='<div class="quiebre-card" style="margin-top:24px">'
+  var quiebreEnHab='<div class="quiebre-card">'
     +'<div class="q-header"><div class="q-title">⛔ 20-23hs — El Quiebre</div><div class="q-badge">'+(isTodayManchado()?'MANCHADO':'LIMPIO')+'</div></div>'
     +'<div class="vicio-grid">'
     +VICIOS.map(function(v,i){var checked=isVicioToday(v);return'<div class="vicio-item'+(checked?' checked':'')+'" onclick="toggleVicio(\''+v+'\')">'
@@ -1607,20 +1641,33 @@ function rHab(){
     +'<div class="q-streak"><div><div class="streak-label">Racha limpia</div><div class="streak-val">'+getCleanStreak()+'</div></div>'
     +'<div><div class="streak-label">Esta semana</div><div class="streak-val" style="font-size:22px">'+getWeekCleanCount()+'/7</div></div></div>'
     +'</div>';
-
+  
+  // Notas
+  var notesHTML='<div class="note-wrap">'
+    +DS.map(function(dl,i){
+      var dd=new Date(monday);
+      dd.setDate(monday.getDate()+i);
+      var isT=i===dow;
+      var noteKey='note_'+dd.getFullYear()+'-'+pad(dd.getMonth()+1)+'-'+pad(dd.getDate());
+      var noteValue=ST[noteKey]||'';
+      return'<div style="margin-bottom:10px">'
+        +'<div class="note-lbl" style="'+(isT?'color:var(--gold)':'')+'">'+dl+' '+dd.getDate()+'</div>'
+        +'<textarea class="note-inp" rows="2" placeholder="Una cosa que avance..." onchange="saveNote(\''+noteKey+'\',this.value)">'+noteValue+'</textarea>'
+        +'</div>';
+    }).join('')
+    +'</div>';
+  
+  function saveNote(key,val){ST[key]=val;save();}
+  
   document.getElementById('body').innerHTML='<div class="pg">'
     +'<div class="page-hdr"><div class="page-eyebrow">'+ey+'</div><div class="page-title">Habitos</div></div>'
-    +'<div class="focus-box"><div class="focus-txt">"'+w.focus+'"</div></div>'
-    +'<div class="hab-kpi">'+
-    '<div class="hkpi"><div class="hkpi-val">'+s.pct+'%</div><div class="hkpi-lbl">Completado</div></div>'
-    +'<div class="hkpi"><div class="hkpi-val">'+s.str+'</div><div class="hkpi-lbl">Racha</div></div>'
-    +'</div>'
-    +'<div class="week-tabs" style="margin-top:16px">'+tabs+'</div>'
+    +'<div class="focus-box"><div class="focus-txt">"'+focusText+'"</div></div>'
+    +habKPIHTML
     +matutinoHTML
-    +cards
+    +cardsHTML
     +quiebreEnHab
     +'<div class="divr"></div>'
-    +'<div class="note-wrap">'+notes+'</div>'
+    +notesHTML
     +'</div>';
 }
 
@@ -1662,17 +1709,16 @@ function rLife(){
 }
 
 function rPlan(){
-  var sc=calcScore();
   var d=new Date();
   var ey=DAYS_ES[d.getDay()]+' '+d.getDate()+' de '+MONTHS[d.getMonth()];
   var isCurrentWk=cMetWk===getWeekKey();
   var prevWk=addWeeks(cMetWk,-1);
   var cfg=MET_CFG[cMetBiz];
-
-  // Memento Mori card (primero)
+  
+  // Memento Mori
   var mementoHTML='<div style="margin:12px 14px 0;padding:13px 16px;border-radius:14px;background:var(--c1);border:0.5px solid var(--c3);display:flex;align-items:center;justify-content:space-between;cursor:pointer" onclick="sv(\'l\',null)"><div style="font-size:14px;color:var(--t2);font-weight:500">Memento Mori</div><div style="font-size:13px;color:var(--t4)">'+getWL().toLocaleString()+' vividas - '+getWR().toLocaleString()+' restantes</div></div>';
   
-  // Finanzas Personales con gastos diarios (segundo)
+  // Finanzas
   var prevMonth=addMonths(cFinanzasMonth,-1);
   var ingresos=getFinanzas(cFinanzasMonth,'ingresos');
   var gastos=getFinanzas(cFinanzasMonth,'gastos');
@@ -1740,7 +1786,8 @@ function rPlan(){
     +'<div class="finanzas-nav-label">'+getMonthLabel(cFinanzasMonth)+'</div>'
     +'<div class="finanzas-nav-arrow" onclick="finanzasNav(1)">&#8250;</div>'
     +'</div>'
-    +'<div class="finanzas-grid">'
+    +gastosListHTML
+    +'<div class="finanzas-resumen-grid">'
     +'<div class="finanzas-cell full"><div class="finanzas-cell-label">Ingresos (manual)</div><input class="finanzas-cell-input" id="finanzas-ingresos" type="number" placeholder="0" value="'+ingresos+'"></div>'
     +'<div class="finanzas-cell"><div class="finanzas-cell-label">Ahorro</div><input class="finanzas-cell-input" id="finanzas-ahorro" type="number" placeholder="0" value="'+ahorro+'"></div>'
     +'<div class="finanzas-cell"><div class="finanzas-cell-label">Inversión</div><input class="finanzas-cell-input" id="finanzas-inversion" type="number" placeholder="0" value="'+inversion+'"></div>'
@@ -1765,8 +1812,6 @@ function rPlan(){
       +'</div>';
   }
   
-  finanzasHTML+=gastosListHTML;
-  
   if(historial.length>0){
     finanzasHTML+='<div class="finanzas-historial"><div class="finanzas-historial-title">Historial mensual</div>';
     for(var i=0;i<historial.length;i++){
@@ -1782,10 +1827,9 @@ function rPlan(){
     }
     finanzasHTML+='</div>';
   }
-  
   finanzasHTML+='<button class="finanzas-save-btn" onclick="saveFinanzas()">Guardar</button></div>';
   
-  // Métricas (tercero)
+  // Metricas
   var metTabs='<div class="met-tabs">'
     +'<div class="mt-btn'+(cMetBiz==='HYK'?' on hyk':'')+'" onclick="setMetBiz(\'HYK\')">HYK</div>'
     +'<div class="mt-btn'+(cMetBiz==='BAZ'?' on baz':'')+'" onclick="setMetBiz(\'BAZ\')">Bazarista</div>'
@@ -1887,18 +1931,15 @@ function rPlan(){
       }).join('')+'</div>';
   }
 
-  var s0=cStat(0);
-  var tls=[
-    {t:'Sem 0 - Anclajes base',s:'3 habitos estructurales',done:s0.pct>0,now:true},
-    {t:'Sem 1-3 - Cuerpo + cantineo',s:'Entrenamiento, alimentacion, reduccion',done:false,now:false},
-    {t:'Sem 4-13 - Consolidacion',s:'Metricas, sistema, arquitectura',done:false,now:false},
-    {t:'Fase 2 - Mes 2 a 6',s:'Sistema estable, negocio escalando',done:false,now:false},
-    {t:'Fase 3 - Ano 1',s:'Monopolio local + cuerpo transformado',done:false,now:false},
-    {t:'Horizonte - Anos 2 a 5',s:'Expansion + hedge fund + WIP',done:false,now:false}
-  ];
-  var tlHTML=tls.map(function(it){
-    return'<div class="tl-item"><div class="tl-dot'+(it.done?' done':it.now?' now':'')+'"></div><div class="tl-t'+(it.now?' now':'')+'">'+it.t+'</div><div class="tl-s">'+it.s+'</div></div>';
-  }).join('');
+  var tlHTML='<div class="tl-wrap"><div class="tl-line"></div>'
+    +'<div class="tl-item"><div class="tl-dot now"></div><div class="tl-t now">Sem 0 - Anclajes base</div><div class="tl-s">3 habitos estructurales</div></div>'
+    +'<div class="tl-item"><div class="tl-dot"></div><div class="tl-t">Sem 1-3 - Cuerpo + cantineo</div><div class="tl-s">Entrenamiento, alimentacion, reduccion</div></div>'
+    +'<div class="tl-item"><div class="tl-dot"></div><div class="tl-t">Sem 4-13 - Consolidacion</div><div class="tl-s">Metricas, sistema, arquitectura</div></div>'
+    +'<div class="tl-item"><div class="tl-dot"></div><div class="tl-t">Fase 2 - Mes 2 a 6</div><div class="tl-s">Sistema estable, negocio escalando</div></div>'
+    +'<div class="tl-item"><div class="tl-dot"></div><div class="tl-t">Fase 3 - Ano 1</div><div class="tl-s">Monopolio local + cuerpo transformado</div></div>'
+    +'<div class="tl-item"><div class="tl-dot"></div><div class="tl-t">Horizonte - Anos 2 a 5</div><div class="tl-s">Expansion + hedge fund + WIP</div></div>'
+    +'</div>';
+    
   var phCards=PLAN.map(function(ph,pi){
     var axes=ph.axes.map(function(ax){
       return'<div class="plan-axis"><div class="plan-axis-name">'+ax.n+'</div>'+ax.it.map(function(it){return'<div class="plan-it">'+it.t+'<div class="plan-it-s">'+it.p+'</div></div>';}).join('')+'</div>';
@@ -1918,7 +1959,7 @@ function rPlan(){
     +decHistHTML
     +quiebreHistory
     +'<div class="sec-row" style="padding-top:26px"><div class="sec-t">Timeline</div></div>'
-    +'<div class="tl-wrap"><div class="tl-line"></div>'+tlHTML+'</div>'
+    +tlHTML
     +'<div class="sec-row" style="padding-top:20px"><div class="sec-t">Fases</div></div>'
     +phCards
     +'</div>';
