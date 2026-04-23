@@ -751,10 +751,6 @@ function getMondayOfWeek(weekIndex){
   monday.setDate(baseMonday.getDate()+(weekIndex*7));
   return monday;
 }
-function getDiaIndexFromDate(date,weekStart){
-  var diffDays=Math.floor((date-weekStart)/(1000*60*60*24));
-  return diffDays;
-}
 
 // EL QUIEBRE (Check = día limpio)
 var VICIOS=['cigarro','alcohol','marihuana','nofap','comida','dormir'];
@@ -949,6 +945,12 @@ var TPLS={
   ],
   TRD:[],WIP:[],PER:[]
 };
+
+// FUNCIÓN GLOBAL PARA GUARDAR NOTAS
+function saveNote(key,val){
+  ST[key]=val;
+  save();
+}
 
 var cV='d',sCats=[],sPrio='media',sDue='',tFil='hoy';
 var cMetBiz='HYK',cMetWk=getWeekKey();
@@ -1475,7 +1477,6 @@ function rHab(){
     notesHTML+='<div style="margin-bottom:10px"><div class="note-lbl" style="'+(isT?'color:var(--gold)':'')+'">'+DS[i]+' '+dd.getDate()+'</div><textarea class="note-inp" rows="2" placeholder="Una cosa que avance..." '+(cSemanaHistorial===0?'onchange="saveNote(\''+noteKey+'\',this.value)"':'readonly')+'>'+noteValue+'</textarea></div>';
   }
   notesHTML+='</div>';
-  function saveNote(key,val){ST[key]=val;save();}
   
   document.getElementById('body').innerHTML='<div class="pg"><div class="page-hdr"><div class="page-eyebrow">'+ey+'</div><div class="page-title">Habitos</div></div>'+tabsHTML+'<div class="focus-box"><div class="focus-txt">"'+focusText+'"</div></div>'+habKPIHTML+matutinoHTML+cardsHTML+quiebreEnHab+'<div class="divr"></div>'+notesHTML+'</div>';
 }
