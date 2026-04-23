@@ -665,6 +665,29 @@ function fmtGroup(k){
   return DSH[dt.getDay()].toUpperCase()+' '+p[2]+' '+mn[+p[1]-1];
 }
 
+// ESTRUCTURA WKS (para hábitos y score)
+var WKS=[
+  {id:0,lb:'Sem 0',focus:'Instalar los 3 anclajes base',u:true,anc:[
+    {id:'a1',nm:'Bloque de trabajo productivo',tg:'Negocio'},
+    {id:'a2',nm:'Deporte',tg:'Fisico'}
+  ]},
+  {id:1,lb:'Sem 1',focus:'Movimiento + reducir cantineo',u:false,anc:[
+    {id:'b1',nm:'Entrenamiento minimo',tg:'Fisico'},
+    {id:'b2',nm:'Sin sustancias Lun-Mie',tg:'Habito'},
+    {id:'b3',nm:'Decision diaria negocio 1',tg:'Negocio'}
+  ]},
+  {id:2,lb:'Sem 2',focus:'Adelantar el inicio del dia',u:false,anc:[
+    {id:'c1',nm:'Levantarse a las 6:30am',tg:'Inicio'},
+    {id:'c2',nm:'Bloque profundo 6:30-9am',tg:'Negocio'},
+    {id:'c3',nm:'Revision semanal - domingo',tg:'Mental'}
+  ]},
+  {id:3,lb:'Sem 3',focus:'Consolidar y medir',u:false,anc:[
+    {id:'d1',nm:'Protocolo de sueno completo',tg:'Habito'},
+    {id:'d2',nm:'Metricas negocio 1',tg:'Negocio'},
+    {id:'d3',nm:'Accion concreta negocio 2',tg:'Negocio'}
+  ]}
+];
+
 // ESTRUCTURA DE DATOS
 var ST={};
 try{ST=JSON.parse(localStorage.getItem('ag_v5')||'{}');}catch(e){}
@@ -705,10 +728,33 @@ function getMatutinoStreak(){
   return streak;
 }
 
-// HÁBITOS DIARIOS (Bloque trabajo y Deporte)
-function getHabitoKey(habitoId,date){return 'hd_'+habitoId+'_'+date;}
-function isHabitoChecked(habitoId,date){return ST.hab[getHabitoKey(habitoId,date)]===true;}
-function toggleHabito(habitoId){var d=getTK();var k=getHabitoKey(habitoId,d);ST.hab[k]=!ST.hab[k];save();ra();}
+// HÁBITOS DIARIOS (usando WKS)
+function toggleHabitoSemana(weekIdx,habitoId,dia){
+  var key=weekIdx+'_'+habitoId+'_'+dia;
+  ST.hab[key]=!ST.hab[key];
+  save();
+  ra();
+}
+function isHabitoChecked(weekIdx,habitoId,dia){
+  return ST.hab[weekIdx+'_'+habitoId+'_'+dia]===true;
+}
+function getMondayOfCurrentWeek(){
+  var d=new Date();
+  var dow=d.getDay()===0?6:d.getDay()-1;
+  var monday=new Date(d);
+  monday.setDate(d.getDate()-dow);
+  return monday;
+}
+function getMondayOfWeek(weekIndex){
+  var baseMonday=new Date(2026,3,20);
+  var monday=new Date(baseMonday);
+  monday.setDate(baseMonday.getDate()+(weekIndex*7));
+  return monday;
+}
+function getDiaIndexFromDate(date,weekStart){
+  var diffDays=Math.floor((date-weekStart)/(1000*60*60*24));
+  return diffDays;
+}
 
 // EL QUIEBRE (Check = día limpio)
 var VICIOS=['cigarro','alcohol','marihuana','nofap','comida','dormir'];
@@ -840,17 +886,17 @@ function getCantWeek(){
   for(var i=0;i<7;i++){var dd=new Date(d);dd.setDate(d.getDate()-dow+i);var k=dd.getFullYear()+'-'+pad(dd.getMonth()+1)+'-'+pad(dd.getDate());if(ST.cant[k])cnt++;}
   return cnt;
 }
+
+// CALCULO DE SCORE CORREGIDO
 function calcScore(){
   var habTot=0,habDn=0;
-  var currentWeekStart=getMondayOfCurrentWeek();
-  var habIds=['trabajo','deporte'];
-  for(var i=0;i<habIds.length;i++){
+  // Solo contamos los hábitos de la Semana 0 (actual) - igual que cStat()
+  var w0=WKS[0];
+  for(var i=0;i<w0.anc.length;i++){
+    var a=w0.anc[i];
     for(var d=0;d<7;d++){
       habTot++;
-      var dd=new Date(currentWeekStart);
-      dd.setDate(currentWeekStart.getDate()+d);
-      var ds=dd.getFullYear()+'-'+pad(dd.getMonth()+1)+'-'+pad(dd.getDate());
-      if(isHabitoChecked(habIds[i],ds))habDn++;
+      if(ST.hab['0_'+a.id+'_'+d]) habDn++;
     }
   }
   var habPct=habTot>0?habDn/habTot:0;
@@ -863,6 +909,7 @@ function calcScore(){
   var score=Math.round((habPct*25)+(decPct*25)+(ts.pct*35)+(metFilled*15));
   return{score:score,hab:Math.round(habPct*25),dec:Math.round(decPct*25),tasks:Math.round(ts.pct*35),met:metFilled*15,taskStats:ts};
 }
+
 function scoreClass(s){
   if(s>=80)return'elite';
   if(s>=60)return'building';
@@ -875,21 +922,8 @@ function scoreTag(s){
   if(s>=40)return'SEMANA MEDIOCRE';
   return'SEMANA PERDIDA';
 }
-function getMondayOfCurrentWeek(){
-  var d=new Date();
-  var dow=d.getDay()===0?6:d.getDay()-1;
-  var monday=new Date(d);
-  monday.setDate(d.getDate()-dow);
-  return monday;
-}
-function getMondayOfWeek(weekIndex){
-  var baseMonday=new Date(2026,3,20);
-  var monday=new Date(baseMonday);
-  monday.setDate(baseMonday.getDate()+(weekIndex*7));
-  return monday;
-}
 
-// CATS, PRIOS, TPLS
+// CATS, PRIOS, TPLS, REV
 var CATS=[{id:'HYK',lb:'HYK'},{id:'BAZ',lb:'Bazar'},{id:'TRD',lb:'Trading'},{id:'WIP',lb:'WIP'},{id:'PER',lb:'Personal'}];
 var PRIOS=[{id:'alta',lb:'Alta'},{id:'media',lb:'Media'},{id:'baja',lb:'Baja'}];
 var REV_QS=[
@@ -1364,7 +1398,9 @@ function rHab(){
     tabsHTML+='<div class="wt'+(isActive?' on':'')+(isDisabled?' lk':'')+'" onclick="'+(i===0||!isDisabled?'setSemanaHistorial('+i+')':'')+'">'+(i===0?'Actual':'Sem '+i)+'</div>';
   }
   tabsHTML+='</div>';
-  var focusText=(cSemanaHistorial===0)?'Instalar los 3 anclajes base':'HISTORIAL - Solo consulta';
+  var focusText=(cSemanaHistorial===0)?WKS[0].focus:'HISTORIAL - Solo consulta';
+  
+  // Matutinos
   var matutinoCompleto=0;
   for(var i=0;i<7;i++){
     var dd=new Date(weekStartDate);
@@ -1381,38 +1417,36 @@ function rHab(){
     matutinoGridHTML+='<div class="matutino-item'+(isChecked?' checked':'')+disabledClass+'" onclick="'+(cSemanaHistorial===0?'toggleMatutino(\''+hab+'\')':'')+'"><div class="matutino-emoji">'+HABITOS_MATUTINOS_EMOJIS[h]+'</div><div class="matutino-name">'+HABITOS_MATUTINOS_NOMBRES[h]+'</div><div class="matutino-check"></div></div>';
   }
   var matutinoHTML='<div class="matutino-card"><div class="matutino-header"><div class="matutino-title">🌅 Habitos Matutinos</div><div class="matutino-badge">'+matutinoBadgeText+'</div></div><div class="matutino-grid">'+matutinoGridHTML+'</div><div class="matutino-streak"><div><div class="matutino-streak-label">Racha completa</div><div class="matutino-streak-val">'+(cSemanaHistorial===0?getMatutinoStreak():'--')+'</div></div><div><div class="matutino-streak-label">Esta semana</div><div class="matutino-streak-val" style="font-size:22px">'+matutinoCompleto+'/7</div></div></div></div>';
+  
+  // Hábitos de la semana (Bloque trabajo y Deporte)
+  var w=WKS[0];
   var cardsHTML='';
-  var habIds=['trabajo','deporte'];
-  var habNombres=['Bloque de trabajo productivo','Deporte'];
-  var habEmojis=['💼','🏋️'];
-  var habTgs=['Negocio','Fisico'];
-  for(var idx=0;idx<habIds.length;idx++){
-    var hid=habIds[idx];
-    var diasHTML='';
+  for(var i=0;i<w.anc.length;i++){
+    var a=w.anc[i];
+    var daysHTML='';
     var completados=0;
     for(var di=0;di<7;di++){
       var dd=new Date(weekStartDate);
       dd.setDate(weekStartDate.getDate()+di);
       var ds=dd.getFullYear()+'-'+pad(dd.getMonth()+1)+'-'+pad(dd.getDate());
       var isT=(ds===todayStr && cSemanaHistorial===0);
-      var isC=isHabitoChecked(hid,ds);
+      var isC=isHabitoChecked(0,a.id,di);
       var disabledClass=(cSemanaHistorial!==0)?' disabled':'';
       if(isC)completados++;
-      diasHTML+='<div class="day'+(isT?' today':'')+(isC?' checked':'')+disabledClass+'" onclick="'+(cSemanaHistorial===0?'toggleHabito(\''+hid+'\')':'')+'"><div class="day-d">'+DS[di]+'</div><div class="day-n">'+dd.getDate()+'</div></div>';
+      daysHTML+='<div class="day'+(isT?' today':'')+(isC?' checked':'')+disabledClass+'" onclick="'+(cSemanaHistorial===0?'toggleHabitoSemana(0,\''+a.id+'\','+di+')':'')+'"><div class="day-d">'+DS[di]+'</div><div class="day-n">'+dd.getDate()+'</div></div>';
     }
-    cardsHTML+='<div class="hab-card"><div class="hab-top"><div class="hab-name">'+habEmojis[idx]+' '+habNombres[idx]+'</div><div class="hab-badge">'+habTgs[idx]+'</div></div><div class="days-row">'+diasHTML+'</div></div>';
+    cardsHTML+='<div class="hab-card"><div class="hab-top"><div class="hab-name">'+a.nm+'</div><div class="hab-badge">'+a.tg+'</div></div><div class="days-row">'+daysHTML+'</div></div>';
   }
+  
+  // KPI
   var trabajoCompletado=0,deporteCompletado=0;
-  if(cSemanaHistorial===0){
-    for(var di=0;di<7;di++){
-      var dd=new Date(weekStartDate);
-      dd.setDate(weekStartDate.getDate()+di);
-      var ds=dd.getFullYear()+'-'+pad(dd.getMonth()+1)+'-'+pad(dd.getDate());
-      if(isHabitoChecked('trabajo',ds))trabajoCompletado++;
-      if(isHabitoChecked('deporte',ds))deporteCompletado++;
-    }
+  for(var di=0;di<7;di++){
+    if(isHabitoChecked(0,'a1',di))trabajoCompletado++;
+    if(isHabitoChecked(0,'a2',di))deporteCompletado++;
   }
   var habKPIHTML='<div class="hab-kpi"><div class="hkpi"><div class="hkpi-val">'+(cSemanaHistorial===0?trabajoCompletado:matutinoCompleto)+'/7</div><div class="hkpi-lbl">'+(cSemanaHistorial===0?'Trabajo':'Matutinos')+'</div></div><div class="hkpi"><div class="hkpi-val">'+(cSemanaHistorial===0?deporteCompletado:0)+'/7</div><div class="hkpi-lbl">Deporte</div></div><div class="hkpi"><div class="hkpi-val">'+(cSemanaHistorial===0?(trabajoCompletado+deporteCompletado):matutinoCompleto)+'/14</div><div class="hkpi-lbl">Total</div></div></div>';
+  
+  // El Quiebre
   var quiebreLimpios=0;
   for(var i=0;i<7;i++){
     var dd=new Date(weekStartDate);
@@ -1429,6 +1463,8 @@ function rHab(){
     vicioGridHTML+='<div class="vicio-item'+(isChecked?' checked':'')+disabledClass+'" onclick="'+(cSemanaHistorial===0?'toggleVicio(\''+vic+'\')':'')+'"><div class="vicio-emoji">'+['🚬','🍺','🌿','🔥','🍔','😴'][v]+'</div><div class="vicio-name">'+VICIOS_NOMBRES[v]+'</div><div class="vicio-check"></div></div>';
   }
   var quiebreEnHab='<div class="quiebre-card"><div class="q-header"><div class="q-title">⛔ 20-23hs — El Quiebre</div><div class="q-badge">'+quiebreBadgeText+'</div></div><div class="vicio-grid">'+vicioGridHTML+'</div><div class="q-streak"><div><div class="streak-label">Racha limpia</div><div class="streak-val">'+(cSemanaHistorial===0?getLimpioStreak():'--')+'</div></div><div><div class="streak-label">Esta semana</div><div class="streak-val" style="font-size:22px">'+quiebreLimpios+'/7</div></div></div></div>';
+  
+  // Notas
   var notesHTML='<div class="note-wrap">';
   for(var i=0;i<7;i++){
     var dd=new Date(weekStartDate);
@@ -1440,6 +1476,7 @@ function rHab(){
   }
   notesHTML+='</div>';
   function saveNote(key,val){ST[key]=val;save();}
+  
   document.getElementById('body').innerHTML='<div class="pg"><div class="page-hdr"><div class="page-eyebrow">'+ey+'</div><div class="page-title">Habitos</div></div>'+tabsHTML+'<div class="focus-box"><div class="focus-txt">"'+focusText+'"</div></div>'+habKPIHTML+matutinoHTML+cardsHTML+quiebreEnHab+'<div class="divr"></div>'+notesHTML+'</div>';
 }
 function rLife(){
