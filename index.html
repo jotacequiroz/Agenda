@@ -152,28 +152,31 @@ html,body{height:100%;height:-webkit-fill-available;overflow:hidden;position:fix
 /* EMPTY */
 .empty{text-align:center;padding:52px 16px;color:var(--t5);font-size:14px;line-height:2.2}
 
-/* HABITOS - DIARIOS FIJOS */
-.habitos-diarios{margin:16px 14px 0}
-.habito-card{padding:16px 18px;border-bottom:0.5px solid var(--c2)}
-.habito-card:last-child{border:none}
-.habito-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
-.habito-nombre{font-size:15px;font-weight:500;color:var(--t1);flex:1}
-.habito-badge{font-size:11px;font-weight:500;color:var(--t4);padding:3px 10px;background:var(--c2);border:0.5px solid var(--c4);border-radius:6px}
-.dias-row{display:flex;gap:5px}
-.dia-btn{width:38px;height:38px;border-radius:9px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;background:var(--c1);border:0.5px solid var(--c3);cursor:pointer}
-.dia-btn.today{border-color:rgba(191,156,107,0.4);background:#1c1a14}
-.dia-btn.checked{background:#0f2518;border-color:rgba(50,215,75,0.35)}
-.dia-d{font-size:9px;font-weight:500;color:var(--t5)}
-.dia-btn.today .dia-d{color:rgba(191,156,107,0.9)}
-.dia-btn.checked .dia-d{color:rgba(50,215,75,0.8)}
-.dia-n{font-size:13px;font-weight:600;color:var(--t4);line-height:1}
-.dia-btn.today .dia-n{color:var(--gold)}
-.dia-btn.checked .dia-n{color:var(--green)}
-.dia-btn.disabled{opacity:0.5;cursor:not-allowed;pointer-events:none}
-
+/* HABITOS */
 .focus-box{margin:16px 14px 0;padding:14px 16px;border-radius:16px;background:linear-gradient(160deg,var(--c2),var(--c1));border:0.5px solid var(--c3);position:relative;overflow:hidden;}
 .focus-box::before{content:'';position:absolute;top:0;left:0;right:0;height:0.5px;background:linear-gradient(90deg,transparent,var(--c4),transparent)}
 .focus-txt{font-size:14px;font-weight:400;color:var(--t3);font-style:italic;line-height:1.55}
+.week-tabs{display:flex;gap:6px;padding:14px 14px 0}
+.wt{flex:1;text-align:center;padding:8px 4px;border-radius:10px;font-size:12px;font-weight:500;color:var(--t5);background:var(--c1);border:0.5px solid var(--c3);cursor:pointer;-webkit-user-select:none;}
+.wt.on{background:linear-gradient(160deg,var(--c3),var(--c2));color:var(--t1);border-color:var(--c5);box-shadow:inset 0 0.5px 0 rgba(255,255,255,0.06);}
+.wt.lk{opacity:0.3;pointer-events:none}
+.hab-card{padding:16px 18px;border-bottom:0.5px solid var(--c2)}
+.hab-card:last-child{border:none}
+.hab-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.hab-name{font-size:15px;font-weight:500;color:var(--t1);flex:1;padding-right:10px;line-height:1.35}
+.hab-badge{font-size:11px;font-weight:500;color:var(--t4);padding:3px 10px;background:var(--c2);border:0.5px solid var(--c4);border-radius:6px;letter-spacing:0.03em;flex-shrink:0;}
+.days-row{display:flex;gap:5px}
+.day{width:34px;height:36px;border-radius:9px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;background:var(--c1);border:0.5px solid var(--c3);cursor:pointer;-webkit-user-select:none;}
+.day.today{border-color:rgba(191,156,107,0.4);background:#1c1a14}
+.day.checked{background:#0f2518;border-color:rgba(50,215,75,0.35)}
+.day:active{opacity:0.6}
+.day-d{font-size:9px;font-weight:500;color:var(--t5);letter-spacing:0.04em}
+.day.today .day-d{color:rgba(191,156,107,0.9)}
+.day.checked .day-d{color:rgba(50,215,75,0.8)}
+.day-n{font-size:13px;font-weight:600;color:var(--t4);line-height:1}
+.day.today .day-n{color:var(--gold)}
+.day.checked .day-n{color:var(--green)}
+.day.disabled{opacity:0.5;cursor:not-allowed;pointer-events:none}
 
 /* NOTE AREA */
 .note-wrap{padding:0 14px;margin-top:16px}
@@ -181,6 +184,7 @@ html,body{height:100%;height:-webkit-fill-available;overflow:hidden;position:fix
 .note-inp{width:100%;background:var(--c1);border:0.5px solid var(--c3);border-radius:11px;padding:12px 14px;font-size:14px;color:var(--t1);font-family:var(--f);resize:none;line-height:1.55;min-height:46px;outline:none;-webkit-appearance:none;}
 .note-inp:focus{border-color:var(--gold)}
 .note-inp::placeholder{color:var(--t5)}
+.note-inp:read-only{opacity:0.6}
 .divr{border:none;border-top:0.5px solid var(--c2);margin:16px 0}
 
 /* HAB KPI */
@@ -232,12 +236,6 @@ html,body{height:100%;height:-webkit-fill-available;overflow:hidden;position:fix
 .streak-val{font-size:28px;font-weight:800;color:var(--gold);letter-spacing:-0.03em}
 .streak-label{font-size:11px;color:var(--t4)}
 .vicio-item.disabled{opacity:0.5;cursor:not-allowed;pointer-events:none}
-
-/* WEEK TABS */
-.week-tabs{display:flex;gap:6px;padding:14px 14px 0}
-.wt{flex:1;text-align:center;padding:8px 4px;border-radius:10px;font-size:12px;font-weight:500;color:var(--t5);background:var(--c1);border:0.5px solid var(--c3);cursor:pointer;-webkit-user-select:none;}
-.wt.on{background:linear-gradient(160deg,var(--c3),var(--c2));color:var(--t1);border-color:var(--c5);box-shadow:inset 0 0.5px 0 rgba(255,255,255,0.06);}
-.wt.lk{opacity:0.3;pointer-events:none}
 
 /* LIFE */
 .life-wrap{margin:16px;border-radius:20px;padding:16px;background:linear-gradient(160deg,var(--c2),var(--c1));border:0.5px solid var(--c3);position:relative;overflow:hidden;}
@@ -364,7 +362,7 @@ html,body{height:100%;height:-webkit-fill-available;overflow:hidden;position:fix
 .trd-st.on.pausado{background:#201a10;color:var(--gold);border-color:#302510}
 .trd-st.on.perdida{background:#2a1010;color:var(--red);border-color:#3a1515}
 
-/* FINANZAS PERSONALES - GASTOS PRIMERO */
+/* FINANZAS PERSONALES */
 .finanzas-card{margin:16px 14px 0;border-radius:20px;padding:18px;background:linear-gradient(160deg,var(--c2),var(--c1));border:0.5px solid var(--c3);position:relative;overflow:hidden;}
 .finanzas-card::before{content:'';position:absolute;top:0;left:0;right:0;height:0.5px;background:linear-gradient(90deg,transparent,var(--c4),transparent)}
 .finanzas-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
@@ -638,11 +636,6 @@ function addWeeks(wk,n){
   d.setDate(d.getDate()+n*7);
   return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
 }
-function addWeeksToDate(date,weeks){
-  var d=new Date(date);
-  d.setDate(d.getDate()+weeks*7);
-  return d;
-}
 function fmtM(v){
   if(!v&&v!==0)return'--';var n=parseFloat(v);if(isNaN(n))return v||'--';
   if(n>=1000000)return(n/1000000).toFixed(1)+'M';
@@ -672,61 +665,7 @@ function fmtGroup(k){
   return DSH[dt.getDay()].toUpperCase()+' '+p[2]+' '+mn[+p[1]-1];
 }
 
-// Estructura de semanas históricas (solo visualización)
-var SEMANAS_HISTORICAS=[
-  {id:0, nombre:'Semana 0', fechaInicio:new Date(2026,3,20)}, // 20/4/2026
-  {id:1, nombre:'Semana 1', fechaInicio:addWeeksToDate(new Date(2026,3,20),1)},
-  {id:2, nombre:'Semana 2', fechaInicio:addWeeksToDate(new Date(2026,3,20),2)},
-  {id:3, nombre:'Semana 3', fechaInicio:addWeeksToDate(new Date(2026,3,20),3)}
-];
-
-var WKS=[
-  {id:0,lb:'Sem 0',focus:'Instalar los 3 anclajes base',u:true,anc:[
-    {id:'trabajo',nm:'Bloque de trabajo productivo',tg:'Negocio'},
-    {id:'deporte',nm:'Deporte',tg:'Fisico'}
-  ]}
-];
-
-var PLAN=[
-  {ph:'F1 - Sem 0 a 13',cur:true,axes:[
-    {n:'Habitos',it:[{t:'Cierre 23hs instalado',p:'Sem 0'},{t:'Inicio 7am a 5am',p:'Sem 1-2'},{t:'Cantineo max 3 noches/sem',p:'Sem 1'},{t:'Sin sustancias Lun-Mie',p:'Sem 1-3'},{t:'Protocolo sueno completo',p:'Sem 3'}]},
-    {n:'Fisico',it:[{t:'Entrenamiento 3x/sem',p:'Sem 1'},{t:'4 comidas diarias',p:'Sem 0'},{t:'Peso objetivo: 60kg',p:'90 dias'}]},
-    {n:'Negocio',it:[{t:'Una decision diaria ejecutada',p:'Sem 0'},{t:'Metricas base HYK + Bazarista',p:'Sem 3'},{t:'Sistema de decision semanal',p:'Sem 2'}]}
-  ]},
-  {ph:'F2 - Sem 13 a 26',cur:false,axes:[
-    {n:'Habitos',it:[{t:'Cantineo solo fines de semana',p:'Sem 13'},{t:'5am como base',p:'Sem 15'}]},
-    {n:'Fisico',it:[{t:'Peso 62-64kg',p:'Sem 20'},{t:'Entrenamiento 4x/sem',p:'Sem 16'}]},
-    {n:'Negocio',it:[{t:'Ingresos +30%',p:'Sem 26'},{t:'Bazarista rol formalizado',p:'Sem 14'}]}
-  ]},
-  {ph:'F3 - Sem 26 a 52',cur:false,axes:[
-    {n:'Habitos',it:[{t:'Cantineo como excepcion',p:'Sem 30'},{t:'10hs tiempo libre/sem',p:'Sem 40'}]},
-    {n:'Negocio 1',it:[{t:'Monopolio bazar en ciudad',p:'Sem 52'},{t:'Importacion directa',p:'Sem 45'},{t:'Ingresos x2',p:'Sem 52'}]},
-    {n:'Negocio 2+3',it:[{t:'Trading MT5 operativo',p:'Sem 40'},{t:'WIP concepto validado',p:'Sem 52'}]}
-  ]},
-  {ph:'Horizonte - Anos 2 a 5',cur:false,axes:[
-    {n:'Negocio',it:[{t:'Expansion nacional',p:'Ano 2'},{t:'Importador directo pais',p:'Ano 3'},{t:'Hedge fund algoritmico',p:'Ano 3'},{t:'WIP MVP lanzado',p:'Ano 2-3'},{t:'50M USD AUM',p:'Ano 5+'}]},
-    {n:'Personal',it:[{t:'Presencia fisica dominante',p:'Ano 2'},{t:'Red vinculos estrategicos',p:'Ano 3'}]}
-  ]}
-];
-
-var CATS=[{id:'HYK',lb:'HYK'},{id:'BAZ',lb:'Bazar'},{id:'TRD',lb:'Trading'},{id:'WIP',lb:'WIP'},{id:'PER',lb:'Personal'}];
-var PRIOS=[{id:'alta',lb:'Alta'},{id:'media',lb:'Media'},{id:'baja',lb:'Baja'}];
-var GASTO_CATEGORIAS=['Automovil','Facturas','Entretenimiento','Comida','Supermercado','Salud','Hogar','Mascota','General'];
-var GASTO_CATEGORIAS_EMOJIS=['🚗','📄','🎬','🍽️','🛒','💊','🏠','🐾','📌'];
-
-var MET_CFG={
-  HYK:{fields:[{id:'ingresos',label:'Ingresos',placeholder:'ej: 250000',unit:'$'},{id:'pedidos',label:'Pedidos',placeholder:'ej: 45',unit:'#'},{id:'custom',label:'Metrica clave',placeholder:'ticket prom',unit:''}]},
-  BAZ:{fields:[{id:'ingresos',label:'Ingresos',placeholder:'ej: 1700000',unit:'$'},{id:'ventas',label:'Ventas',placeholder:'ej: 120',unit:'#'},{id:'custom',label:'Metrica clave',placeholder:'margen %',unit:''}]},
-  TRD:{fields:[{id:'resultado',label:'Resultado',placeholder:'ej: +2.3%',unit:''},{id:'operaciones',label:'Operaciones',placeholder:'ej: 12',unit:'#'},{id:'estado',label:'Estado',placeholder:'',unit:''}]}
-};
-
-var REV_QS=[
-  {q:'Cual fue el score de esta semana en tu cabeza?',hint:'Se honesto. No el numero de la app - el tuyo.',type:'scale'},
-  {q:'Que es la unica cosa que si la hubieras hecho diferente habria cambiado la semana?',hint:'Una sola cosa.',type:'text'},
-  {q:'Cuantas noches cantineaste?',hint:'Sin juicio. Solo el numero.',type:'cant'},
-  {q:'Cual es la decision mas importante de la semana que viene?',hint:'La que mas mueve el negocio.',type:'text'}
-];
-
+// ESTRUCTURA DE DATOS
 var ST={};
 try{ST=JSON.parse(localStorage.getItem('ag_v5')||'{}');}catch(e){}
 if(!ST.tasks)ST.tasks=[];
@@ -741,25 +680,11 @@ if(!ST.finanzas)ST.finanzas={};
 if(!ST.gastos)ST.gastos=[];
 var save=function(){try{localStorage.setItem('ag_v5',JSON.stringify(ST));}catch(e){}};
 
-// Funciones para hábitos diarios (Bloque trabajo y Deporte)
-function getHabitoKey(habitoId,date){return 'hd_'+habitoId+'_'+date;}
-function isHabitoChecked(habitoId,date){return ST.hab[getHabitoKey(habitoId,date)]===true;}
-function toggleHabito(habitoId){var d=getTK();var k=getHabitoKey(habitoId,d);ST.hab[k]=!ST.hab[k];save();ra();}
-function getHabitoWeekCount(habitoId,weekStartDate){
-  var cnt=0;
-  for(var i=0;i<7;i++){
-    var dd=new Date(weekStartDate);
-    dd.setDate(weekStartDate.getDate()+i);
-    var ds=dd.getFullYear()+'-'+pad(dd.getMonth()+1)+'-'+pad(dd.getDate());
-    if(isHabitoChecked(habitoId,ds))cnt++;
-  }
-  return cnt;
-}
-
-// Habitos Matutinos
+// HÁBITOS MATUTINOS
 var HABITOS_MATUTINOS=['despertar','ducha','agua','skincare','desayuno','paseo','meditacion'];
 var HABITOS_MATUTINOS_NOMBRES=['Despertar 7AM','Ducha','Vaso agua','Skincare','Desayuno','Paseo Okley','Meditacion'];
 var HABITOS_MATUTINOS_EMOJIS=['🛏️','🚿','💧','✨','🍳','🐕','🧘'];
+
 function getMatutinoKey(date,habito){return 'm_'+date+'_'+habito;}
 function isMatutinoChecked(date,habito){return ST.matutino[getMatutinoKey(date,habito)]===true;}
 function toggleMatutino(habito){var d=getTK();var k=getMatutinoKey(d,habito);ST.matutino[k]=!ST.matutino[k];save();ra();}
@@ -767,18 +692,27 @@ function isMatutinoCompleto(date){
   for(var i=0;i<HABITOS_MATUTINOS.length;i++){if(!ST.matutino[getMatutinoKey(date,HABITOS_MATUTINOS[i])])return false;}
   return true;
 }
-function getMatutinoWeekCount(weekStartDate){
-  var cnt=0;
-  for(var i=0;i<7;i++){
-    var dd=new Date(weekStartDate);
-    dd.setDate(weekStartDate.getDate()+i);
-    var ds=dd.getFullYear()+'-'+pad(dd.getMonth()+1)+'-'+pad(dd.getDate());
-    if(isMatutinoCompleto(ds))cnt++;
+function getMatutinoStreak(){
+  if(Object.keys(ST.matutino).length===0)return 0;
+  var today=new Date();var streak=0;var maxDays=365;
+  for(var i=0;i<maxDays;i++){
+    var checkDate=new Date(today);
+    checkDate.setDate(today.getDate()-i);
+    var ds=checkDate.getFullYear()+'-'+pad(checkDate.getMonth()+1)+'-'+pad(checkDate.getDate());
+    if(!isMatutinoCompleto(ds))break;
+    streak++;
   }
-  return cnt;
+  return streak;
 }
 
-// Quiebre functions - Check = día limpio (NO consumí)
+// HÁBITOS DIARIOS (Bloque trabajo y Deporte)
+function getHabitoKey(habitoId,date){return 'hd_'+habitoId+'_'+date;}
+function isHabitoChecked(habitoId,date){return ST.hab[getHabitoKey(habitoId,date)]===true;}
+function toggleHabito(habitoId){var d=getTK();var k=getHabitoKey(habitoId,d);ST.hab[k]=!ST.hab[k];save();ra();}
+
+// EL QUIEBRE (Check = día limpio)
+var VICIOS=['cigarro','alcohol','marihuana','nofap','comida','dormir'];
+var VICIOS_NOMBRES=['Cigarrillo','Alcohol','Marihuana','NoFap','Comida limpia','Dormir antes 23:30'];
 function getVicioKey(date,vicio){return 'v_'+date+'_'+vicio;}
 function isVicioChecked(date,vicio){return ST.quiebre[getVicioKey(date,vicio)]===true;}
 function toggleVicio(vicio){var d=getTK();var k=getVicioKey(d,vicio);ST.quiebre[k]=!ST.quiebre[k];save();ra();}
@@ -786,7 +720,6 @@ function isDiaLimpio(date){
   for(var i=0;i<VICIOS.length;i++){if(!ST.quiebre[getVicioKey(date,VICIOS[i])])return false;}
   return true;
 }
-function isTodayLimpio(){return isDiaLimpio(getTK());}
 function getLimpioStreak(){
   if(Object.keys(ST.quiebre).length===0)return 0;
   var today=new Date();var streak=0;var maxDays=365;
@@ -799,21 +732,12 @@ function getLimpioStreak(){
   }
   return streak;
 }
-function getWeekLimpioCount(weekStartDate){
-  var cnt=0;
-  for(var i=0;i<7;i++){
-    var dd=new Date(weekStartDate);
-    dd.setDate(weekStartDate.getDate()+i);
-    var ds=dd.getFullYear()+'-'+pad(dd.getMonth()+1)+'-'+pad(dd.getDate());
-    if(isDiaLimpio(ds))cnt++;
-  }
-  return cnt;
-}
-var VICIOS=['cigarro','alcohol','marihuana','nofap','comida','dormir'];
-var VICIOS_NOMBRES=['Cigarrillo','Alcohol','Marihuana','NoFap','Comida limpia','Dormir antes 23:30'];
 
-// Finanzas Personales con gastos diarios
+// FINANZAS
 var MESES_NOMBRES=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+var GASTO_CATEGORIAS=['Automovil','Facturas','Entretenimiento','Comida','Supermercado','Salud','Hogar','Mascota','General'];
+var GASTO_CATEGORIAS_EMOJIS=['🚗','📄','🎬','🍽️','🛒','💊','🏠','🐾','📌'];
+
 function getCurrentMonthKey(){var d=new Date();return d.getFullYear()+'-'+pad(d.getMonth()+1);}
 function getMonthLabel(monthKey){var p=monthKey.split('-');return MESES_NOMBRES[parseInt(p[1])-1]+' '+p[0];}
 function addMonths(monthKey,n){
@@ -871,7 +795,160 @@ function getTasaAhorroClass(tasa){
   return'mala';
 }
 
+// METRICAS
+var MET_CFG={
+  HYK:{fields:[{id:'ingresos',label:'Ingresos',placeholder:'ej: 250000',unit:'$'},{id:'pedidos',label:'Pedidos',placeholder:'ej: 45',unit:'#'},{id:'custom',label:'Metrica clave',placeholder:'ticket prom',unit:''}]},
+  BAZ:{fields:[{id:'ingresos',label:'Ingresos',placeholder:'ej: 1700000',unit:'$'},{id:'ventas',label:'Ventas',placeholder:'ej: 120',unit:'#'},{id:'custom',label:'Metrica clave',placeholder:'margen %',unit:''}]},
+  TRD:{fields:[{id:'resultado',label:'Resultado',placeholder:'ej: +2.3%',unit:''},{id:'operaciones',label:'Operaciones',placeholder:'ej: 12',unit:'#'},{id:'estado',label:'Estado',placeholder:'',unit:''}]}
+};
+
+function getMet(biz,wk,field){return ST.met[biz+'_'+wk+'_'+field]||'';}
+function setMet(biz,wk,field,val){ST.met[biz+'_'+wk+'_'+field]=val;save();}
+function getTrdStatus(wk){return ST.met['TRD_'+wk+'_estatus']||'';}
+function setTrdStatus(wk,v){ST.met['TRD_'+wk+'_estatus']=v;save();ra();}
+
+// TAREAS Y DECISIONES
+function getTodayDec(){return ST.dec[getTK()]||null;}
+function saveTodayDec(text,cat){ST.dec[getTK()]={text:text,cat:cat,done:false,date:getTK()};save();}
+function markDecExec(){var d=ST.dec[getTK()];if(d){d.done=true;save();}}
+function getDecHistory(){return Object.keys(ST.dec).sort().reverse().slice(0,14).map(function(k){return ST.dec[k];});}
+function getDecWeekStats(){
+  var wk=getWeekKey(),d=new Date(),dow=d.getDay()===0?6:d.getDay()-1,tot=0,exec=0;
+  for(var i=0;i<=dow;i++){var dd=new Date(d);dd.setDate(d.getDate()-dow+i);var k=dd.getFullYear()+'-'+pad(dd.getMonth()+1)+'-'+pad(dd.getDate());if(ST.dec[k]){tot++;if(ST.dec[k].done)exec++;}}
+  return{tot:tot,exec:exec};
+}
+function getRevWeek(){return ST.rev[getWeekKey()]||null;}
+function hasRevWeek(){return!!ST.rev[getWeekKey()];}
+function saveRev(data){ST.rev[getWeekKey()]=data;save();}
+function getTaskWeekStats(){
+  var d=new Date(),dow=d.getDay()===0?6:d.getDay()-1;
+  var monday=new Date(d);monday.setDate(d.getDate()-dow);
+  var wkDates=[];
+  for(var i=0;i<=dow;i++){var dd=new Date(monday);dd.setDate(monday.getDate()+i);wkDates.push(dd.getFullYear()+'-'+pad(dd.getMonth()+1)+'-'+pad(dd.getDate()));}
+  var wkTasks=ST.tasks.filter(function(t){return wkDates.indexOf(t.due||t.date)>=0&&t.type!=='rem';});
+  var tot=wkTasks.length,done=wkTasks.filter(function(t){return t.done;}).length;
+  var alta=wkTasks.filter(function(t){return t.prio==='alta';}),altaDone=alta.filter(function(t){return t.done;}).length;
+  var weightedTot=0,weightedDone=0;
+  wkTasks.forEach(function(t){var w=t.prio==='alta'?2:t.prio==='baja'?1:1.5;weightedTot+=w;if(t.done)weightedDone+=w;});
+  var pct=weightedTot>0?weightedDone/weightedTot:0;
+  return{tot:tot,done:done,pct:pct,alta:alta.length,altaDone:altaDone};
+}
+function getCant(dateKey){return ST.cant[dateKey]||false;}
+function togCant(dateKey){ST.cant[dateKey]=!ST.cant[dateKey];save();ra();}
+function getCantWeek(){
+  var d=new Date(),dow=d.getDay()===0?6:d.getDay()-1,cnt=0;
+  for(var i=0;i<7;i++){var dd=new Date(d);dd.setDate(d.getDate()-dow+i);var k=dd.getFullYear()+'-'+pad(dd.getMonth()+1)+'-'+pad(dd.getDate());if(ST.cant[k])cnt++;}
+  return cnt;
+}
+function calcScore(){
+  var habTot=0,habDn=0;
+  var currentWeekStart=getMondayOfCurrentWeek();
+  var habIds=['trabajo','deporte'];
+  for(var i=0;i<habIds.length;i++){
+    for(var d=0;d<7;d++){
+      habTot++;
+      var dd=new Date(currentWeekStart);
+      dd.setDate(currentWeekStart.getDate()+d);
+      var ds=dd.getFullYear()+'-'+pad(dd.getMonth()+1)+'-'+pad(dd.getDate());
+      if(isHabitoChecked(habIds[i],ds))habDn++;
+    }
+  }
+  var habPct=habTot>0?habDn/habTot:0;
+  var ds=getDecWeekStats();
+  var decPct=ds.tot>0?ds.exec/ds.tot:0;
+  if(!getTodayDec())decPct=decPct*0.8;
+  var ts=getTaskWeekStats();
+  var wk=getWeekKey();
+  var metFilled=(getMet('HYK',wk,'ingresos')||getMet('BAZ',wk,'ingresos'))?1:0;
+  var score=Math.round((habPct*25)+(decPct*25)+(ts.pct*35)+(metFilled*15));
+  return{score:score,hab:Math.round(habPct*25),dec:Math.round(decPct*25),tasks:Math.round(ts.pct*35),met:metFilled*15,taskStats:ts};
+}
+function scoreClass(s){
+  if(s>=80)return'elite';
+  if(s>=60)return'building';
+  if(s>=40)return'warning';
+  return'danger';
+}
+function scoreTag(s){
+  if(s>=80)return'SEMANA DE ELITE';
+  if(s>=60)return'EN CONSTRUCCION';
+  if(s>=40)return'SEMANA MEDIOCRE';
+  return'SEMANA PERDIDA';
+}
+function getMondayOfCurrentWeek(){
+  var d=new Date();
+  var dow=d.getDay()===0?6:d.getDay()-1;
+  var monday=new Date(d);
+  monday.setDate(d.getDate()-dow);
+  return monday;
+}
+function getMondayOfWeek(weekIndex){
+  var baseMonday=new Date(2026,3,20);
+  var monday=new Date(baseMonday);
+  monday.setDate(baseMonday.getDate()+(weekIndex*7));
+  return monday;
+}
+
+// CATS, PRIOS, TPLS
+var CATS=[{id:'HYK',lb:'HYK'},{id:'BAZ',lb:'Bazar'},{id:'TRD',lb:'Trading'},{id:'WIP',lb:'WIP'},{id:'PER',lb:'Personal'}];
+var PRIOS=[{id:'alta',lb:'Alta'},{id:'media',lb:'Media'},{id:'baja',lb:'Baja'}];
+var REV_QS=[
+  {q:'Cual fue el score de esta semana en tu cabeza?',hint:'Se honesto. No el numero de la app - el tuyo.',type:'scale'},
+  {q:'Que es la unica cosa que si la hubieras hecho diferente habria cambiado la semana?',hint:'Una sola cosa.',type:'text'},
+  {q:'Cuantas noches cantineaste?',hint:'Sin juicio. Solo el numero.',type:'cant'},
+  {q:'Cual es la decision mas importante de la semana que viene?',hint:'La que mas mueve el negocio.',type:'text'}
+];
+var TPLS={
+  HYK:[
+    {id:'pedido',lb:'Pedido',extra:'Cliente',prio:'alta',sub:[],rem:false},
+    {id:'uber',lb:'Pago Uber',extra:'Cant. viajes',prio:'media',sub:[],rem:false},
+    {id:'devol',lb:'Devolucion/Retiro',extra:'Cliente',prio:'alta',sub:['Retiro Uber','Retiro personal','NC pendiente'],rem:false},
+    {id:'cc',lb:'Enviar ctas. ctes.',extra:'',prio:'media',sub:[],rem:false},
+    {id:'retpago',lb:'Retirar pago',extra:'Cliente',prio:'alta',sub:[],rem:false},
+    {id:'presup',lb:'Presupuesto',extra:'Cliente',prio:'media',sub:[],rem:false},
+    {id:'pago',lb:'Pago',extra:'',prio:'alta',sub:['Proveedor','IVA','IIBB','Autonomo','Contador','Sistema','Tienda Nube','Claro'],rem:false},
+    {id:'echeq',lb:'Cubrir eCheq',extra:'Monto $',prio:'alta',sub:[],rem:true},
+    {id:'aumento',lb:'Aumento de lista',extra:'Proveedor',prio:'media',sub:[],rem:false}
+  ],
+  BAZ:[
+    {id:'aumento',lb:'Aumento de lista',extra:'Proveedor',prio:'media',sub:[],rem:false}
+  ],
+  TRD:[],WIP:[],PER:[]
+};
+
+var cV='d',sCats=[],sPrio='media',sDue='',tFil='hoy';
+var cMetBiz='HYK',cMetWk=getWeekKey();
+var cFinanzasMonth=getCurrentMonthKey();
+var cSemanaHistorial=0;
+var decCat='HYK';
+var revStep=0,revAnswers={};
+var editingTaskId=null;
+var sTaskType='task',sActiveTpl=null,sTplSub='';
 var selectedGastoCat=null;
+
+function sv(v,el){
+  cV=v;
+  document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('on');});
+  if(el)el.classList.add('on');
+  document.getElementById('body').scrollTop=0;
+  ra();
+}
+function ra(){
+  var d=new Date();
+  var ey=DAYS_ES[d.getDay()]+' '+d.getDate()+' de '+MONTHS[d.getMonth()];
+  if(cV==='d')rHome(ey);
+  else if(cV==='k')rTasks(ey);
+  else if(cV==='t')rHab();
+  else if(cV==='l')rLife();
+  else rPlan();
+}
+function setSemanaHistorial(semana){cSemanaHistorial=semana;ra();}
+function finanzasNav(n){cFinanzasMonth=addMonths(cFinanzasMonth,n);ra();}
+function metWkNav(n){cMetWk=addWeeks(cMetWk,n);ra();}
+function setMetBiz(b){cMetBiz=b;ra();}
+function setTrdSt(v){setTrdStatus(cMetWk,v);}
+function setF(f){tFil=f;ra();}
+function clearDue(){sDue='';var di=document.getElementById('due-inp');if(di)di.value=getTK();}
 function openGastoModal(){
   var today=getTK();
   document.getElementById('gasto-fecha').value=today;
@@ -899,135 +976,51 @@ function saveGasto(){
   agregarGasto(fecha,concepto,monto,selectedGastoCat);
   closeGastoModal();
 }
-
-function getCant(dateKey){return ST.cant[dateKey]||false;}
-function togCant(dateKey){ST.cant[dateKey]=!ST.cant[dateKey];save();ra();}
-function getCantWeek(){
-  var d=new Date(),dow=d.getDay()===0?6:d.getDay()-1,cnt=0;
-  for(var i=0;i<7;i++){var dd=new Date(d);dd.setDate(d.getDate()-dow+i);var k=dd.getFullYear()+'-'+pad(dd.getMonth()+1)+'-'+pad(dd.getDate());if(ST.cant[k])cnt++;}
-  return cnt;
-}
-
-function getMet(biz,wk,field){return ST.met[biz+'_'+wk+'_'+field]||'';}
-function setMet(biz,wk,field,val){ST.met[biz+'_'+wk+'_'+field]=val;save();}
-function getTrdStatus(wk){return ST.met['TRD_'+wk+'_estatus']||'';}
-function setTrdStatus(wk,v){ST.met['TRD_'+wk+'_estatus']=v;save();ra();}
-
-function getTodayDec(){return ST.dec[getTK()]||null;}
-function saveTodayDec(text,cat){ST.dec[getTK()]={text:text,cat:cat,done:false,date:getTK()};save();}
-function markDecExec(){var d=ST.dec[getTK()];if(d){d.done=true;save();}}
-function getDecHistory(){return Object.keys(ST.dec).sort().reverse().slice(0,14).map(function(k){return ST.dec[k];});}
-function getDecWeekStats(){
-  var wk=getWeekKey(),d=new Date(),dow=d.getDay()===0?6:d.getDay()-1,tot=0,exec=0;
-  for(var i=0;i<=dow;i++){var dd=new Date(d);dd.setDate(d.getDate()-dow+i);var k=dd.getFullYear()+'-'+pad(dd.getMonth()+1)+'-'+pad(dd.getDate());if(ST.dec[k]){tot++;if(ST.dec[k].done)exec++;}}
-  return{tot:tot,exec:exec};
-}
-
-function getRevWeek(){return ST.rev[getWeekKey()]||null;}
-function hasRevWeek(){return!!ST.rev[getWeekKey()];}
-function saveRev(data){ST.rev[getWeekKey()]=data;save();}
-
-function getTaskWeekStats(){
-  var d=new Date(),dow=d.getDay()===0?6:d.getDay()-1;
-  var monday=new Date(d);monday.setDate(d.getDate()-dow);
-  var wkDates=[];
-  for(var i=0;i<=dow;i++){var dd=new Date(monday);dd.setDate(monday.getDate()+i);wkDates.push(dd.getFullYear()+'-'+pad(dd.getMonth()+1)+'-'+pad(dd.getDate()));}
-  var wkTasks=ST.tasks.filter(function(t){return wkDates.indexOf(t.due||t.date)>=0&&t.type!=='rem';});
-  var tot=wkTasks.length,done=wkTasks.filter(function(t){return t.done;}).length;
-  var alta=wkTasks.filter(function(t){return t.prio==='alta';}),altaDone=alta.filter(function(t){return t.done;}).length;
-  var weightedTot=0,weightedDone=0;
-  wkTasks.forEach(function(t){var w=t.prio==='alta'?2:t.prio==='baja'?1:1.5;weightedTot+=w;if(t.done)weightedDone+=w;});
-  var pct=weightedTot>0?weightedDone/weightedTot:0;
-  return{tot:tot,done:done,pct:pct,alta:alta.length,altaDone:altaDone};
-}
-
-function calcScore(){
-  var habTot=0,habDn=0;
-  var currentWeekStart=getMondayOfCurrentWeek();
-  for(var i=0;i<2;i++){
-    var habId=i===0?'trabajo':'deporte';
-    for(var d=0;d<7;d++){
-      habTot++;
-      var dd=new Date(currentWeekStart);
-      dd.setDate(currentWeekStart.getDate()+d);
-      var ds=dd.getFullYear()+'-'+pad(dd.getMonth()+1)+'-'+pad(dd.getDate());
-      if(isHabitoChecked(habId,ds))habDn++;
-    }
-  }
-  var habPct=habTot>0?habDn/habTot:0;
-  var ds=getDecWeekStats();
-  var decPct=ds.tot>0?ds.exec/ds.tot:0;
-  if(!getTodayDec())decPct=decPct*0.8;
-  var ts=getTaskWeekStats();
-  var wk=getWeekKey();
-  var metFilled=(getMet('HYK',wk,'ingresos')||getMet('BAZ',wk,'ingresos'))?1:0;
-  var score=Math.round((habPct*25)+(decPct*25)+(ts.pct*35)+(metFilled*15));
-  return{score:score,hab:Math.round(habPct*25),dec:Math.round(decPct*25),tasks:Math.round(ts.pct*35),met:metFilled*15,taskStats:ts};
-}
-
-function scoreClass(s){
-  if(s>=80)return'elite';
-  if(s>=60)return'building';
-  if(s>=40)return'warning';
-  return'danger';
-}
-function scoreTag(s){
-  if(s>=80)return'SEMANA DE ELITE';
-  if(s>=60)return'EN CONSTRUCCION';
-  if(s>=40)return'SEMANA MEDIOCRE';
-  return'SEMANA PERDIDA';
-}
-
-function getMondayOfCurrentWeek(){
-  var d=new Date();
-  var dow=d.getDay()===0?6:d.getDay()-1;
-  var monday=new Date(d);
-  monday.setDate(d.getDate()-dow);
-  return monday;
-}
-
-function getMondayOfWeek(weekIndex){
-  var baseMonday=new Date(2026,3,20); // 20/4/2026
-  var monday=new Date(baseMonday);
-  monday.setDate(baseMonday.getDate()+(weekIndex*7));
-  return monday;
-}
-
-var cV='d',sCats=[],sPrio='media',sDue='',tFil='hoy';
-var cMetBiz='HYK',cMetWk=getWeekKey();
-var cFinanzasMonth=getCurrentMonthKey();
-var cSemanaHistorial=0; // 0=Semana actual, 1=Semana 1, 2=Semana 2, 3=Semana 3
-var decCat='HYK';
-var revStep=0,revAnswers={};
-var editingTaskId=null;
-
-function sv(v,el){
-  cV=v;
-  document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('on');});
-  if(el)el.classList.add('on');
-  document.getElementById('body').scrollTop=0;
+function saveFinanzas(){
+  var ingresos=document.getElementById('finanzas-ingresos').value;
+  var ahorro=document.getElementById('finanzas-ahorro').value;
+  var inversion=document.getElementById('finanzas-inversion').value;
+  setFinanzas(cFinanzasMonth,'ingresos',ingresos);
+  setFinanzas(cFinanzasMonth,'ahorro',ahorro);
+  setFinanzas(cFinanzasMonth,'inversion',inversion);
   ra();
 }
-
-var TPLS={
-  HYK:[
-    {id:'pedido',lb:'Pedido',extra:'Cliente',prio:'alta',sub:[],rem:false},
-    {id:'uber',lb:'Pago Uber',extra:'Cant. viajes',prio:'media',sub:[],rem:false},
-    {id:'devol',lb:'Devolucion/Retiro',extra:'Cliente',prio:'alta',sub:['Retiro Uber','Retiro personal','NC pendiente'],rem:false},
-    {id:'cc',lb:'Enviar ctas. ctes.',extra:'',prio:'media',sub:[],rem:false},
-    {id:'retpago',lb:'Retirar pago',extra:'Cliente',prio:'alta',sub:[],rem:false},
-    {id:'presup',lb:'Presupuesto',extra:'Cliente',prio:'media',sub:[],rem:false},
-    {id:'pago',lb:'Pago',extra:'',prio:'alta',sub:['Proveedor','IVA','IIBB','Autonomo','Contador','Sistema','Tienda Nube','Claro'],rem:false},
-    {id:'echeq',lb:'Cubrir eCheq',extra:'Monto $',prio:'alta',sub:[],rem:true},
-    {id:'aumento',lb:'Aumento de lista',extra:'Proveedor',prio:'media',sub:[],rem:false}
-  ],
-  BAZ:[
-    {id:'aumento',lb:'Aumento de lista',extra:'Proveedor',prio:'media',sub:[],rem:false}
-  ],
-  TRD:[],WIP:[],PER:[]
-};
-var sTaskType='task',sActiveTpl=null,sTplSub='';
-
+function saveMetrics(){
+  var cfg=MET_CFG[cMetBiz];
+  cfg.fields.forEach(function(f){
+    var el=document.getElementById('mc-'+f.id);
+    if(el&&f.id!=='estado')setMet(cMetBiz,cMetWk,f.id,el.value);
+  });
+  ra();
+}
+function openModal(){
+  sCats=[];sDue='';sActiveTpl=null;sTplSub='';
+  editingTaskId=null;
+  document.getElementById('modal-title').textContent='Nueva tarea';
+  setTType('task');
+  document.getElementById('overlay').classList.add('open');
+  var di=document.getElementById('due-inp');if(di)di.value=getTK();
+  var ex=document.getElementById('tpl-extra');if(ex)ex.classList.remove('show');
+  var subsEl=document.getElementById('tpl-subs');if(subsEl)subsEl.innerHTML='';
+  var wrap=document.getElementById('tpl-wrap');if(wrap)wrap.style.display='none';
+  renderModalPills();
+  setTimeout(function(){var i=document.getElementById('cap');if(i){i.value='';i.placeholder='Que tenes que hacer?';i.focus();}},100);
+}
+function closeModal(e){if(e&&e.target!==document.getElementById('overlay'))return;document.getElementById('overlay').classList.remove('open');}
+function closeModalForce(){document.getElementById('overlay').classList.remove('open');}
+function renderModalPills(){
+  var cp=document.getElementById('cat-pills');
+  if(cp)cp.innerHTML=CATS.map(function(cat){
+    var on=sCats.indexOf(cat.id)>=0;
+    return '<div class="pill cat-'+cat.id+(on?' on':'')+'" onclick="togC(\''+cat.id+'\')">'+cat.lb+'</div>';
+  }).join('');
+  var pp=document.getElementById('prio-pills');
+  if(pp)pp.innerHTML=PRIOS.map(function(pr){
+    var on=sPrio===pr.id;
+    return '<div class="pill p-'+pr.id+(on?' on':'')+'" onclick="togP(\''+pr.id+'\')">'+pr.lb+'</div>';
+  }).join('');
+  renderTemplates();
+}
 function getTplsForCats(cats){
   var result=[],seen={};
   cats.forEach(function(cat){
@@ -1036,7 +1029,6 @@ function getTplsForCats(cats){
   });
   return result;
 }
-
 function renderTemplates(){
   var wrap=document.getElementById('tpl-wrap');
   var grid=document.getElementById('tpl-grid');
@@ -1050,7 +1042,6 @@ function renderTemplates(){
     return '<div class="tpl-btn '+cat+(isSel?' sel':'')+'" onclick="pickTpl(\''+t.id+'\',\''+item.cat+'\')">'+t.lb+'</div>';
   }).join('');
 }
-
 function pickTpl(id,cat){
   var tpl=null;
   for(var i=0;i<TPLS[cat].length;i++){if(TPLS[cat][i].id===id){tpl=TPLS[cat][i];break;}}
@@ -1088,14 +1079,7 @@ function pickTpl(id,cat){
     } else {subsEl.innerHTML='';}
   }
 }
-
-function pickSub(el,s){
-  sTplSub=s;
-  document.querySelectorAll('.tpl-sub').forEach(function(e){e.classList.remove('on');});
-  el.classList.add('on');
-  buildTplText();
-}
-
+function pickSub(el,s){sTplSub=s;document.querySelectorAll('.tpl-sub').forEach(function(e){e.classList.remove('on');});el.classList.add('on');buildTplText();}
 function buildTplText(){
   if(!sActiveTpl)return;
   var exInp=document.getElementById('tpl-inp');
@@ -1106,7 +1090,6 @@ function buildTplText(){
   if(sTplSub)txt+=' ('+sTplSub+')';
   cap.value=txt;
 }
-
 function setTType(type){
   sTaskType=type;
   var tb=document.getElementById('tt-task');
@@ -1122,38 +1105,6 @@ function setTType(type){
     if(btn)btn.textContent='Agregar recordatorio';
   }
 }
-
-function openModal(){
-  sCats=[];sDue='';sActiveTpl=null;sTplSub='';
-  editingTaskId=null;
-  document.getElementById('modal-title').textContent='Nueva tarea';
-  setTType('task');
-  document.getElementById('overlay').classList.add('open');
-  var di=document.getElementById('due-inp');if(di)di.value=getTK();
-  var ex=document.getElementById('tpl-extra');if(ex)ex.classList.remove('show');
-  var subsEl=document.getElementById('tpl-subs');if(subsEl)subsEl.innerHTML='';
-  var wrap=document.getElementById('tpl-wrap');if(wrap)wrap.style.display='none';
-  renderModalPills();
-  setTimeout(function(){var i=document.getElementById('cap');if(i){i.value='';i.placeholder='Que tenes que hacer?';i.focus();}},100);
-}
-function closeModal(e){if(e&&e.target!==document.getElementById('overlay'))return;document.getElementById('overlay').classList.remove('open');}
-function closeModalForce(){document.getElementById('overlay').classList.remove('open');}
-function renderModalPills(){
-  var cp=document.getElementById('cat-pills');
-  if(cp)cp.innerHTML=CATS.map(function(cat){
-    var on=sCats.indexOf(cat.id)>=0;
-    return '<div class="pill cat-'+cat.id+(on?' on':'')+'" onclick="togC(\''+cat.id+'\')">'+cat.lb+'</div>';
-  }).join('');
-  var pp=document.getElementById('prio-pills');
-  if(pp)pp.innerHTML=PRIOS.map(function(pr){
-    var on=sPrio===pr.id;
-    return '<div class="pill p-'+pr.id+(on?' on':'')+'" onclick="togP(\''+pr.id+'\')">'+pr.lb+'</div>';
-  }).join('');
-  renderTemplates();
-}
-function togC(cat){var i=sCats.indexOf(cat);if(i>=0)sCats.splice(i,1);else sCats.push(cat);sActiveTpl=null;sTplSub='';var ex=document.getElementById('tpl-extra');if(ex)ex.classList.remove('show');renderModalPills();}
-function togP(p){sPrio=p;renderModalPills();}
-function clearDue(){sDue='';var di=document.getElementById('due-inp');if(di)di.value=getTK();}
 function addTask(){
   var inp=document.getElementById('cap'),txt=inp?inp.value.trim():'';
   if(!txt)return;
@@ -1162,7 +1113,6 @@ function addTask(){
   if(cV==='d'||cV==='k')ra();else sv('d',document.getElementById('nv-d'));
 }
 function hKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();addTask();}}
-
 function editTask(id){
   var task=null;
   for(var i=0;i<ST.tasks.length;i++){if(ST.tasks[i].id===id){task=ST.tasks[i];break;}}
@@ -1206,16 +1156,10 @@ function saveEditTask(){
   ra();
 }
 function closeEditModal(e){if(e&&e.target!==document.getElementById('edit-overlay'))return;document.getElementById('edit-overlay').classList.remove('open');editCats=[];editPrio='media';editingTaskId=null;}
-
 function togTask(id){for(var i=0;i<ST.tasks.length;i++){if(ST.tasks[i].id===id){ST.tasks[i].done=!ST.tasks[i].done;break;}}save();ra();}
 function delTask(id){ST.tasks=ST.tasks.filter(function(t){return t.id!==id;});save();ra();}
-function setF(f){tFil=f;ra();}
-function setSemanaHistorial(semana){
-  cSemanaHistorial=semana;
-  ra();
-}
-function finanzasNav(n){cFinanzasMonth=addMonths(cFinanzasMonth,n);ra();}
-
+function togC(cat){var i=sCats.indexOf(cat);if(i>=0)sCats.splice(i,1);else sCats.push(cat);sActiveTpl=null;sTplSub='';var ex=document.getElementById('tpl-extra');if(ex)ex.classList.remove('show');renderModalPills();}
+function togP(p){sPrio=p;renderModalPills();}
 function openDecModal(){
   document.getElementById('dec-overlay').classList.add('open');
   var today=getTodayDec();
@@ -1243,7 +1187,6 @@ function saveDecision(){
   saveTodayDec(txt,decCat);closeDecModalF();ra();
 }
 function markDecisionExec(){markDecExec();closeDecModalF();ra();}
-
 function openRevModal(){
   revStep=0;revAnswers={};
   document.getElementById('rev-overlay').classList.add('open');
@@ -1251,48 +1194,33 @@ function openRevModal(){
 }
 function closeRevModal(e){if(e&&e.target!==document.getElementById('rev-overlay'))return;document.getElementById('rev-overlay').classList.remove('open');}
 function closeRevModalF(){document.getElementById('rev-overlay').classList.remove('open');}
-
 function renderRevStep(){
   var prog=document.getElementById('rev-prog');
   var steps=document.getElementById('rev-steps');
   var q=REV_QS[revStep];
   var sub=document.getElementById('rev-sub');
   sub.textContent=(revStep+1)+' de '+REV_QS.length+' - '+Math.round((revStep/REV_QS.length)*100)+'% completado';
-
-  prog.innerHTML=REV_QS.map(function(_,i){
-    return'<div class="rev-dot'+(i<revStep?' done':i===revStep?' active':'')+'"></div>';
-  }).join('');
-
+  prog.innerHTML=REV_QS.map(function(_,i){return'<div class="rev-dot'+(i<revStep?' done':i===revStep?' active':'')+'"></div>';}).join('');
   var content='<div class="rev-q">'+q.q+'</div><div class="rev-hint">'+q.hint+'</div>';
-
   if(q.type==='text'){
     content+='<textarea class="inp inp-sm" id="rev-ans" rows="3" style="resize:none;margin-bottom:16px" placeholder="Escribi aca..."></textarea>';
     content+='<button class="btn-gold" onclick="revNext()">Continuar</button>';
   } else if(q.type==='scale'){
     content+='<div style="display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap" id="rev-scale">';
-    for(var i=1;i<=10;i++){
-      content+='<div onclick="revPickScale('+i+')" id="rs-'+i+'" style="width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:700;background:var(--c1);border:0.5px solid var(--c3);cursor:pointer;color:var(--t3)">'+i+'</div>';
-    }
-    content+='</div>';
-    content+='<button class="btn-gold" id="rev-scale-btn" onclick="revNext()" style="opacity:0.4">Continuar</button>';
+    for(var i=1;i<=10;i++){content+='<div onclick="revPickScale('+i+')" id="rs-'+i+'" style="width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:700;background:var(--c1);border:0.5px solid var(--c3);cursor:pointer;color:var(--t3)">'+i+'</div>';}
+    content+='</div><button class="btn-gold" id="rev-scale-btn" onclick="revNext()" style="opacity:0.4">Continuar</button>';
   } else if(q.type==='cant'){
     content+='<div style="display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap" id="rev-cant">';
-    for(var j=0;j<=7;j++){
-      content+='<div onclick="revPickCant('+j+')" id="rc-'+j+'" style="width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:700;background:var(--c1);border:0.5px solid var(--c3);cursor:pointer;color:var(--t3)">'+j+'</div>';
-    }
-    content+='</div>';
-    content+='<button class="btn-gold" id="rev-cant-btn" onclick="revNext()" style="opacity:0.4">Continuar</button>';
+    for(var j=0;j<=7;j++){content+='<div onclick="revPickCant('+j+')" id="rc-'+j+'" style="width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:700;background:var(--c1);border:0.5px solid var(--c3);cursor:pointer;color:var(--t3)">'+j+'</div>';}
+    content+='</div><button class="btn-gold" id="rev-cant-btn" onclick="revNext()" style="opacity:0.4">Continuar</button>';
   }
-
   steps.innerHTML='<div class="rev-step active">'+content+'</div>';
-
   if(q.type==='text'){
     var el=document.getElementById('rev-ans');
     if(el&&revAnswers['q'+revStep])el.value=revAnswers['q'+revStep];
     setTimeout(function(){if(el)el.focus();},100);
   }
 }
-
 function revPickScale(v){
   revAnswers['q'+revStep]=v;
   for(var i=1;i<=10;i++){
@@ -1322,52 +1250,13 @@ function revNext(){
   if(!revAnswers['q'+revStep]&&revAnswers['q'+revStep]!==0)return;
   revStep++;
   if(revStep>=REV_QS.length){
-    saveRev({
-      date:getTK(),
-      score:revAnswers.q0,
-      mejora:revAnswers.q1,
-      cantineo:revAnswers.q2,
-      decSiguiente:revAnswers.q3,
-      appScore:calcScore().score
-    });
+    saveRev({date:getTK(),score:revAnswers.q0,mejora:revAnswers.q1,cantineo:revAnswers.q2,decSiguiente:revAnswers.q3,appScore:calcScore().score});
     closeRevModalF();ra();
-  } else {
-    renderRevStep();
-  }
+  } else {renderRevStep();}
 }
 
-function setMetBiz(b){cMetBiz=b;ra();}
-function metWkNav(n){cMetWk=addWeeks(cMetWk,n);ra();}
-function setTrdSt(v){setTrdStatus(cMetWk,v);}
-function saveMetrics(){
-  var cfg=MET_CFG[cMetBiz];
-  cfg.fields.forEach(function(f){
-    var el=document.getElementById('mc-'+f.id);
-    if(el&&f.id!=='estado')setMet(cMetBiz,cMetWk,f.id,el.value);
-  });
-  ra();
-}
-function saveFinanzas(){
-  var ingresos=document.getElementById('finanzas-ingresos').value;
-  var ahorro=document.getElementById('finanzas-ahorro').value;
-  var inversion=document.getElementById('finanzas-inversion').value;
-  setFinanzas(cFinanzasMonth,'ingresos',ingresos);
-  setFinanzas(cFinanzasMonth,'ahorro',ahorro);
-  setFinanzas(cFinanzasMonth,'inversion',inversion);
-  ra();
-}
-
+// RENDER FUNCTIONS
 var chkSVG='<svg viewBox="0 0 12 12" fill="none" width="10" height="10"><polyline points="1.5,6 4.5,9.5 10.5,2.5" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>';
-
-function ra(){
-  var d=new Date();
-  var ey=DAYS_ES[d.getDay()]+' '+d.getDate()+' de '+MONTHS[d.getMonth()];
-  if(cV==='d')rHome(ey);
-  else if(cV==='k')rTasks(ey);
-  else if(cV==='t')rHab();
-  else if(cV==='l')rLife();
-  else rPlan();
-}
 
 function rHome(ey){
   var tk=getTK();
@@ -1379,101 +1268,29 @@ function rHome(ey){
   var venc=ST.tasks.filter(function(t){return!t.done&&isOD(t.due||t.date);}).length;
   var todayDec=getTodayDec();
   var cantW=getCantWeek();
-
-  var scoreHTML='<div class="score-card '+cls+'">'
-    +'<div class="sc-label">Score semanal</div>'
-    +'<div class="sc-num">'+sc.score+'</div>'
-    +'<div class="sc-tag">'+tag+'</div>'
-    +'<div class="sc-rule"></div>'
-    +'<div class="sc-breakdown">'
-    +'<div class="scb"><div class="scb-val">'+sc.hab+'</div><div class="scb-lbl">Habitos /25</div></div>'
-    +'<div class="scb"><div class="scb-val">'+sc.dec+'</div><div class="scb-lbl">Decision /25</div></div>'
-    +'<div class="scb"><div class="scb-val">'+sc.tasks+'</div><div class="scb-lbl">Tareas /35</div></div>'
-    +'<div class="scb"><div class="scb-val">'+sc.met+'</div><div class="scb-lbl">Metricas /15</div></div>'
-    +'</div></div>';
-
+  var scoreHTML='<div class="score-card '+cls+'"><div class="sc-label">Score semanal</div><div class="sc-num">'+sc.score+'</div><div class="sc-tag">'+tag+'</div><div class="sc-rule"></div><div class="sc-breakdown"><div class="scb"><div class="scb-val">'+sc.hab+'</div><div class="scb-lbl">Habitos /25</div></div><div class="scb"><div class="scb-val">'+sc.dec+'</div><div class="scb-lbl">Decision /25</div></div><div class="scb"><div class="scb-val">'+sc.tasks+'</div><div class="scb-lbl">Tareas /35</div></div><div class="scb"><div class="scb-val">'+sc.met+'</div><div class="scb-lbl">Metricas /15</div></div></div></div>';
   var decHTML='';
-  if(!todayDec){
-    decHTML='<div class="decision-block pending" onclick="openDecModal()">'
-      +'<div class="db-header"><div class="db-label">Decision del dia</div><div class="db-status">Sin cargar</div></div>'
-      +'<div class="db-text">Cual es la accion mas importante hoy?</div>'
-      +'<div class="db-sub">Afecta tu score - cargala antes de las 12hs</div>'
-      +'</div>';
-  } else if(!todayDec.done){
-    decHTML='<div class="decision-block pending" onclick="openDecModal()">'
-      +'<div class="db-header"><div class="db-label">Decision - '+todayDec.cat+'</div><div class="db-status">Pendiente</div></div>'
-      +'<div class="db-text">'+todayDec.text+'</div>'
-      +'<div class="db-sub">Toca para marcar como ejecutada</div>'
-      +'</div>';
-  } else {
-    decHTML='<div class="decision-block done">'
-      +'<div class="db-header"><div class="db-label">Decision - '+todayDec.cat+'</div><div class="db-status">Ejecutada</div></div>'
-      +'<div class="db-text">'+todayDec.text+'</div>'
-      +'</div>';
-  }
-
+  if(!todayDec){decHTML='<div class="decision-block pending" onclick="openDecModal()"><div class="db-header"><div class="db-label">Decision del dia</div><div class="db-status">Sin cargar</div></div><div class="db-text">Cual es la accion mas importante hoy?</div><div class="db-sub">Afecta tu score - cargala antes de las 12hs</div></div>';}
+  else if(!todayDec.done){decHTML='<div class="decision-block pending" onclick="openDecModal()"><div class="db-header"><div class="db-label">Decision - '+todayDec.cat+'</div><div class="db-status">Pendiente</div></div><div class="db-text">'+todayDec.text+'</div><div class="db-sub">Toca para marcar como ejecutada</div></div>';}
+  else {decHTML='<div class="decision-block done"><div class="db-header"><div class="db-label">Decision - '+todayDec.cat+'</div><div class="db-status">Ejecutada</div></div><div class="db-text">'+todayDec.text+'</div></div>';}
   var revHTML='';
-  if(isSunday()&&!hasRevWeek()){
-    revHTML='<div class="rev-banner" onclick="openRevModal()">'
-      +'<div class="rb-left"><div class="rb-label">Revision semanal</div><div class="rb-text">Domingo - 3 minutos - Cerrar la semana</div></div>'
-      +'<div class="rb-arrow">></div>'
-      +'</div>';
-  }
-
-  var statsHTML='<div class="stat-pair">'
-    +'<div class="sp'+(cantW>=4?' danger':cantW===0?' success':'')+'"><div class="sp-val">'+cantW+'</div><div class="sp-lbl">racha esta sem.</div></div>'
-    +(venc>0?'<div class="sp danger"><div class="sp-val">'+venc+'</div><div class="sp-lbl">tareas vencidas</div></div>':'<div class="sp"><div class="sp-val">'+tdD+'/'+tdT.length+'</div><div class="sp-lbl">tareas hoy</div></div>')
-    +'</div>';
-
+  if(isSunday()&&!hasRevWeek()){revHTML='<div class="rev-banner" onclick="openRevModal()"><div class="rb-left"><div class="rb-label">Revision semanal</div><div class="rb-text">Domingo - 3 minutos - Cerrar la semana</div></div><div class="rb-arrow">></div></div>';}
+  var statsHTML='<div class="stat-pair"><div class="sp'+(cantW>=4?' danger':cantW===0?' success':'')+'"><div class="sp-val">'+cantW+'</div><div class="sp-lbl">racha esta sem.</div></div>'+(venc>0?'<div class="sp danger"><div class="sp-val">'+venc+'</div><div class="sp-lbl">tareas vencidas</div></div>':'<div class="sp"><div class="sp-val">'+tdD+'/'+tdT.length+'</div><div class="sp-lbl">tareas hoy</div></div>')+'</div>';
   var todayTasks=tdT.slice(0,4).map(function(t){
     var cats=t.cats&&t.cats.length?t.cats:(t.cat?[t.cat]:[]);
     var meta=cats.join(' - ')+(t.prio?' - '+t.prio:'');
     var dot=t.prio==='alta'?'r':t.prio==='baja'?'g':'gold';
-    return'<div class="task-item'+(t.done?' done-t':'')+'" onclick="togTask('+t.id+')">'
-      +'<div class="tck">'+(t.done?chkSVG:'')+'</div>'
-      +'<div class="t-body"><div class="t-name" onclick="event.stopPropagation();editTask('+t.id+')">'+t.text+'</div>'+(meta?'<div class="t-meta">'+meta+'</div>':'')+'</div>'
-      +'<div class="delete-icon" onclick="event.stopPropagation();delTask('+t.id+')"><svg viewBox="0 0 12 12" width="11" height="11" fill="none" stroke="var(--t5)" stroke-width="1.8" stroke-linecap="round"><line x1="1" y1="1" x2="11" y2="11"/><line x1="11" y1="1" x2="1" y2="11"/></svg></div>'
-      +'</div>';
+    return'<div class="task-item'+(t.done?' done-t':'')+'" onclick="togTask('+t.id+')"><div class="tck">'+(t.done?chkSVG:'')+'</div><div class="t-body"><div class="t-name" onclick="event.stopPropagation();editTask('+t.id+')">'+t.text+'</div>'+(meta?'<div class="t-meta">'+meta+'</div>':'')+'</div><div class="delete-icon" onclick="event.stopPropagation();delTask('+t.id+')"><svg viewBox="0 0 12 12" width="11" height="11" fill="none" stroke="var(--t5)" stroke-width="1.8" stroke-linecap="round"><line x1="1" y1="1" x2="11" y2="11"/><line x1="11" y1="1" x2="1" y2="11"/></svg></div></div>';
   }).join('');
-
   var allT=ST.tasks;
   var totalAgend=allT.length;
   var totalDone=allT.filter(function(t){return t.done;}).length;
   var totalPend=allT.filter(function(t){return!t.done;}).length;
   var tasksRate=totalAgend>0?Math.round(totalDone/totalAgend*100):0;
   var twStats=getTaskWeekStats();
-  var homeAnalytics='<div style="margin:12px 14px 0;border-radius:18px;padding:16px;background:linear-gradient(160deg,var(--c2),var(--c1));border:0.5px solid var(--c3);position:relative;overflow:hidden;cursor:pointer" onclick="sv(\'k\',document.getElementById(\'nv-k\'))">'
-    +'<div style="position:absolute;top:0;left:0;right:0;height:0.5px;background:linear-gradient(90deg,transparent,var(--c4),transparent)"></div>'
-    +'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">'
-    +'<div style="font-size:12px;color:var(--t4);letter-spacing:0.08em;text-transform:uppercase;font-weight:500">Tareas</div>'
-    +'<div style="font-size:13px;color:var(--t4)">ver todas</div>'
-    +'</div>'
-    +'<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px">'
-    +'<div style="text-align:center"><div style="font-size:22px;font-weight:700;color:var(--t1);letter-spacing:-0.03em">'+totalAgend+'</div><div style="font-size:10px;color:var(--t5);margin-top:2px">Total</div></div>'
-    +'<div style="text-align:center"><div style="font-size:22px;font-weight:700;color:var(--green);letter-spacing:-0.03em">'+totalDone+'</div><div style="font-size:10px;color:var(--t5);margin-top:2px">Hechas</div></div>'
-    +'<div style="text-align:center"><div style="font-size:22px;font-weight:700;color:'+(totalPend>10?'var(--red)':totalPend>5?'var(--gold)':'var(--t1)')+';letter-spacing:-0.03em">'+totalPend+'</div><div style="font-size:10px;color:var(--t5);margin-top:2px">Pendientes</div></div>'
-    +'<div style="text-align:center"><div style="font-size:22px;font-weight:700;color:'+(tasksRate>=70?'var(--green)':tasksRate>=50?'var(--gold)':'var(--red)')+';letter-spacing:-0.03em">'+tasksRate+'%</div><div style="font-size:10px;color:var(--t5);margin-top:2px">Ejecucion</div></div>'
-    +'</div>'
-    +'<div style="height:0.5px;background:var(--c3);margin:12px 0 10px"></div>'
-    +'<div style="display:flex;justify-content:space-between">'
-    +'<span style="font-size:13px;color:var(--t4)">Esta semana: '+twStats.done+'/'+twStats.tot+'</span>'
-    +'<span style="font-size:13px;color:var(--t4)">Alta: '+twStats.altaDone+'/'+twStats.alta+' ej.</span>'
-    +'</div>'
-    +'</div>';
-
-  document.getElementById('body').innerHTML='<div class="pg">'
-    +'<div class="page-hdr"><div class="page-eyebrow">'+ey+'</div><div class="page-title">Buenos dias.</div></div>'
-    +scoreHTML
-    +homeAnalytics
-    +decHTML
-    +revHTML
-    +statsHTML
-    +(venc>0?'<div class="venc-alert" onclick="sv(\'k\',document.getElementById(\'nv-k\'));setF(\'venc\')"><div class="va-t">'+venc+' tarea'+(venc>1?'s':'')+' vencida'+(venc>1?'s':'')+'</div><div class="va-a">Ver</div></div>':'')
-    +'<div class="sec-row"><div class="sec-t">Hoy</div><div class="sec-a" onclick="sv(\'k\',document.getElementById(\'nv-k\'))">ver todas</div></div>'
-    +(todayTasks||'<div class="empty">Sin tareas para hoy.<br>Toca + para agregar.</div>')
-    +'</div>';
+  var homeAnalytics='<div style="margin:12px 14px 0;border-radius:18px;padding:16px;background:linear-gradient(160deg,var(--c2),var(--c1));border:0.5px solid var(--c3);position:relative;overflow:hidden;cursor:pointer" onclick="sv(\'k\',document.getElementById(\'nv-k\'))"><div style="position:absolute;top:0;left:0;right:0;height:0.5px;background:linear-gradient(90deg,transparent,var(--c4),transparent)"></div><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><div style="font-size:12px;color:var(--t4);letter-spacing:0.08em;text-transform:uppercase;font-weight:500">Tareas</div><div style="font-size:13px;color:var(--t4)">ver todas</div></div><div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px"><div style="text-align:center"><div style="font-size:22px;font-weight:700;color:var(--t1);letter-spacing:-0.03em">'+totalAgend+'</div><div style="font-size:10px;color:var(--t5);margin-top:2px">Total</div></div><div style="text-align:center"><div style="font-size:22px;font-weight:700;color:var(--green);letter-spacing:-0.03em">'+totalDone+'</div><div style="font-size:10px;color:var(--t5);margin-top:2px">Hechas</div></div><div style="text-align:center"><div style="font-size:22px;font-weight:700;color:'+(totalPend>10?'var(--red)':totalPend>5?'var(--gold)':'var(--t1)')+';letter-spacing:-0.03em">'+totalPend+'</div><div style="font-size:10px;color:var(--t5);margin-top:2px">Pendientes</div></div><div style="text-align:center"><div style="font-size:22px;font-weight:700;color:'+(tasksRate>=70?'var(--green)':tasksRate>=50?'var(--gold)':'var(--red)')+';letter-spacing:-0.03em">'+tasksRate+'%</div><div style="font-size:10px;color:var(--t5);margin-top:2px">Ejecucion</div></div></div><div style="height:0.5px;background:var(--c3);margin:12px 0 10px"></div><div style="display:flex;justify-content:space-between"><span style="font-size:13px;color:var(--t4)">Esta semana: '+twStats.done+'/'+twStats.tot+'</span><span style="font-size:13px;color:var(--t4)">Alta: '+twStats.altaDone+'/'+twStats.alta+' ej.</span></div></div>';
+  document.getElementById('body').innerHTML='<div class="pg"><div class="page-hdr"><div class="page-eyebrow">'+ey+'</div><div class="page-title">Buenos dias.</div></div>'+scoreHTML+homeAnalytics+decHTML+revHTML+statsHTML+(venc>0?'<div class="venc-alert" onclick="sv(\'k\',document.getElementById(\'nv-k\'));setF(\'venc\')"><div class="va-t">'+venc+' tarea'+(venc>1?'s':'')+' vencida'+(venc>1?'s':'')+'</div><div class="va-a">Ver</div></div>':'')+'<div class="sec-row"><div class="sec-t">Hoy</div><div class="sec-a" onclick="sv(\'k\',document.getElementById(\'nv-k\'))">ver todas</div></div>'+(todayTasks||'<div class="empty">Sin tareas para hoy.<br>Toca + para agregar.</div>')+'</div>';
 }
-
 function rTasks(ey){
   var tk=getTK();
   var venc=ST.tasks.filter(function(t){return!t.done&&isOD(t.due||t.date);});
@@ -1509,22 +1326,12 @@ function rTasks(ey){
   });
   var catBarsHTML=CATS_LIST.filter(function(k){return catCount[k]>0;}).map(function(k){
     var pct=Math.round(catDone[k]/catCount[k]*100);
-    return '<div style="margin-bottom:13px">'
-      +'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">'
-      +'<span style="font-size:13px;font-weight:500;color:var(--t2)">'+catLabels[k]+'</span>'
-      +'<div style="display:flex;gap:10px;align-items:center">'
-      +(catAlta[k]>0?'<span style="font-size:11px;color:var(--red)">'+catAlta[k]+' alta pend.</span>':'')
-      +'<span style="font-size:12px;color:var(--t4)">'+catDone[k]+'/'+catCount[k]+' - '+pct+'%</span>'
-      +'</div></div>'
-      +'<div style="height:5px;background:var(--c3);border-radius:3px">'
-      +'<div style="height:100%;width:'+pct+'%;background:'+catColors[k]+';border-radius:3px"></div>'
-      +'</div></div>';
+    return '<div style="margin-bottom:13px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><span style="font-size:13px;font-weight:500;color:var(--t2)">'+catLabels[k]+'</span><div style="display:flex;gap:10px;align-items:center">'+(catAlta[k]>0?'<span style="font-size:11px;color:var(--red)">'+catAlta[k]+' alta pend.</span>':'')+'<span style="font-size:12px;color:var(--t4)">'+catDone[k]+'/'+catCount[k]+' - '+pct+'%</span></div></div><div style="height:5px;background:var(--c3);border-radius:3px"><div style="height:100%;width:'+pct+'%;background:'+catColors[k]+';border-radius:3px"></div></div></div>';
   }).join('');
   var noCatData=CATS_LIST.every(function(k){return catCount[k]===0;});
   var twStats=getTaskWeekStats();
   var twRate=twStats.tot>0?Math.round(twStats.done/twStats.tot*100):0;
   var emptyState=totalAgend===0;
-
   var groups=dates.map(function(date){
     var dn=byD[date].filter(function(t){return t.done;}).length;
     var isT=date===tk,isO=isOD(date);
@@ -1534,85 +1341,30 @@ function rTasks(ey){
       var meta=cats.join(' - ')+(t.prio?' - '+t.prio:'');
       var dot=t.prio==='alta'?'r':t.prio==='baja'?'g':'gold';
       var isRem=t.type==='rem';
-      return'<div class="task-item'+(t.done?' done-t':'')+(isRem?' rem-t':'')+'" onclick="togTask('+t.id+')">'
-        +'<div class="tck">'+(t.done?chkSVG:'')+'</div>'
-        +'<div class="t-body"><div class="t-name" onclick="event.stopPropagation();editTask('+t.id+')">'+t.text+'</div>'+(meta?'<div class="t-meta">'+meta+'</div>':'')+'</div>'
-        +'<div class="delete-icon" onclick="event.stopPropagation();delTask('+t.id+')"><svg viewBox="0 0 12 12" width="11" height="11" fill="none" stroke="var(--t5)" stroke-width="1.8" stroke-linecap="round"><line x1="1" y1="1" x2="11" y2="11"/><line x1="11" y1="1" x2="1" y2="11"/></svg></div>'
-        +'</div>';
+      return'<div class="task-item'+(t.done?' done-t':'')+(isRem?' rem-t':'')+'" onclick="togTask('+t.id+')"><div class="tck">'+(t.done?chkSVG:'')+'</div><div class="t-body"><div class="t-name" onclick="event.stopPropagation();editTask('+t.id+')">'+t.text+'</div>'+(meta?'<div class="t-meta">'+meta+'</div>':'')+'</div><div class="delete-icon" onclick="event.stopPropagation();delTask('+t.id+')"><svg viewBox="0 0 12 12" width="11" height="11" fill="none" stroke="var(--t5)" stroke-width="1.8" stroke-linecap="round"><line x1="1" y1="1" x2="11" y2="11"/><line x1="11" y1="1" x2="1" y2="11"/></svg></div></div>';
     }).join('');
     return'<div class="group-hdr"><div class="gh-l"'+cls+'>'+fmtGroup(date)+'</div><div class="gh-c">'+dn+'/'+byD[date].length+'</div></div>'+rows;
   }).join('');
-
-  var analyticsHTML='<div style="margin:14px 14px 0;border-radius:18px;padding:18px;background:linear-gradient(160deg,var(--c2),var(--c1));border:0.5px solid var(--c3);position:relative;overflow:hidden">'
-    +'<div style="position:absolute;top:0;left:0;right:0;height:0.5px;background:linear-gradient(90deg,transparent,var(--c4),transparent)"></div>'
-    +'<div style="font-size:12px;color:var(--t4);letter-spacing:0.08em;text-transform:uppercase;font-weight:500;margin-bottom:16px">Ejecucion historica</div>'
-    +'<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px">'
-    +'<div style="text-align:center"><div style="font-size:30px;font-weight:800;color:var(--t1);letter-spacing:-0.04em;line-height:1">'+totalAgend+'</div><div style="font-size:11px;color:var(--t4);margin-top:4px">Agendadas</div></div>'
-    +'<div style="text-align:center"><div style="font-size:30px;font-weight:800;color:var(--green);letter-spacing:-0.04em;line-height:1">'+totalDone+'</div><div style="font-size:11px;color:var(--t4);margin-top:4px">Completadas</div></div>'
-    +'<div style="text-align:center"><div style="font-size:30px;font-weight:800;color:'+(emptyState?'var(--c5)':tasksRate>=70?'var(--green)':tasksRate>=50?'var(--gold)':'var(--red)')+';letter-spacing:-0.04em;line-height:1">'+(emptyState?'-':tasksRate+'%')+'</div><div style="font-size:11px;color:var(--t4);margin-top:4px">Tasa ejec.</div></div>'
-    +'</div>'
-    +'<div style="height:0.5px;background:var(--c3);margin-bottom:16px"></div>'
-    +'<div style="font-size:11px;color:var(--t4);letter-spacing:0.06em;text-transform:uppercase;font-weight:500;margin-bottom:12px">Por categoria</div>'
-    +(noCatData?'<div style="font-size:13px;color:var(--t5);padding:4px 0 10px">Los datos apareceran cuando empieces a cargar tareas.</div>':catBarsHTML)
-    +'<div style="height:0.5px;background:var(--c3);margin:6px 0 14px"></div>'
-    +'<div style="display:flex;justify-content:space-between;align-items:flex-start">'
-    +'<div><div style="font-size:11px;color:var(--t4);letter-spacing:0.06em;text-transform:uppercase;font-weight:500;margin-bottom:8px">Esta semana</div>'
-    +'<div style="font-size:15px;font-weight:600;color:var(--t1)">'+twStats.done+'/'+twStats.tot+' tareas</div>'
-    +'<div style="font-size:12px;color:var(--t4);margin-top:4px">Alta: '+twStats.altaDone+'/'+twStats.alta+' ej.'+(venc.length>0?' - <span style="color:var(--red)">'+venc.length+' vencida'+(venc.length>1?'s':'')+'</span>':'')+'</div>'
-    +'</div>'
-    +'<div style="text-align:right"><div style="font-size:36px;font-weight:800;color:'+(twStats.tot===0?'var(--c5)':twRate>=70?'var(--green)':twRate>=50?'var(--gold)':'var(--red)')+';letter-spacing:-0.04em;line-height:1">'+(twStats.tot===0?'-':twRate+'%')+'</div>'
-    +'<div style="font-size:11px;color:var(--t4);margin-top:4px">esta sem.</div></div>'
-    +'</div>'
-    +'</div>';
-
-  document.getElementById('body').innerHTML='<div class="pg">'
-    +'<div class="page-hdr"><div class="page-eyebrow">'+ey+'</div><div class="page-title">Tareas</div></div>'
-    +analyticsHTML
-    +'<div class="filter-wrap">'
-    +'<div class="ft'+(tFil==='hoy'?' on':'')+'" onclick="setF(\'hoy\')">Hoy</div>'
-    +'<div class="ft'+(tFil==='prox'?' on':'')+'" onclick="setF(\'prox\')">Proximas</div>'
-    +'<div class="ft'+(tFil==='all'?' on':'')+'" onclick="setF(\'all\')">Todas</div>'
-    +(venc.length>0?'<div class="ft danger'+(tFil==='venc'?' on':'')+'" onclick="setF(\'venc\')">Vencidas ('+venc.length+')</div>':'')
-    +'<div class="ft'+(tFil==='pend'?' on':'')+'" onclick="setF(\'pend\')">Pendientes</div>'
-    +'<div class="ft'+(tFil==='alta'?' on':'')+'" onclick="setF(\'alta\')">Alta prioridad</div>'
-    +'<div class="ft success'+(tFil==='done'?' on':'')+'" onclick="setF(\'done\')">Completadas</div>'
-    +'</div>'
-    +(dates.length===0?'<div class="empty">Sin tareas aqui.</div>':groups)
-    +'</div>';
+  var analyticsHTML='<div style="margin:14px 14px 0;border-radius:18px;padding:18px;background:linear-gradient(160deg,var(--c2),var(--c1));border:0.5px solid var(--c3);position:relative;overflow:hidden"><div style="position:absolute;top:0;left:0;right:0;height:0.5px;background:linear-gradient(90deg,transparent,var(--c4),transparent)"></div><div style="font-size:12px;color:var(--t4);letter-spacing:0.08em;text-transform:uppercase;font-weight:500;margin-bottom:16px">Ejecucion historica</div><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px"><div style="text-align:center"><div style="font-size:30px;font-weight:800;color:var(--t1);letter-spacing:-0.04em;line-height:1">'+totalAgend+'</div><div style="font-size:11px;color:var(--t4);margin-top:4px">Agendadas</div></div><div style="text-align:center"><div style="font-size:30px;font-weight:800;color:var(--green);letter-spacing:-0.04em;line-height:1">'+totalDone+'</div><div style="font-size:11px;color:var(--t4);margin-top:4px">Completadas</div></div><div style="text-align:center"><div style="font-size:30px;font-weight:800;color:'+(emptyState?'var(--c5)':tasksRate>=70?'var(--green)':tasksRate>=50?'var(--gold)':'var(--red)')+';letter-spacing:-0.04em;line-height:1">'+(emptyState?'-':tasksRate+'%')+'</div><div style="font-size:11px;color:var(--t4);margin-top:4px">Tasa ejec.</div></div></div><div style="height:0.5px;background:var(--c3);margin-bottom:16px"></div><div style="font-size:11px;color:var(--t4);letter-spacing:0.06em;text-transform:uppercase;font-weight:500;margin-bottom:12px">Por categoria</div>'+(noCatData?'<div style="font-size:13px;color:var(--t5);padding:4px 0 10px">Los datos apareceran cuando empieces a cargar tareas.</div>':catBarsHTML)+'<div style="height:0.5px;background:var(--c3);margin:6px 0 14px"></div><div style="display:flex;justify-content:space-between;align-items:flex-start"><div><div style="font-size:11px;color:var(--t4);letter-spacing:0.06em;text-transform:uppercase;font-weight:500;margin-bottom:8px">Esta semana</div><div style="font-size:15px;font-weight:600;color:var(--t1)">'+twStats.done+'/'+twStats.tot+' tareas</div><div style="font-size:12px;color:var(--t4);margin-top:4px">Alta: '+twStats.altaDone+'/'+twStats.alta+' ej.'+(venc.length>0?' - <span style="color:var(--red)">'+venc.length+' vencida'+(venc.length>1?'s':'')+'</span>':'')+'</div></div><div style="text-align:right"><div style="font-size:36px;font-weight:800;color:'+(twStats.tot===0?'var(--c5)':twRate>=70?'var(--green)':twRate>=50?'var(--gold)':'var(--red)')+';letter-spacing:-0.04em;line-height:1">'+(twStats.tot===0?'-':twRate+'%')+'</div><div style="font-size:11px;color:var(--t4);margin-top:4px">esta sem.</div></div></div></div>';
+  document.getElementById('body').innerHTML='<div class="pg"><div class="page-hdr"><div class="page-eyebrow">'+ey+'</div><div class="page-title">Tareas</div></div>'+analyticsHTML+'<div class="filter-wrap"><div class="ft'+(tFil==='hoy'?' on':'')+'" onclick="setF(\'hoy\')">Hoy</div><div class="ft'+(tFil==='prox'?' on':'')+'" onclick="setF(\'prox\')">Proximas</div><div class="ft'+(tFil==='all'?' on':'')+'" onclick="setF(\'all\')">Todas</div>'+(venc.length>0?'<div class="ft danger'+(tFil==='venc'?' on':'')+'" onclick="setF(\'venc\')">Vencidas ('+venc.length+')</div>':'')+'<div class="ft'+(tFil==='pend'?' on':'')+'" onclick="setF(\'pend\')">Pendientes</div><div class="ft'+(tFil==='alta'?' on':'')+'" onclick="setF(\'alta\')">Alta prioridad</div><div class="ft success'+(tFil==='done'?' on':'')+'" onclick="setF(\'done\')">Completadas</div></div>'+(dates.length===0?'<div class="empty">Sin tareas aqui.</div>':groups)+'</div>';
 }
-
 function rHab(){
   var d=new Date();
   var ey=DAYS_ES[d.getDay()]+' '+d.getDate()+' de '+MONTHS[d.getMonth()];
-  
-  // Determinar qué semana mostrar
   var isCurrentWeek=(cSemanaHistorial===0);
   var weekStartDate;
-  if(cSemanaHistorial===0){
-    weekStartDate=getMondayOfCurrentWeek();
-  } else {
-    weekStartDate=getMondayOfWeek(cSemanaHistorial);
-  }
-  
+  if(cSemanaHistorial===0){weekStartDate=getMondayOfCurrentWeek();}
+  else{weekStartDate=getMondayOfWeek(cSemanaHistorial);}
   var todayDate=new Date();
   var todayStr=todayDate.getFullYear()+'-'+pad(todayDate.getMonth()+1)+'-'+pad(todayDate.getDate());
-  
-  // Tabs de semanas
   var tabsHTML='<div class="week-tabs">';
   for(var i=0;i<=3;i++){
     var isActive=(cSemanaHistorial===i);
-    var isDisabled=(i>0 && !isCurrentWeek); // Semanas históricas solo lectura
+    var isDisabled=(i>0);
     tabsHTML+='<div class="wt'+(isActive?' on':'')+(isDisabled?' lk':'')+'" onclick="'+(i===0||!isDisabled?'setSemanaHistorial('+i+')':'')+'">'+(i===0?'Actual':'Sem '+i)+'</div>';
   }
   tabsHTML+='</div>';
-  
-  // Focus (solo para semana actual)
-  var focusText=WKS[0].focus;
-  if(cSemanaHistorial!==0){
-    focusText='HISTORIAL - Solo consulta';
-  }
-  
-  // Habitos Matutinos
+  var focusText=(cSemanaHistorial===0)?'Instalar los 3 anclajes base':'HISTORIAL - Solo consulta';
   var matutinoCompleto=0;
   for(var i=0;i<7;i++){
     var dd=new Date(weekStartDate);
@@ -1620,34 +1372,22 @@ function rHab(){
     var ds=dd.getFullYear()+'-'+pad(dd.getMonth()+1)+'-'+pad(dd.getDate());
     if(isMatutinoCompleto(ds))matutinoCompleto++;
   }
-  var matutinoBadgeText=(cSemanaHistorial===0?(isTodayMatutinoCompleto()?'COMPLETO':'PENDIENTE'):'HISTORIAL');
+  var matutinoBadgeText=(cSemanaHistorial===0?(isMatutinoCompleto(todayStr)?'COMPLETO':'PENDIENTE'):'HISTORIAL');
   var matutinoGridHTML='';
   for(var h=0;h<HABITOS_MATUTINOS.length;h++){
     var hab=HABITOS_MATUTINOS[h];
-    var isChecked=(cSemanaHistorial===0)?isMatutinoChecked(getTK(),hab):false;
+    var isChecked=(cSemanaHistorial===0)?isMatutinoChecked(todayStr,hab):false;
     var disabledClass=(cSemanaHistorial!==0)?' disabled':'';
-    matutinoGridHTML+='<div class="matutino-item'+(isChecked?' checked':'')+disabledClass+'" onclick="'+(cSemanaHistorial===0?'toggleMatutino(\''+hab+'\')':'')+'">'
-      +'<div class="matutino-emoji">'+HABITOS_MATUTINOS_EMOJIS[h]+'</div>'
-      +'<div class="matutino-name">'+HABITOS_MATUTINOS_NOMBRES[h]+'</div>'
-      +'<div class="matutino-check"></div></div>';
+    matutinoGridHTML+='<div class="matutino-item'+(isChecked?' checked':'')+disabledClass+'" onclick="'+(cSemanaHistorial===0?'toggleMatutino(\''+hab+'\')':'')+'"><div class="matutino-emoji">'+HABITOS_MATUTINOS_EMOJIS[h]+'</div><div class="matutino-name">'+HABITOS_MATUTINOS_NOMBRES[h]+'</div><div class="matutino-check"></div></div>';
   }
-  
-  var matutinoHTML='<div class="matutino-card">'
-    +'<div class="matutino-header"><div class="matutino-title">🌅 Habitos Matutinos</div><div class="matutino-badge">'+matutinoBadgeText+'</div></div>'
-    +'<div class="matutino-grid">'+matutinoGridHTML+'</div>'
-    +'<div class="matutino-streak"><div><div class="matutino-streak-label">Racha completa</div><div class="matutino-streak-val">'+(cSemanaHistorial===0?getMatutinoStreak():'--')+'</div></div>'
-    +'<div><div class="matutino-streak-label">Esta semana</div><div class="matutino-streak-val" style="font-size:22px">'+matutinoCompleto+'/7</div></div></div>'
-    +'</div>';
-  
-  // Cards de habitos diarios (Bloque trabajo y Deporte)
-  var habitosDiarios=['trabajo','deporte'];
-  var habitosNombres=['Bloque de trabajo productivo','Deporte'];
-  var habitosEmojis=['💼','🏋️'];
-  var habitosTgs=['Negocio','Fisico'];
-  
+  var matutinoHTML='<div class="matutino-card"><div class="matutino-header"><div class="matutino-title">🌅 Habitos Matutinos</div><div class="matutino-badge">'+matutinoBadgeText+'</div></div><div class="matutino-grid">'+matutinoGridHTML+'</div><div class="matutino-streak"><div><div class="matutino-streak-label">Racha completa</div><div class="matutino-streak-val">'+(cSemanaHistorial===0?getMatutinoStreak():'--')+'</div></div><div><div class="matutino-streak-label">Esta semana</div><div class="matutino-streak-val" style="font-size:22px">'+matutinoCompleto+'/7</div></div></div></div>';
   var cardsHTML='';
-  for(var idx=0;idx<habitosDiarios.length;idx++){
-    var hid=habitosDiarios[idx];
+  var habIds=['trabajo','deporte'];
+  var habNombres=['Bloque de trabajo productivo','Deporte'];
+  var habEmojis=['💼','🏋️'];
+  var habTgs=['Negocio','Fisico'];
+  for(var idx=0;idx<habIds.length;idx++){
+    var hid=habIds[idx];
     var diasHTML='';
     var completados=0;
     for(var di=0;di<7;di++){
@@ -1658,25 +1398,21 @@ function rHab(){
       var isC=isHabitoChecked(hid,ds);
       var disabledClass=(cSemanaHistorial!==0)?' disabled':'';
       if(isC)completados++;
-      diasHTML+='<div class="dia-btn'+(isT?' today':'')+(isC?' checked':'')+disabledClass+'" onclick="'+(cSemanaHistorial===0?'toggleHabito(\''+hid+'\')':'')+'">'
-        +'<div class="dia-d">'+DS[di]+'</div><div class="dia-n">'+dd.getDate()+'</div></div>';
+      diasHTML+='<div class="day'+(isT?' today':'')+(isC?' checked':'')+disabledClass+'" onclick="'+(cSemanaHistorial===0?'toggleHabito(\''+hid+'\')':'')+'"><div class="day-d">'+DS[di]+'</div><div class="day-n">'+dd.getDate()+'</div></div>';
     }
-    cardsHTML+='<div class="habito-card">'
-      +'<div class="habito-header"><div class="habito-nombre">'+habitosEmojis[idx]+' '+habitosNombres[idx]+'</div><div class="habito-badge">'+habitosTgs[idx]+'</div></div>'
-      +'<div class="dias-row">'+diasHTML+'</div>'
-      +'</div>';
+    cardsHTML+='<div class="hab-card"><div class="hab-top"><div class="hab-name">'+habEmojis[idx]+' '+habNombres[idx]+'</div><div class="hab-badge">'+habTgs[idx]+'</div></div><div class="days-row">'+diasHTML+'</div></div>';
   }
-  
-  // KPI de habitos diarios (solo para semana actual)
-  var trabajoCompletado=(cSemanaHistorial===0)?getHabitoWeekCount('trabajo',weekStartDate):0;
-  var deporteCompletado=(cSemanaHistorial===0)?getHabitoWeekCount('deporte',weekStartDate):0;
-  var habKPIHTML='<div class="hab-kpi">'
-    +'<div class="hkpi"><div class="hkpi-val">'+(cSemanaHistorial===0?trabajoCompletado:matutinoCompleto)+'/7</div><div class="hkpi-lbl">'+(cSemanaHistorial===0?'Trabajo':'Matutinos')+'</div></div>'
-    +'<div class="hkpi"><div class="hkpi-val">'+(cSemanaHistorial===0?deporteCompletado:0)+'/7</div><div class="hkpi-lbl">Deporte</div></div>'
-    +'<div class="hkpi"><div class="hkpi-val">'+(cSemanaHistorial===0?(trabajoCompletado+deporteCompletado):matutinoCompleto)+'/14</div><div class="hkpi-lbl">Total</div></div>'
-    +'</div>';
-  
-  // El Quiebre
+  var trabajoCompletado=0,deporteCompletado=0;
+  if(cSemanaHistorial===0){
+    for(var di=0;di<7;di++){
+      var dd=new Date(weekStartDate);
+      dd.setDate(weekStartDate.getDate()+di);
+      var ds=dd.getFullYear()+'-'+pad(dd.getMonth()+1)+'-'+pad(dd.getDate());
+      if(isHabitoChecked('trabajo',ds))trabajoCompletado++;
+      if(isHabitoChecked('deporte',ds))deporteCompletado++;
+    }
+  }
+  var habKPIHTML='<div class="hab-kpi"><div class="hkpi"><div class="hkpi-val">'+(cSemanaHistorial===0?trabajoCompletado:matutinoCompleto)+'/7</div><div class="hkpi-lbl">'+(cSemanaHistorial===0?'Trabajo':'Matutinos')+'</div></div><div class="hkpi"><div class="hkpi-val">'+(cSemanaHistorial===0?deporteCompletado:0)+'/7</div><div class="hkpi-lbl">Deporte</div></div><div class="hkpi"><div class="hkpi-val">'+(cSemanaHistorial===0?(trabajoCompletado+deporteCompletado):matutinoCompleto)+'/14</div><div class="hkpi-lbl">Total</div></div></div>';
   var quiebreLimpios=0;
   for(var i=0;i<7;i++){
     var dd=new Date(weekStartDate);
@@ -1684,26 +1420,15 @@ function rHab(){
     var ds=dd.getFullYear()+'-'+pad(dd.getMonth()+1)+'-'+pad(dd.getDate());
     if(isDiaLimpio(ds))quiebreLimpios++;
   }
-  var quiebreBadgeText=(cSemanaHistorial===0?(isTodayLimpio()?'LIMPIO':'MANCHADO'):'HISTORIAL');
+  var quiebreBadgeText=(cSemanaHistorial===0?(isDiaLimpio(todayStr)?'LIMPIO':'MANCHADO'):'HISTORIAL');
   var vicioGridHTML='';
   for(var v=0;v<VICIOS.length;v++){
     var vic=VICIOS[v];
-    var isChecked=(cSemanaHistorial===0)?isVicioChecked(getTK(),vic):false;
+    var isChecked=(cSemanaHistorial===0)?isVicioChecked(todayStr,vic):false;
     var disabledClass=(cSemanaHistorial!==0)?' disabled':'';
-    vicioGridHTML+='<div class="vicio-item'+(isChecked?' checked':'')+disabledClass+'" onclick="'+(cSemanaHistorial===0?'toggleVicio(\''+vic+'\')':'')+'">'
-      +'<div class="vicio-emoji">'+['🚬','🍺','🌿','🔥','🍔','😴'][v]+'</div>'
-      +'<div class="vicio-name">'+VICIOS_NOMBRES[v]+'</div>'
-      +'<div class="vicio-check"></div></div>';
+    vicioGridHTML+='<div class="vicio-item'+(isChecked?' checked':'')+disabledClass+'" onclick="'+(cSemanaHistorial===0?'toggleVicio(\''+vic+'\')':'')+'"><div class="vicio-emoji">'+['🚬','🍺','🌿','🔥','🍔','😴'][v]+'</div><div class="vicio-name">'+VICIOS_NOMBRES[v]+'</div><div class="vicio-check"></div></div>';
   }
-  
-  var quiebreEnHab='<div class="quiebre-card">'
-    +'<div class="q-header"><div class="q-title">⛔ 20-23hs — El Quiebre</div><div class="q-badge">'+quiebreBadgeText+'</div></div>'
-    +'<div class="vicio-grid">'+vicioGridHTML+'</div>'
-    +'<div class="q-streak"><div><div class="streak-label">Racha limpia</div><div class="streak-val">'+(cSemanaHistorial===0?getLimpioStreak():'--')+'</div></div>'
-    +'<div><div class="streak-label">Esta semana</div><div class="streak-val" style="font-size:22px">'+quiebreLimpios+'/7</div></div></div>'
-    +'</div>';
-  
-  // Notas (solo para semana actual)
+  var quiebreEnHab='<div class="quiebre-card"><div class="q-header"><div class="q-title">⛔ 20-23hs — El Quiebre</div><div class="q-badge">'+quiebreBadgeText+'</div></div><div class="vicio-grid">'+vicioGridHTML+'</div><div class="q-streak"><div><div class="streak-label">Racha limpia</div><div class="streak-val">'+(cSemanaHistorial===0?getLimpioStreak():'--')+'</div></div><div><div class="streak-label">Esta semana</div><div class="streak-val" style="font-size:22px">'+quiebreLimpios+'/7</div></div></div></div>';
   var notesHTML='<div class="note-wrap">';
   for(var i=0;i<7;i++){
     var dd=new Date(weekStartDate);
@@ -1711,28 +1436,12 @@ function rHab(){
     var isT=(dd.toDateString()===todayDate.toDateString() && cSemanaHistorial===0);
     var noteKey='note_'+dd.getFullYear()+'-'+pad(dd.getMonth()+1)+'-'+pad(dd.getDate());
     var noteValue=ST[noteKey]||'';
-    notesHTML+='<div style="margin-bottom:10px">'
-      +'<div class="note-lbl" style="'+(isT?'color:var(--gold)':'')+'">'+DS[i]+' '+dd.getDate()+'</div>'
-      +'<textarea class="note-inp" rows="2" placeholder="Una cosa que avance..." '+(cSemanaHistorial===0?'onchange="saveNote(\''+noteKey+'\',this.value)"':'readonly')+'>'+noteValue+'</textarea>'
-      +'</div>';
+    notesHTML+='<div style="margin-bottom:10px"><div class="note-lbl" style="'+(isT?'color:var(--gold)':'')+'">'+DS[i]+' '+dd.getDate()+'</div><textarea class="note-inp" rows="2" placeholder="Una cosa que avance..." '+(cSemanaHistorial===0?'onchange="saveNote(\''+noteKey+'\',this.value)"':'readonly')+'>'+noteValue+'</textarea></div>';
   }
   notesHTML+='</div>';
-  
   function saveNote(key,val){ST[key]=val;save();}
-  
-  document.getElementById('body').innerHTML='<div class="pg">'
-    +'<div class="page-hdr"><div class="page-eyebrow">'+ey+'</div><div class="page-title">Habitos</div></div>'
-    +tabsHTML
-    +'<div class="focus-box"><div class="focus-txt">"'+focusText+'"</div></div>'
-    +habKPIHTML
-    +matutinoHTML
-    +cardsHTML
-    +quiebreEnHab
-    +'<div class="divr"></div>'
-    +notesHTML
-    +'</div>';
+  document.getElementById('body').innerHTML='<div class="pg"><div class="page-hdr"><div class="page-eyebrow">'+ey+'</div><div class="page-title">Habitos</div></div>'+tabsHTML+'<div class="focus-box"><div class="focus-txt">"'+focusText+'"</div></div>'+habKPIHTML+matutinoHTML+cardsHTML+quiebreEnHab+'<div class="divr"></div>'+notesHTML+'</div>';
 }
-
 function rLife(){
   var wl=getWL(),wr=getWR();
   var cells='';
@@ -1745,42 +1454,15 @@ function rLife(){
   }
   var d=new Date();
   var ey=DAYS_ES[d.getDay()]+' '+d.getDate()+' de '+MONTHS[d.getMonth()];
-  document.getElementById('body').innerHTML='<div class="pg">'
-    +'<div class="page-hdr"><div class="page-eyebrow">'+ey+'</div><div class="page-title">Semanas.</div></div>'
-    +'<div class="stat-pair" style="margin-top:18px">'
-    +'<div class="sp"><div class="sp-val" style="font-size:24px">'+wl.toLocaleString()+'</div><div class="sp-lbl">vividas</div></div>'
-    +'<div class="sp"><div class="sp-val" style="font-size:24px">'+wr.toLocaleString()+'</div><div class="sp-lbl">restantes</div></div>'
-    +'</div>'
-    +'<div class="life-wrap">'
-    +'<div class="life-dec">'+Array.from({length:9},function(_,i){return'<span>'+i*10+'a</span>';}).join('')+'</div>'
-    +'<div class="life-grid">'+cells+'</div>'
-    +'<div class="life-legend">'
-    +'<div class="ll"><div class="ld" style="background:var(--c5)"></div>Vividas</div>'
-    +'<div class="ll"><div class="ld" style="background:var(--gold2)"></div>Plan activo</div>'
-    +'<div class="ll"><div class="ld" style="background:var(--gold)"></div>Ahora</div>'
-    +'<div class="ll"><div class="ld" style="background:var(--c3)"></div>Por vivir</div>'
-    +'</div></div>'
-    +'<div class="sec-row" style="padding-top:20px"><div class="sec-t">Perspectiva</div></div>'
-    +'<div class="insight-list">'
-    +'<div class="insight-it">'+wr.toLocaleString()+' semanas por delante. Cada una es una unidad real de construccion.</div>'
-    +'<div class="insight-it">Tu plan son 13 de esas '+wr.toLocaleString()+' semanas - menos del 1%.</div>'
-    +'<div class="insight-it">A los 32 anos estas en tu punto de mayor capacidad.</div>'
-    +'<div class="insight-it">Cada semana de cantineo es una semana de construccion perdida.</div>'
-    +'<div class="insight-it">Negocio, cuerpo, trading - todo depende del sistema encendido.</div>'
-    +'</div></div>';
+  document.getElementById('body').innerHTML='<div class="pg"><div class="page-hdr"><div class="page-eyebrow">'+ey+'</div><div class="page-title">Semanas.</div></div><div class="stat-pair" style="margin-top:18px"><div class="sp"><div class="sp-val" style="font-size:24px">'+wl.toLocaleString()+'</div><div class="sp-lbl">vividas</div></div><div class="sp"><div class="sp-val" style="font-size:24px">'+wr.toLocaleString()+'</div><div class="sp-lbl">restantes</div></div></div><div class="life-wrap"><div class="life-dec">'+Array.from({length:9},function(_,i){return'<span>'+i*10+'a</span>';}).join('')+'</div><div class="life-grid">'+cells+'</div><div class="life-legend"><div class="ll"><div class="ld" style="background:var(--c5)"></div>Vividas</div><div class="ll"><div class="ld" style="background:var(--gold2)"></div>Plan activo</div><div class="ll"><div class="ld" style="background:var(--gold)"></div>Ahora</div><div class="ll"><div class="ld" style="background:var(--c3)"></div>Por vivir</div></div></div><div class="sec-row" style="padding-top:20px"><div class="sec-t">Perspectiva</div></div><div class="insight-list"><div class="insight-it">'+wr.toLocaleString()+' semanas por delante. Cada una es una unidad real de construccion.</div><div class="insight-it">Tu plan son 13 de esas '+wr.toLocaleString()+' semanas - menos del 1%.</div><div class="insight-it">A los 32 anos estas en tu punto de mayor capacidad.</div><div class="insight-it">Cada semana de cantineo es una semana de construccion perdida.</div><div class="insight-it">Negocio, cuerpo, trading - todo depende del sistema encendido.</div></div></div>';
 }
-
 function rPlan(){
   var d=new Date();
   var ey=DAYS_ES[d.getDay()]+' '+d.getDate()+' de '+MONTHS[d.getMonth()];
   var isCurrentWk=cMetWk===getWeekKey();
   var prevWk=addWeeks(cMetWk,-1);
   var cfg=MET_CFG[cMetBiz];
-  
-  // Memento Mori
   var mementoHTML='<div style="margin:12px 14px 0;padding:13px 16px;border-radius:14px;background:var(--c1);border:0.5px solid var(--c3);display:flex;align-items:center;justify-content:space-between;cursor:pointer" onclick="sv(\'l\',null)"><div style="font-size:14px;color:var(--t2);font-weight:500">Memento Mori</div><div style="font-size:13px;color:var(--t4)">'+getWL().toLocaleString()+' vividas - '+getWR().toLocaleString()+' restantes</div></div>';
-  
-  // Finanzas
   var prevMonth=addMonths(cFinanzasMonth,-1);
   var ingresos=getFinanzas(cFinanzasMonth,'ingresos');
   var gastos=getFinanzas(cFinanzasMonth,'gastos');
@@ -1789,18 +1471,15 @@ function rPlan(){
   var balance=getBalance(cFinanzasMonth);
   var tasaAhorro=getTasaAhorro(cFinanzasMonth);
   var tasaClass=getTasaAhorroClass(tasaAhorro);
-  
   var prevIngresos=parseFloat(getFinanzas(prevMonth,'ingresos'))||0;
   var prevGastos=parseFloat(getFinanzas(prevMonth,'gastos'))||0;
   var currIngresos=parseFloat(ingresos)||0;
   var currGastos=parseFloat(gastos)||0;
   var deltaIngresos=prevIngresos===0?null:((currIngresos-prevIngresos)/prevIngresos*100);
   var deltaGastos=prevGastos===0?null:((currGastos-prevGastos)/prevGastos*100);
-  
   var gastosDelMes=getGastosDelMes(cFinanzasMonth);
   var totalGastos=0;
   for(var i=0;i<gastosDelMes.length;i++){totalGastos+=gastosDelMes[i].monto;}
-  
   var historial=[];
   for(var h=3;h>=0;h--){
     var hm=addMonths(cFinanzasMonth,-h);
@@ -1808,129 +1487,40 @@ function rPlan(){
     var hGas=getFinanzas(hm,'gastos');
     var hAho=getFinanzas(hm,'ahorro');
     var hInv=getFinanzas(hm,'inversion');
-    if(hIng||hGas||hAho||hInv){
-      historial.push({month:hm,ingresos:hIng,gastos:hGas,ahorro:hAho,inversion:hInv});
-    }
+    if(hIng||hGas||hAho||hInv){historial.push({month:hm,ingresos:hIng,gastos:hGas,ahorro:hAho,inversion:hInv});}
   }
-  
-  var gastosListHTML='<div class="finanzas-gastos-section">'
-    +'<div class="finanzas-gastos-header">'
-    +'<div class="finanzas-gastos-title">💸 GASTOS DEL MES</div>'
-    +'<div class="finanzas-add-gasto-btn" onclick="openGastoModal()">+ Agregar gasto</div>'
-    +'</div>';
-  
-  if(gastosDelMes.length===0){
-    gastosListHTML+='<div class="finanzas-gasto-empty">No hay gastos registrados este mes.</div>';
-  } else {
+  var gastosListHTML='<div class="finanzas-gastos-section"><div class="finanzas-gastos-header"><div class="finanzas-gastos-title">💸 GASTOS DEL MES</div><div class="finanzas-add-gasto-btn" onclick="openGastoModal()">+ Agregar gasto</div></div>';
+  if(gastosDelMes.length===0){gastosListHTML+='<div class="finanzas-gasto-empty">No hay gastos registrados este mes.</div>';}
+  else{
     for(var i=0;i<gastosDelMes.length;i++){
       var g=gastosDelMes[i];
       var fechaParts=g.fecha.split('-');
       var fechaStr=fechaParts[2]+'/'+fechaParts[1];
       var catIndex=GASTO_CATEGORIAS.indexOf(g.categoria);
       var emoji=catIndex>=0?GASTO_CATEGORIAS_EMOJIS[catIndex]:'📌';
-      gastosListHTML+='<div class="finanzas-gasto-item">'
-        +'<div class="finanzas-gasto-info">'
-        +'<span class="finanzas-gasto-cat">'+emoji+' '+g.categoria+'</span>'
-        +'<span class="finanzas-gasto-concepto">'+fechaStr+' - '+g.concepto+'</span>'
-        +'</div>'
-        +'<div class="finanzas-gasto-monto">$'+g.monto.toLocaleString()+'</div>'
-        +'<div class="finanzas-gasto-delete" onclick="eliminarGasto('+g.id+')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--t5)" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>'
-        +'</div>';
+      gastosListHTML+='<div class="finanzas-gasto-item"><div class="finanzas-gasto-info"><span class="finanzas-gasto-cat">'+emoji+' '+g.categoria+'</span><span class="finanzas-gasto-concepto">'+fechaStr+' - '+g.concepto+'</span></div><div class="finanzas-gasto-monto">$'+g.monto.toLocaleString()+'</div><div class="finanzas-gasto-delete" onclick="eliminarGasto('+g.id+')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--t5)" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div></div>';
     }
     gastosListHTML+='<div class="finanzas-gastos-total"><span>Total gastos</span><span>$'+totalGastos.toLocaleString()+'</span></div>';
   }
   gastosListHTML+='</div>';
-  
-  var finanzasHTML='<div class="finanzas-card">'
-    +'<div class="finanzas-header"><div class="finanzas-title">💰 Finanzas Personales</div></div>'
-    +'<div class="finanzas-month-nav">'
-    +'<div class="finanzas-nav-arrow" onclick="finanzasNav(-1)">&#8249;</div>'
-    +'<div class="finanzas-nav-label">'+getMonthLabel(cFinanzasMonth)+'</div>'
-    +'<div class="finanzas-nav-arrow" onclick="finanzasNav(1)">&#8250;</div>'
-    +'</div>'
-    +gastosListHTML
-    +'<div class="finanzas-resumen-grid">'
-    +'<div class="finanzas-cell full"><div class="finanzas-cell-label">Ingresos (manual)</div><input class="finanzas-cell-input" id="finanzas-ingresos" type="number" placeholder="0" value="'+ingresos+'"></div>'
-    +'<div class="finanzas-cell"><div class="finanzas-cell-label">Ahorro</div><input class="finanzas-cell-input" id="finanzas-ahorro" type="number" placeholder="0" value="'+ahorro+'"></div>'
-    +'<div class="finanzas-cell"><div class="finanzas-cell-label">Inversión</div><input class="finanzas-cell-input" id="finanzas-inversion" type="number" placeholder="0" value="'+inversion+'"></div>'
-    +'</div>'
-    +'<div class="finanzas-balance">'
-    +'<div class="finanzas-balance-label">Balance (Ingresos - Gastos)</div>'
-    +'<div class="finanzas-balance-value '+(balance>=0?'positive':'negative')+'">'+fmtM(balance)+'</div>'
-    +'</div>'
-    +'<div class="finanzas-tasa">'
-    +'<span class="finanzas-tasa-label">Tasa de ahorro</span>'
-    +'<span class="finanzas-tasa-value '+tasaClass+'">'+tasaAhorro+'%</span>'
-    +'</div>';
-  
-  if(deltaIngresos!==null){
-    finanzasHTML+='<div class="finanzas-trend">'
-      +'<div class="finanzas-trend-card"><div class="finanzas-trend-label">Ingresos vs mes ant</div>'
-      +'<div class="finanzas-trend-value">'+(deltaIngresos>=0?'+':'')+deltaIngresos.toFixed(0)+'%</div>'
-      +'<div class="finanzas-trend-delta '+(deltaIngresos>=0?'up':'down')+'">'+(deltaIngresos>=0?'↑':'↓')+'</div></div>'
-      +'<div class="finanzas-trend-card"><div class="finanzas-trend-label">Gastos vs mes ant</div>'
-      +'<div class="finanzas-trend-value">'+(deltaGastos>=0?'+':'')+deltaGastos.toFixed(0)+'%</div>'
-      +'<div class="finanzas-trend-delta '+(deltaGastos<=0?'up':'down')+'">'+(deltaGastos<=0?'↓':'↑')+'</div></div>'
-      +'</div>';
-  }
-  
-  if(historial.length>0){
-    finanzasHTML+='<div class="finanzas-historial"><div class="finanzas-historial-title">Historial mensual</div>';
-    for(var i=0;i<historial.length;i++){
-      var h=historial[i];
-      finanzasHTML+='<div class="finanzas-hist-row">'
-        +'<div class="finanzas-hist-month">'+getMonthLabel(h.month)+'</div>'
-        +'<div class="finanzas-hist-values">'
-        +'<span>💰 '+fmtM(h.ingresos)+'</span>'
-        +'<span>💸 '+fmtM(h.gastos)+'</span>'
-        +'<span>🏦 '+fmtM(h.ahorro)+'</span>'
-        +'<span>📈 '+fmtM(h.inversion)+'</span>'
-        +'</div></div>';
-    }
-    finanzasHTML+='</div>';
-  }
+  var finanzasHTML='<div class="finanzas-card"><div class="finanzas-header"><div class="finanzas-title">💰 Finanzas Personales</div></div><div class="finanzas-month-nav"><div class="finanzas-nav-arrow" onclick="finanzasNav(-1)">&#8249;</div><div class="finanzas-nav-label">'+getMonthLabel(cFinanzasMonth)+'</div><div class="finanzas-nav-arrow" onclick="finanzasNav(1)">&#8250;</div></div>'+gastosListHTML+'<div class="finanzas-resumen-grid"><div class="finanzas-cell full"><div class="finanzas-cell-label">Ingresos (manual)</div><input class="finanzas-cell-input" id="finanzas-ingresos" type="number" placeholder="0" value="'+ingresos+'"></div><div class="finanzas-cell"><div class="finanzas-cell-label">Ahorro</div><input class="finanzas-cell-input" id="finanzas-ahorro" type="number" placeholder="0" value="'+ahorro+'"></div><div class="finanzas-cell"><div class="finanzas-cell-label">Inversión</div><input class="finanzas-cell-input" id="finanzas-inversion" type="number" placeholder="0" value="'+inversion+'"></div></div><div class="finanzas-balance"><div class="finanzas-balance-label">Balance (Ingresos - Gastos)</div><div class="finanzas-balance-value '+(balance>=0?'positive':'negative')+'">'+fmtM(balance)+'</div></div><div class="finanzas-tasa"><span class="finanzas-tasa-label">Tasa de ahorro</span><span class="finanzas-tasa-value '+tasaClass+'">'+tasaAhorro+'%</span></div>';
+  if(deltaIngresos!==null){finanzasHTML+='<div class="finanzas-trend"><div class="finanzas-trend-card"><div class="finanzas-trend-label">Ingresos vs mes ant</div><div class="finanzas-trend-value">'+(deltaIngresos>=0?'+':'')+deltaIngresos.toFixed(0)+'%</div><div class="finanzas-trend-delta '+(deltaIngresos>=0?'up':'down')+'">'+(deltaIngresos>=0?'↑':'↓')+'</div></div><div class="finanzas-trend-card"><div class="finanzas-trend-label">Gastos vs mes ant</div><div class="finanzas-trend-value">'+(deltaGastos>=0?'+':'')+deltaGastos.toFixed(0)+'%</div><div class="finanzas-trend-delta '+(deltaGastos<=0?'up':'down')+'">'+(deltaGastos<=0?'↓':'↑')+'</div></div></div>';}
+  if(historial.length>0){finanzasHTML+='<div class="finanzas-historial"><div class="finanzas-historial-title">Historial mensual</div>';
+  for(var i=0;i<historial.length;i++){var h=historial[i];finanzasHTML+='<div class="finanzas-hist-row"><div class="finanzas-hist-month">'+getMonthLabel(h.month)+'</div><div class="finanzas-hist-values"><span>💰 '+fmtM(h.ingresos)+'</span><span>💸 '+fmtM(h.gastos)+'</span><span>🏦 '+fmtM(h.ahorro)+'</span><span>📈 '+fmtM(h.inversion)+'</span></div></div>';}
+  finanzasHTML+='</div>';}
   finanzasHTML+='<button class="finanzas-save-btn" onclick="saveFinanzas()">Guardar</button></div>';
-  
-  // Metricas
-  var metTabs='<div class="met-tabs">'
-    +'<div class="mt-btn'+(cMetBiz==='HYK'?' on hyk':'')+'" onclick="setMetBiz(\'HYK\')">HYK</div>'
-    +'<div class="mt-btn'+(cMetBiz==='BAZ'?' on baz':'')+'" onclick="setMetBiz(\'BAZ\')">Bazarista</div>'
-    +'<div class="mt-btn'+(cMetBiz==='TRD'?' on trd':'')+'" onclick="setMetBiz(\'TRD\')">Trading</div>'
-    +'</div>';
-  var wkNav='<div class="met-week-nav">'
-    +'<div class="mwn-arrow" onclick="metWkNav(-1)">&#8249;</div>'
-    +'<div class="mwn-label">Sem '+getWeekLabel(cMetWk)+(isCurrentWk?' - actual':'')+'</div>'
-    +'<div class="mwn-arrow" onclick="metWkNav(1)">&#8250;</div>'
-    +'</div>';
-
+  var metTabs='<div class="met-tabs"><div class="mt-btn'+(cMetBiz==='HYK'?' on hyk':'')+'" onclick="setMetBiz(\'HYK\')">HYK</div><div class="mt-btn'+(cMetBiz==='BAZ'?' on baz':'')+'" onclick="setMetBiz(\'BAZ\')">Bazarista</div><div class="mt-btn'+(cMetBiz==='TRD'?' on trd':'')+'" onclick="setMetBiz(\'TRD\')">Trading</div></div>';
+  var wkNav='<div class="met-week-nav"><div class="mwn-arrow" onclick="metWkNav(-1)">&#8249;</div><div class="mwn-label">Sem '+getWeekLabel(cMetWk)+(isCurrentWk?' - actual':'')+'</div><div class="mwn-arrow" onclick="metWkNav(1)">&#8250;</div></div>';
   var metFields='';
   if(cMetBiz==='TRD'){
     var trdSt=getTrdStatus(cMetWk);
-    metFields='<div class="met-grid">'
-      +'<div class="met-cell"><div class="mc-lbl">Resultado</div><input class="mc-inp" id="mc-resultado" type="text" placeholder="ej: +2.3%" value="'+getMet('TRD',cMetWk,'resultado')+'"></div>'
-      +'<div class="met-cell"><div class="mc-lbl">Operaciones</div><input class="mc-inp" id="mc-operaciones" type="number" placeholder="ej: 12" value="'+getMet('TRD',cMetWk,'operaciones')+'"></div>'
-      +'</div>'
-      +'<div class="trd-status-row">'
-      +'<div class="trd-st'+(trdSt==='activo'?' on activo':'')+'" onclick="setTrdSt(\'activo\')">Sistema activo</div>'
-      +'<div class="trd-st'+(trdSt==='pausado'?' on pausado':'')+'" onclick="setTrdSt(\'pausado\')">Pausado</div>'
-      +'<div class="trd-st'+(trdSt==='perdida'?' on perdida':'')+'" onclick="setTrdSt(\'perdida\')">Stop loss</div>'
-      +'</div>';
+    metFields='<div class="met-grid"><div class="met-cell"><div class="mc-lbl">Resultado</div><input class="mc-inp" id="mc-resultado" type="text" placeholder="ej: +2.3%" value="'+getMet('TRD',cMetWk,'resultado')+'"></div><div class="met-cell"><div class="mc-lbl">Operaciones</div><input class="mc-inp" id="mc-operaciones" type="number" placeholder="ej: 12" value="'+getMet('TRD',cMetWk,'operaciones')+'"></div></div><div class="trd-status-row"><div class="trd-st'+(trdSt==='activo'?' on activo':'')+'" onclick="setTrdSt(\'activo\')">Sistema activo</div><div class="trd-st'+(trdSt==='pausado'?' on pausado':'')+'" onclick="setTrdSt(\'pausado\')">Pausado</div><div class="trd-st'+(trdSt==='perdida'?' on perdida':'')+'" onclick="setTrdSt(\'perdida\')">Stop loss</div></div>';
   } else {
     var f=cfg.fields;
     var d0=calcDelta(getMet(cMetBiz,cMetWk,f[0].id),getMet(cMetBiz,prevWk,f[0].id));
-    metFields='<div class="met-grid">'
-      +'<div class="met-cell full"><div class="mc-lbl">'+f[0].label+'</div><input class="mc-inp" id="mc-'+f[0].id+'" type="number" placeholder="'+f[0].placeholder+'" value="'+getMet(cMetBiz,cMetWk,f[0].id)+'"><div class="mc-sub">'+(getMet(cMetBiz,cMetWk,f[0].id)?fmtM(getMet(cMetBiz,cMetWk,f[0].id)):'')+'</div></div>'
-      +'<div class="met-cell"><div class="mc-lbl">'+f[1].label+'</div><input class="mc-inp" id="mc-'+f[1].id+'" type="number" placeholder="'+f[1].placeholder+'" value="'+getMet(cMetBiz,cMetWk,f[1].id)+'"></div>'
-      +'<div class="met-cell"><div class="mc-lbl">'+f[2].label+'</div><input class="mc-inp" id="mc-'+f[2].id+'" type="text" placeholder="'+f[2].placeholder+'" value="'+getMet(cMetBiz,cMetWk,f[2].id)+'"></div>'
-      +'</div>';
-    if(d0!==null){
-      metFields+='<div class="met-trend">'
-        +'<div class="trend-card"><div class="tc-lbl">vs semana anterior</div><div class="tc-val '+(d0>0?'pos':d0<0?'neg':'neu')+'">'+(d0>0?'+':'')+d0+'%</div></div>'
-        +'<div class="trend-card"><div class="tc-lbl">Sem anterior</div><div class="tc-val neu">'+fmtM(getMet(cMetBiz,prevWk,f[0].id))+'</div></div>'
-        +'</div>';
-    }
+    metFields='<div class="met-grid"><div class="met-cell full"><div class="mc-lbl">'+f[0].label+'</div><input class="mc-inp" id="mc-'+f[0].id+'" type="number" placeholder="'+f[0].placeholder+'" value="'+getMet(cMetBiz,cMetWk,f[0].id)+'"><div class="mc-sub">'+(getMet(cMetBiz,cMetWk,f[0].id)?fmtM(getMet(cMetBiz,cMetWk,f[0].id)):'')+'</div></div><div class="met-cell"><div class="mc-lbl">'+f[1].label+'</div><input class="mc-inp" id="mc-'+f[1].id+'" type="number" placeholder="'+f[1].placeholder+'" value="'+getMet(cMetBiz,cMetWk,f[1].id)+'"></div><div class="met-cell"><div class="mc-lbl">'+f[2].label+'</div><input class="mc-inp" id="mc-'+f[2].id+'" type="text" placeholder="'+f[2].placeholder+'" value="'+getMet(cMetBiz,cMetWk,f[2].id)+'"></div></div>';
+    if(d0!==null){metFields+='<div class="met-trend"><div class="trend-card"><div class="tc-lbl">vs semana anterior</div><div class="tc-val '+(d0>0?'pos':d0<0?'neg':'neu')+'">'+(d0>0?'+':'')+d0+'%</div></div><div class="trend-card"><div class="tc-lbl">Sem anterior</div><div class="tc-val neu">'+fmtM(getMet(cMetBiz,prevWk,f[0].id))+'</div></div></div>';}
   }
-  
   var histRows='';
   for(var hw=3;hw>=0;hw--){
     var hwk=addWeeks(getWeekKey(),-hw);
@@ -1944,89 +1534,34 @@ function rPlan(){
     }
   }
   var histHTML=histRows?'<div class="sec-row" style="padding-top:16px"><div class="sec-t">Historial</div></div><div class="met-hist">'+histRows+'</div>':'';
-
   var revKeys=Object.keys(ST.rev).sort().reverse().slice(0,6);
   var scoreHistHTML='';
   if(revKeys.length>0){
-    scoreHistHTML='<div class="sec-row" style="padding-top:20px"><div class="sec-t">Score historico</div></div>'
-      +'<div class="score-hist">'
-      +revKeys.map(function(k){
-        var rv=ST.rev[k];
-        var sc=rv.appScore||0;
-        return'<div class="sh-row">'
-          +'<div class="sh-week">'+getWeekLabel(k)+'</div>'
-          +'<div class="sh-bar-wrap"><div class="sh-bar" style="width:'+sc+'%;background:'+(sc>=80?'var(--gold)':sc>=60?'var(--blue)':sc>=40?'var(--orange)':'var(--red)')+'"></div></div>'
-          +'<div class="sh-val" style="color:'+(sc>=80?'var(--gold)':sc>=60?'var(--blue)':sc>=40?'var(--orange)':'var(--red)')+'">'+sc+'</div>'
-          +'</div>';
-      }).join('')
-      +'</div>';
+    scoreHistHTML='<div class="sec-row" style="padding-top:20px"><div class="sec-t">Score historico</div></div><div class="score-hist">'+revKeys.map(function(k){var rv=ST.rev[k];var sc=rv.appScore||0;return'<div class="sh-row"><div class="sh-week">'+getWeekLabel(k)+'</div><div class="sh-bar-wrap"><div class="sh-bar" style="width:'+sc+'%;background:'+(sc>=80?'var(--gold)':sc>=60?'var(--blue)':sc>=40?'var(--orange)':'var(--red)')+'"></div></div><div class="sh-val" style="color:'+(sc>=80?'var(--gold)':sc>=60?'var(--blue)':sc>=40?'var(--orange)':'var(--red)')+'">'+sc+'</div></div>';}).join('')+'</div>';
   }
-
   var decHist=getDecHistory();
   var decHistHTML='';
   if(decHist.length>0){
-    decHistHTML='<div class="sec-row" style="padding-top:20px"><div class="sec-t">Decisiones recientes</div></div>'
-      +'<div style="margin:0 14px;border-radius:16px;background:var(--c1);border:0.5px solid var(--c3);overflow:hidden">'
-      +decHist.map(function(dec){
-        var p=dec.date.split('-'),mn=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
-        return'<div class="dec-hist-row">'
-          +'<div class="dhr-date">'+p[2]+' '+mn[+p[1]-1]+'</div>'
-          +'<div class="dhr-body"><div class="dhr-text">'+dec.text+'</div>'
-          +'<div class="dhr-cat">'+dec.cat+'</div>'
-          +'<span class="dhr-status '+(dec.done?'ej':'pe')+'">'+(dec.done?'Ejecutada':'Pendiente')+'</span>'
-          +'</div></div>';
-      }).join('')+'</div>';
+    decHistHTML='<div class="sec-row" style="padding-top:20px"><div class="sec-t">Decisiones recientes</div></div><div style="margin:0 14px;border-radius:16px;background:var(--c1);border:0.5px solid var(--c3);overflow:hidden">'+decHist.map(function(dec){var p=dec.date.split('-'),mn=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];return'<div class="dec-hist-row"><div class="dhr-date">'+p[2]+' '+mn[+p[1]-1]+'</div><div class="dhr-body"><div class="dhr-text">'+dec.text+'</div><div class="dhr-cat">'+dec.cat+'</div><span class="dhr-status '+(dec.done?'ej':'pe')+'">'+(dec.done?'Ejecutada':'Pendiente')+'</span></div></div>';}).join('')+'</div>';
   }
-
   var quiebreHistory='';
   var lastLimpios=Object.keys(ST.quiebre).filter(function(k){return k.startsWith('v_');}).sort().reverse().slice(0,10);
   if(lastLimpios.length>0){
     var uniqueDates=[];
     lastLimpios.forEach(function(k){var dk=k.split('_')[1];if(uniqueDates.indexOf(dk)===-1)uniqueDates.push(dk);});
     uniqueDates=uniqueDates.slice(0,7);
-    quiebreHistory='<div class="sec-row" style="padding-top:20px"><div class="sec-t">Dias recientes</div></div>'
-      +'<div style="margin:0 14px;border-radius:16px;background:var(--c1);border:0.5px solid var(--c3);overflow:hidden">'
-      +uniqueDates.map(function(dk){
-        var p=dk.split('-');var mn=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
-        var isL=isDiaLimpio(dk);
-        return'<div class="dec-hist-row"><div class="dhr-date">'+p[2]+' '+mn[+p[1]-1]+'</div><div class="dhr-body"><div class="dhr-text">'+(isL?'Dia limpio':'Dia manchado')+'</div><span class="dhr-status '+(isL?'ej':'manchado')+'">'+(isL?'LIMPIO':'MANCHADO')+'</span></div></div>';
-      }).join('')+'</div>';
+    quiebreHistory='<div class="sec-row" style="padding-top:20px"><div class="sec-t">Dias recientes</div></div><div style="margin:0 14px;border-radius:16px;background:var(--c1);border:0.5px solid var(--c3);overflow:hidden">'+uniqueDates.map(function(dk){var p=dk.split('-');var mn=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];var isL=isDiaLimpio(dk);return'<div class="dec-hist-row"><div class="dhr-date">'+p[2]+' '+mn[+p[1]-1]+'</div><div class="dhr-body"><div class="dhr-text">'+(isL?'Dia limpio':'Dia manchado')+'</div><span class="dhr-status '+(isL?'ej':'manchado')+'">'+(isL?'LIMPIO':'MANCHADO')+'</span></div></div>';}).join('')+'</div>';
   }
-
-  var tlHTML='<div class="tl-wrap"><div class="tl-line"></div>'
-    +'<div class="tl-item"><div class="tl-dot now"></div><div class="tl-t now">Sem 0 - Anclajes base</div><div class="tl-s">3 habitos estructurales</div></div>'
-    +'<div class="tl-item"><div class="tl-dot"></div><div class="tl-t">Sem 1-3 - Cuerpo + cantineo</div><div class="tl-s">Entrenamiento, alimentacion, reduccion</div></div>'
-    +'<div class="tl-item"><div class="tl-dot"></div><div class="tl-t">Sem 4-13 - Consolidacion</div><div class="tl-s">Metricas, sistema, arquitectura</div></div>'
-    +'<div class="tl-item"><div class="tl-dot"></div><div class="tl-t">Fase 2 - Mes 2 a 6</div><div class="tl-s">Sistema estable, negocio escalando</div></div>'
-    +'<div class="tl-item"><div class="tl-dot"></div><div class="tl-t">Fase 3 - Ano 1</div><div class="tl-s">Monopolio local + cuerpo transformado</div></div>'
-    +'<div class="tl-item"><div class="tl-dot"></div><div class="tl-t">Horizonte - Anos 2 a 5</div><div class="tl-s">Expansion + hedge fund + WIP</div></div>'
-    +'</div>';
-    
-  var phCards=PLAN.map(function(ph,pi){
-    var axes=ph.axes.map(function(ax){
-      return'<div class="plan-axis"><div class="plan-axis-name">'+ax.n+'</div>'+ax.it.map(function(it){return'<div class="plan-it">'+it.t+'<div class="plan-it-s">'+it.p+'</div></div>';}).join('')+'</div>';
-    }).join('');
-    return'<div class="plan-card'+(ph.cur?' cur':'')+'"><div class="plan-head"><span class="plan-badge">F'+(pi+1)+'</span><span class="plan-title">'+ph.ph+'</span></div>'+axes+'</div>';
-  }).join('');
-
-  document.getElementById('body').innerHTML='<div class="pg">'
-    +'<div class="page-hdr"><div class="page-eyebrow">'+ey+'</div><div class="page-title">Plan.</div></div>'
-    +mementoHTML
-    +finanzasHTML
-    +'<div class="sec-row" style="padding-top:20px"><div class="sec-t">📊 Metricas</div></div>'
-    +metTabs+wkNav+metFields
-    +'<button class="met-save-btn" onclick="saveMetrics()">Guardar metricas</button>'
-    +histHTML
-    +scoreHistHTML
-    +decHistHTML
-    +quiebreHistory
-    +'<div class="sec-row" style="padding-top:26px"><div class="sec-t">Timeline</div></div>'
-    +tlHTML
-    +'<div class="sec-row" style="padding-top:20px"><div class="sec-t">Fases</div></div>'
-    +phCards
-    +'</div>';
+  var tlHTML='<div class="tl-wrap"><div class="tl-line"></div><div class="tl-item"><div class="tl-dot now"></div><div class="tl-t now">Sem 0 - Anclajes base</div><div class="tl-s">3 habitos estructurales</div></div><div class="tl-item"><div class="tl-dot"></div><div class="tl-t">Sem 1-3 - Cuerpo + cantineo</div><div class="tl-s">Entrenamiento, alimentacion, reduccion</div></div><div class="tl-item"><div class="tl-dot"></div><div class="tl-t">Sem 4-13 - Consolidacion</div><div class="tl-s">Metricas, sistema, arquitectura</div></div><div class="tl-item"><div class="tl-dot"></div><div class="tl-t">Fase 2 - Mes 2 a 6</div><div class="tl-s">Sistema estable, negocio escalando</div></div><div class="tl-item"><div class="tl-dot"></div><div class="tl-t">Fase 3 - Ano 1</div><div class="tl-s">Monopolio local + cuerpo transformado</div></div><div class="tl-item"><div class="tl-dot"></div><div class="tl-t">Horizonte - Anos 2 a 5</div><div class="tl-s">Expansion + hedge fund + WIP</div></div></div>';
+  var PLAN_DATA=[
+    {ph:'F1 - Sem 0 a 13',cur:true,axes:[{n:'Habitos',it:[{t:'Cierre 23hs instalado',p:'Sem 0'},{t:'Inicio 7am a 5am',p:'Sem 1-2'},{t:'Cantineo max 3 noches/sem',p:'Sem 1'},{t:'Sin sustancias Lun-Mie',p:'Sem 1-3'},{t:'Protocolo sueno completo',p:'Sem 3'}]},{n:'Fisico',it:[{t:'Entrenamiento 3x/sem',p:'Sem 1'},{t:'4 comidas diarias',p:'Sem 0'},{t:'Peso objetivo: 60kg',p:'90 dias'}]},{n:'Negocio',it:[{t:'Una decision diaria ejecutada',p:'Sem 0'},{t:'Metricas base HYK + Bazarista',p:'Sem 3'},{t:'Sistema de decision semanal',p:'Sem 2'}]}]},
+    {ph:'F2 - Sem 13 a 26',cur:false,axes:[{n:'Habitos',it:[{t:'Cantineo solo fines de semana',p:'Sem 13'},{t:'5am como base',p:'Sem 15'}]},{n:'Fisico',it:[{t:'Peso 62-64kg',p:'Sem 20'},{t:'Entrenamiento 4x/sem',p:'Sem 16'}]},{n:'Negocio',it:[{t:'Ingresos +30%',p:'Sem 26'},{t:'Bazarista rol formalizado',p:'Sem 14'}]}]},
+    {ph:'F3 - Sem 26 a 52',cur:false,axes:[{n:'Habitos',it:[{t:'Cantineo como excepcion',p:'Sem 30'},{t:'10hs tiempo libre/sem',p:'Sem 40'}]},{n:'Negocio 1',it:[{t:'Monopolio bazar en ciudad',p:'Sem 52'},{t:'Importacion directa',p:'Sem 45'},{t:'Ingresos x2',p:'Sem 52'}]},{n:'Negocio 2+3',it:[{t:'Trading MT5 operativo',p:'Sem 40'},{t:'WIP concepto validado',p:'Sem 52'}]}]},
+    {ph:'Horizonte - Anos 2 a 5',cur:false,axes:[{n:'Negocio',it:[{t:'Expansion nacional',p:'Ano 2'},{t:'Importador directo pais',p:'Ano 3'},{t:'Hedge fund algoritmico',p:'Ano 3'},{t:'WIP MVP lanzado',p:'Ano 2-3'},{t:'50M USD AUM',p:'Ano 5+'}]},{n:'Personal',it:[{t:'Presencia fisica dominante',p:'Ano 2'},{t:'Red vinculos estrategicos',p:'Ano 3'}]}]}
+  ];
+  var phCards=PLAN_DATA.map(function(ph,pi){var axes=ph.axes.map(function(ax){return'<div class="plan-axis"><div class="plan-axis-name">'+ax.n+'</div>'+ax.it.map(function(it){return'<div class="plan-it">'+it.t+'<div class="plan-it-s">'+it.p+'</div></div>';}).join('')+'</div>';}).join('');return'<div class="plan-card'+(ph.cur?' cur':'')+'"><div class="plan-head"><span class="plan-badge">F'+(pi+1)+'</span><span class="plan-title">'+ph.ph+'</span></div>'+axes+'</div>';}).join('');
+  document.getElementById('body').innerHTML='<div class="pg"><div class="page-hdr"><div class="page-eyebrow">'+ey+'</div><div class="page-title">Plan.</div></div>'+mementoHTML+finanzasHTML+'<div class="sec-row" style="padding-top:20px"><div class="sec-t">📊 Metricas</div></div>'+metTabs+wkNav+metFields+'<button class="met-save-btn" onclick="saveMetrics()">Guardar metricas</button>'+histHTML+scoreHistHTML+decHistHTML+quiebreHistory+'<div class="sec-row" style="padding-top:26px"><div class="sec-t">Timeline</div></div>'+tlHTML+'<div class="sec-row" style="padding-top:20px"><div class="sec-t">Fases</div></div>'+phCards+'</div>';
 }
-
 ra();
 </script>
 </body>
