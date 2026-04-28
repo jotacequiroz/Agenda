@@ -160,11 +160,6 @@ html,body{height:100%;height:-webkit-fill-available;overflow:hidden;position:fix
 .q-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
 .q-title{font-size:14px;font-weight:700;color:var(--gold);letter-spacing:-0.02em}
 .q-badge{padding:4px 10px;border-radius:12px;font-size:10px;font-weight:600;background:rgba(191,156,107,0.1);color:var(--gold);border:0.5px solid rgba(191,156,107,0.2)}
-.q-status{margin-bottom:16px;padding:12px;border-radius:14px;background:rgba(0,0,0,0.3);text-align:center}
-.q-status.limpio{border-left:3px solid var(--green);color:var(--green)}
-.q-status.manchado{border-left:3px solid var(--red);color:var(--red)}
-.q-status-text{font-size:15px;font-weight:600;margin-bottom:4px}
-.q-status-sub{font-size:11px;color:var(--t4)}
 .vicio-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:16px}
 .vicio-item{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--c1);border:0.5px solid var(--c3);border-radius:12px;cursor:pointer;-webkit-user-select:none;}
 .vicio-item.checked{background:#0a1a0f;border-color:rgba(50,215,75,0.4)}
@@ -214,7 +209,6 @@ html,body{height:100%;height:-webkit-fill-available;overflow:hidden;position:fix
 .nav-item.on .nav-lbl{color:var(--gold)}
 .nav-pip{width:3px;height:3px;border-radius:50%;background:var(--gold);opacity:0;margin-top:1px}
 .nav-item.on .nav-pip{opacity:1}
-.nav-item .nav-alert{width:6px;height:6px;border-radius:50%;background:var(--red);position:absolute;top:0;right:6px}
 .nav-plus{flex:1;display:flex;flex-direction:column;align-items:center;cursor:pointer;-webkit-user-select:none;padding-bottom:2px}
 .plus-btn{width:50px;height:50px;border-radius:50%;background:linear-gradient(145deg,var(--gold),var(--gold2));display:flex;align-items:center;justify-content:center;margin-top:-22px;box-shadow:0 0 0 3px var(--bg),0 4px 20px rgba(191,156,107,0.45),inset 0 0.5px 0 rgba(255,255,255,0.25);transition:transform 0.15s,opacity 0.15s;}
 .plus-btn:active{transform:scale(0.93);opacity:0.85}
@@ -321,7 +315,6 @@ html,body{height:100%;height:-webkit-fill-available;overflow:hidden;position:fix
 .finanzas-hist-month{width:70px;color:var(--t3);font-weight:500}
 .finanzas-hist-values{display:flex;gap:12px;flex:1;justify-content:flex-end}
 .finanzas-hist-values span{color:var(--t4)}
-.finanzas-hist-values strong{color:var(--t1);font-weight:600}
 .finanzas-save-btn{width:100%;background:linear-gradient(145deg,var(--gold),var(--gold2));border:none;border-radius:14px;padding:14px;font-size:14px;font-weight:600;color:#1a1000;cursor:pointer;margin-top:16px;transition:opacity 0.15s;}
 .finanzas-save-btn:active{opacity:0.8}
 .cat-pill{padding:6px 12px;border-radius:20px;font-size:12px;font-weight:500;background:var(--c1);color:var(--t4);border:0.5px solid var(--c4);cursor:pointer;display:inline-block;margin:3px;}
@@ -371,14 +364,29 @@ html,body{height:100%;height:-webkit-fill-available;overflow:hidden;position:fix
 .tpl-sub.on{background:var(--c2);color:var(--t1);border-color:var(--c5)}
 .task-item.rem-t .tck{border-style:dashed;border-color:var(--gold2)}
 .task-item.rem-t .t-name{color:var(--t3)}
-/* DEUDA TRACKER */
 .deuda-bar-wrap{height:8px;background:var(--c3);border-radius:4px;margin:12px 0 6px;overflow:hidden}
 .deuda-bar{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--green),#20a030)}
 .deuda-home{margin:12px 14px 0;border-radius:18px;padding:16px;background:linear-gradient(160deg,#0d1a10,#111113);border:0.5px solid rgba(50,215,75,0.2);position:relative;overflow:hidden;cursor:pointer}
 .deuda-home::before{content:'';position:absolute;top:0;left:0;right:0;height:0.5px;background:linear-gradient(90deg,transparent,rgba(50,215,75,0.3),transparent)}
+/* SYNC STATUS */
+.sync-dot{width:6px;height:6px;border-radius:50%;background:var(--green);position:fixed;top:calc(14px + env(safe-area-inset-top,0px));right:14px;z-index:200;transition:background 0.3s;}
+.sync-dot.syncing{background:var(--gold);animation:pulse 1s infinite;}
+.sync-dot.error{background:var(--red);}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+.loading-screen{position:fixed;top:0;left:0;right:0;bottom:0;background:var(--bg);z-index:500;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;}
+.loading-logo{font-size:48px;font-weight:800;color:var(--gold);letter-spacing:-0.05em;}
+.loading-sub{font-size:13px;color:var(--t4);}
 </style>
 </head>
 <body>
+<!-- Loading screen -->
+<div class="loading-screen" id="loading-screen">
+  <div class="loading-logo">AG</div>
+  <div class="loading-sub">Cargando datos...</div>
+</div>
+
+<div class="sync-dot" id="sync-dot" title="Sincronizado con Firebase"></div>
+
 <div class="app">
   <div class="body" id="body"></div>
   <div class="overlay" id="overlay" onclick="closeModal(event)">
@@ -485,6 +493,89 @@ html,body{height:100%;height:-webkit-fill-available;overflow:hidden;position:fix
     </div>
   </div>
 </div>
+
+<!-- Firebase SDK -->
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import { getFirestore, doc, setDoc, getDoc } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAw3pu8IHKysqWqzzbYIc5dXm_fOwlv1E0",
+  authDomain: "agenda-61c7f.firebaseapp.com",
+  projectId: "agenda-61c7f",
+  storageBucket: "agenda-61c7f.firebasestorage.app",
+  messagingSenderId: "189341630955",
+  appId: "1:189341630955:web:b4f1107353a2875f23d9ae"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const DOC_REF = doc(db, 'agenda', 'juan');
+
+var syncDot = document.getElementById('sync-dot');
+function setSyncStatus(s){
+  if(!syncDot)return;
+  syncDot.className='sync-dot'+(s==='syncing'?' syncing':s==='error'?' error':'');
+}
+
+// Guardar en Firebase + localStorage
+window.fbSave = async function(data){
+  setSyncStatus('syncing');
+  try{
+    // Separar notas (keys dinámicas) del resto
+    var clean={};
+    var keys=Object.keys(data);
+    for(var i=0;i<keys.length;i++){
+      var k=keys[i];
+      var v=data[k];
+      // Firestore no acepta undefined
+      if(v!==undefined)clean[k]=v;
+    }
+    await setDoc(DOC_REF, clean);
+    try{localStorage.setItem('ag_v5',JSON.stringify(data));}catch(e){}
+    setSyncStatus('ok');
+  }catch(e){
+    console.error('Firebase save error:',e);
+    setSyncStatus('error');
+    try{localStorage.setItem('ag_v5',JSON.stringify(data));}catch(e2){}
+  }
+};
+
+// Cargar desde Firebase, fallback a localStorage
+async function loadData(){
+  try{
+    var snap = await getDoc(DOC_REF);
+    if(snap.exists()){
+      var data=snap.data();
+      // Guardar también en localStorage como backup
+      try{localStorage.setItem('ag_v5',JSON.stringify(data));}catch(e){}
+      return data;
+    }
+  }catch(e){
+    console.error('Firebase load error:',e);
+    setSyncStatus('error');
+  }
+  // Fallback a localStorage
+  try{
+    var local=localStorage.getItem('ag_v5');
+    if(local)return JSON.parse(local);
+  }catch(e){}
+  return {};
+}
+
+// Cargar datos y arrancar app
+loadData().then(function(data){
+  window.INITIAL_DATA = data;
+  document.getElementById('loading-screen').style.display='none';
+  if(typeof window.initApp === 'function') window.initApp();
+}).catch(function(e){
+  console.error(e);
+  window.INITIAL_DATA = {};
+  document.getElementById('loading-screen').style.display='none';
+  if(typeof window.initApp === 'function') window.initApp();
+});
+</script>
+
 <script>
 var BIRTH=new Date(1994,3,19),TW=80*52;
 function pad(n){return String(n).padStart(2,'0');}
@@ -505,24 +596,41 @@ var DS=['Lun','Mar','Mie','Jue','Vie','Sab','Dom'];
 var DSH=['Dom','Lun','Mar','Mie','Jue','Vie','Sab'];
 function fmtGroup(k){var p=k.split('-'),dt=new Date(+p[0],+p[1]-1,+p[2]);var mn=['ENE','FEB','MAR','ABR','MAY','JUN','JUL','AGO','SEP','OCT','NOV','DIC'];var tk=getTK();if(k===tk)return'HOY';var y=new Date();y.setDate(y.getDate()-1);if(k===y.getFullYear()+'-'+pad(y.getMonth()+1)+'-'+pad(y.getDate()))return'AYER';var t=new Date();t.setDate(t.getDate()+1);if(k===t.getFullYear()+'-'+pad(t.getMonth()+1)+'-'+pad(t.getDate()))return'MANANA';return DSH[dt.getDay()].toUpperCase()+' '+p[2]+' '+mn[+p[1]-1];}
 var WKS=[{id:0,lb:'Sem 0',focus:'Instalar los 3 anclajes base',u:true,anc:[{id:'a1',nm:'Bloque de trabajo productivo',tg:'Negocio'},{id:'a2',nm:'Deporte',tg:'Fisico'}]},{id:1,lb:'Sem 1',focus:'Movimiento + reducir cantineo',u:false,anc:[{id:'b1',nm:'Entrenamiento minimo',tg:'Fisico'},{id:'b2',nm:'Sin sustancias Lun-Mie',tg:'Habito'},{id:'b3',nm:'Decision diaria negocio 1',tg:'Negocio'}]},{id:2,lb:'Sem 2',focus:'Adelantar el inicio del dia',u:false,anc:[{id:'c1',nm:'Levantarse a las 6:30am',tg:'Inicio'},{id:'c2',nm:'Bloque profundo 6:30-9am',tg:'Negocio'},{id:'c3',nm:'Revision semanal - domingo',tg:'Mental'}]},{id:3,lb:'Sem 3',focus:'Consolidar y medir',u:false,anc:[{id:'d1',nm:'Protocolo de sueno completo',tg:'Habito'},{id:'d2',nm:'Metricas negocio 1',tg:'Negocio'},{id:'d3',nm:'Accion concreta negocio 2',tg:'Negocio'}]}];
+
 var ST={};
-try{ST=JSON.parse(localStorage.getItem('ag_v5')||'{}');}catch(e){}
-if(!ST.tasks)ST.tasks=[];
-if(!ST.hab)ST.hab={};
-if(!ST.met)ST.met={};
-if(!ST.dec)ST.dec={};
-if(!ST.rev)ST.rev={};
-if(!ST.cant)ST.cant={};
-if(!ST.quiebre)ST.quiebre={};
-if(!ST.matutino)ST.matutino={};
-if(!ST.finanzas)ST.finanzas={};
-if(!ST.gastos)ST.gastos=[];
-if(!ST.deuda)ST.deuda={original:10000,pagado:0,blue:1200,abonos:{},pesos:0,usd1:0,usd2:0};
-if(ST.deuda&&!ST.deuda.abonos)ST.deuda.abonos={};
-if(!ST.deuda.pesos)ST.deuda.pesos=0;
-if(!ST.deuda.usd1)ST.deuda.usd1=0;
-if(!ST.deuda.usd2)ST.deuda.usd2=0;
-var save=function(){try{localStorage.setItem('ag_v5',JSON.stringify(ST));}catch(e){}};
+
+window.initApp = function(){
+  var data = window.INITIAL_DATA || {};
+  ST = data;
+  if(!ST.tasks)ST.tasks=[];
+  if(!ST.hab)ST.hab={};
+  if(!ST.met)ST.met={};
+  if(!ST.dec)ST.dec={};
+  if(!ST.rev)ST.rev={};
+  if(!ST.cant)ST.cant={};
+  if(!ST.quiebre)ST.quiebre={};
+  if(!ST.matutino)ST.matutino={};
+  if(!ST.finanzas)ST.finanzas={};
+  if(!ST.gastos)ST.gastos=[];
+  if(!ST.deuda)ST.deuda={original:10000,pagado:0,blue:1200,abonos:{},pesos:0,usd1:0,usd2:0};
+  if(ST.deuda&&!ST.deuda.abonos)ST.deuda.abonos={};
+  if(!ST.deuda.pesos)ST.deuda.pesos=0;
+  if(!ST.deuda.usd1)ST.deuda.usd1=0;
+  if(!ST.deuda.usd2)ST.deuda.usd2=0;
+  ra();
+};
+
+var saveTimer=null;
+var save=function(){
+  // Guardar inmediatamente en localStorage
+  try{localStorage.setItem('ag_v5',JSON.stringify(ST));}catch(e){}
+  // Debounce Firebase: esperar 1.5s para no saturar
+  if(saveTimer)clearTimeout(saveTimer);
+  saveTimer=setTimeout(function(){
+    if(window.fbSave)window.fbSave(ST);
+  },1500);
+};
+
 var HABITOS_MATUTINOS=['despertar','ducha','agua','skincare','desayuno','paseo','meditacion'];
 var HABITOS_MATUTINOS_NOMBRES=['Despertar 7AM','Ducha','Vaso agua','Skincare','Desayuno','Paseo Okley','Meditacion'];
 var HABITOS_MATUTINOS_EMOJIS=['\uD83D\uDECC','\uD83D\uDEB6','\uD83D\uDCA7','\u2728','\uD83C\uDF73','\uD83D\uDC15','\uD83E\uDDD8'];
@@ -558,7 +666,6 @@ function eliminarGasto(id){var gasto=ST.gastos.find(function(g){return g.id===id
 function getBalance(monthKey){var ingresos=parseFloat(getFinanzas(monthKey,'ingresos'))||0;var gastos=parseFloat(getFinanzas(monthKey,'gastos'))||0;return ingresos-gastos;}
 function getTasaAhorro(monthKey){var ingresos=parseFloat(getFinanzas(monthKey,'ingresos'))||0;var ahorro=parseFloat(getFinanzas(monthKey,'ahorro'))||0;if(ingresos===0)return 0;return Math.round((ahorro/ingresos)*100);}
 function getTasaAhorroClass(tasa){if(tasa>=30)return'excelente';if(tasa>=20)return'buena';if(tasa>=10)return'baja';return'mala';}
-// DEUDA
 function getDeudaRestante(){return Math.max(0,ST.deuda.original-ST.deuda.pagado);}
 function getDeudaPct(){return ST.deuda.original>0?Math.min(100,Math.round(ST.deuda.pagado/ST.deuda.original*100)):0;}
 function getDeudaRestantePesos(){return Math.round(getDeudaRestante()*(ST.deuda.blue||1200));}
@@ -655,11 +762,8 @@ function rTasks(ey){var tk=getTK();var venc=ST.tasks.filter(function(t){return!t
 function rHab(){var d=new Date(),ey=DAYS_ES[d.getDay()]+' '+d.getDate()+' de '+MONTHS[d.getMonth()];var isCurrentWeek=(cSemanaHistorial===0);var weekStartDate=cSemanaHistorial===0?getMondayOfCurrentWeek():getMondayOfWeek(cSemanaHistorial);var todayDate=new Date(),todayStr=todayDate.getFullYear()+'-'+pad(todayDate.getMonth()+1)+'-'+pad(todayDate.getDate());var tabsHTML='<div class="week-tabs">';for(var i=0;i<=3;i++){var isActive=(cSemanaHistorial===i),isDisabled=(i>0);tabsHTML+='<div class="wt'+(isActive?' on':'')+(isDisabled?' lk':'')+'" onclick="'+(i===0||!isDisabled?'setSemanaHistorial('+i+')':'')+'">'+(i===0?'Actual':'Sem '+i)+'</div>';}tabsHTML+='</div>';var focusText=cSemanaHistorial===0?WKS[0].focus:'HISTORIAL - Solo consulta';var matutinoCompleto=0;for(var i=0;i<7;i++){var dd=new Date(weekStartDate);dd.setDate(weekStartDate.getDate()+i);var ds=dd.getFullYear()+'-'+pad(dd.getMonth()+1)+'-'+pad(dd.getDate());if(isMatutinoCompleto(ds))matutinoCompleto++;}var matutinoBadgeText=cSemanaHistorial===0?(isMatutinoCompleto(todayStr)?'COMPLETO':'PENDIENTE'):'HISTORIAL';var matutinoGridHTML='';for(var h=0;h<HABITOS_MATUTINOS.length;h++){var hab=HABITOS_MATUTINOS[h];var isChecked=cSemanaHistorial===0?isMatutinoChecked(todayStr,hab):false;var disabledClass=cSemanaHistorial!==0?' disabled':'';matutinoGridHTML+='<div class="matutino-item'+(isChecked?' checked':'')+disabledClass+'" onclick="'+(cSemanaHistorial===0?'toggleMatutino(\''+hab+'\')':'')+'"><div class="matutino-emoji">'+HABITOS_MATUTINOS_EMOJIS[h]+'</div><div class="matutino-name">'+HABITOS_MATUTINOS_NOMBRES[h]+'</div><div class="matutino-check"></div></div>';}var matutinoHTML='<div class="matutino-card"><div class="matutino-header"><div class="matutino-title">\uD83C\uDF05 Habitos Matutinos</div><div class="matutino-badge">'+matutinoBadgeText+'</div></div><div class="matutino-grid">'+matutinoGridHTML+'</div><div class="matutino-streak"><div><div class="matutino-streak-label">Racha completa</div><div class="matutino-streak-val">'+(cSemanaHistorial===0?getMatutinoStreak():'--')+'</div></div><div><div class="matutino-streak-label">Esta semana</div><div class="matutino-streak-val" style="font-size:22px">'+matutinoCompleto+'/7</div></div></div></div>';var w=WKS[0],cardsHTML='';for(var i=0;i<w.anc.length;i++){var a=w.anc[i],daysHTML='',completados=0;for(var di=0;di<7;di++){var dd=new Date(weekStartDate);dd.setDate(weekStartDate.getDate()+di);var ds=dd.getFullYear()+'-'+pad(dd.getMonth()+1)+'-'+pad(dd.getDate());var isT=(ds===todayStr&&cSemanaHistorial===0),isC=isHabitoChecked(0,a.id,di),disabledClass=cSemanaHistorial!==0?' disabled':'';if(isC)completados++;daysHTML+='<div class="day'+(isT?' today':'')+(isC?' checked':'')+disabledClass+'" onclick="'+(cSemanaHistorial===0?'toggleHabitoSemana(0,\''+a.id+'\','+di+')':'')+'"><div class="day-d">'+DS[di]+'</div><div class="day-n">'+dd.getDate()+'</div></div>';}cardsHTML+='<div class="hab-card"><div class="hab-top"><div class="hab-name">'+a.nm+'</div><div class="hab-badge">'+a.tg+'</div></div><div class="days-row">'+daysHTML+'</div></div>';}var trabajoCompletado=0,deporteCompletado=0;for(var di=0;di<7;di++){if(isHabitoChecked(0,'a1',di))trabajoCompletado++;if(isHabitoChecked(0,'a2',di))deporteCompletado++;}var habKPIHTML='<div class="hab-kpi"><div class="hkpi"><div class="hkpi-val">'+(cSemanaHistorial===0?trabajoCompletado:matutinoCompleto)+'/7</div><div class="hkpi-lbl">'+(cSemanaHistorial===0?'Trabajo':'Matutinos')+'</div></div><div class="hkpi"><div class="hkpi-val">'+(cSemanaHistorial===0?deporteCompletado:0)+'/7</div><div class="hkpi-lbl">Deporte</div></div><div class="hkpi"><div class="hkpi-val">'+(cSemanaHistorial===0?(trabajoCompletado+deporteCompletado):matutinoCompleto)+'/14</div><div class="hkpi-lbl">Total</div></div></div>';var quiebreLimpios=0;for(var i=0;i<7;i++){var dd=new Date(weekStartDate);dd.setDate(weekStartDate.getDate()+i);var ds=dd.getFullYear()+'-'+pad(dd.getMonth()+1)+'-'+pad(dd.getDate());if(isDiaLimpio(ds))quiebreLimpios++;}var quiebreBadgeText=cSemanaHistorial===0?(isDiaLimpio(todayStr)?'LIMPIO':'MANCHADO'):'HISTORIAL';var vicioGridHTML='';for(var v=0;v<VICIOS.length;v++){var vic=VICIOS[v],isChecked=cSemanaHistorial===0?isVicioChecked(todayStr,vic):false,disabledClass=cSemanaHistorial!==0?' disabled':'';vicioGridHTML+='<div class="vicio-item'+(isChecked?' checked':'')+disabledClass+'" onclick="'+(cSemanaHistorial===0?'toggleVicio(\''+vic+'\')':'')+'"><div class="vicio-emoji">'+['\uD83D\uDEAC','\uD83C\uDF7A','\uD83C\uDF3F','\uD83D\uDD25','\uD83C\uDF54','\uD83D\uDE34'][v]+'</div><div class="vicio-name">'+VICIOS_NOMBRES[v]+'</div><div class="vicio-check"></div></div>';}var quiebreEnHab='<div class="quiebre-card"><div class="q-header"><div class="q-title">\u26D4 20-23hs - El Quiebre</div><div class="q-badge">'+quiebreBadgeText+'</div></div><div class="vicio-grid">'+vicioGridHTML+'</div><div class="q-streak"><div><div class="streak-label">Racha limpia</div><div class="streak-val">'+(cSemanaHistorial===0?getLimpioStreak():'--')+'</div></div><div><div class="streak-label">Esta semana</div><div class="streak-val" style="font-size:22px">'+quiebreLimpios+'/7</div></div></div></div>';var notesHTML='<div class="note-wrap">';for(var i=0;i<7;i++){var dd=new Date(weekStartDate);dd.setDate(weekStartDate.getDate()+i);var isT=(dd.toDateString()===todayDate.toDateString()&&cSemanaHistorial===0);var noteKey='note_'+dd.getFullYear()+'-'+pad(dd.getMonth()+1)+'-'+pad(dd.getDate());var noteValue=ST[noteKey]||'';notesHTML+='<div style="margin-bottom:10px"><div class="note-lbl" style="'+(isT?'color:var(--gold)':'')+'">'+DS[i]+' '+dd.getDate()+'</div><textarea class="note-inp" rows="2" placeholder="Una cosa que avance..." '+(cSemanaHistorial===0?'onchange="saveNote(\''+noteKey+'\',this.value)"':'readonly')+'>'+noteValue+'</textarea></div>';}notesHTML+='</div>';document.getElementById('body').innerHTML='<div class="pg"><div class="page-hdr"><div class="page-eyebrow">'+ey+'</div><div class="page-title">Habitos</div></div>'+tabsHTML+'<div class="focus-box"><div class="focus-txt">"'+focusText+'"</div></div>'+habKPIHTML+matutinoHTML+cardsHTML+quiebreEnHab+'<div class="divr"></div>'+notesHTML+'</div>';}
 function rLife(){var wl=getWL(),wr=getWR(),cells='';for(var i=0;i<TW;i++){var cls='wk';if(i<wl)cls+=' lived';if(i>=wl&&i<wl+13)cls+=' plan';if(i===wl)cls='wk now';cells+='<div class="'+cls+'"></div>';}var d=new Date(),ey=DAYS_ES[d.getDay()]+' '+d.getDate()+' de '+MONTHS[d.getMonth()];document.getElementById('body').innerHTML='<div class="pg"><div class="page-hdr"><div class="page-eyebrow">'+ey+'</div><div class="page-title">Semanas.</div></div><div class="stat-pair" style="margin-top:18px"><div class="sp"><div class="sp-val" style="font-size:24px">'+wl.toLocaleString()+'</div><div class="sp-lbl">vividas</div></div><div class="sp"><div class="sp-val" style="font-size:24px">'+wr.toLocaleString()+'</div><div class="sp-lbl">restantes</div></div></div><div class="life-wrap"><div class="life-dec">'+Array.from({length:9},function(_,i){return'<span>'+i*10+'a</span>';}).join('')+'</div><div class="life-grid">'+cells+'</div><div class="life-legend"><div class="ll"><div class="ld" style="background:var(--c5)"></div>Vividas</div><div class="ll"><div class="ld" style="background:var(--gold2)"></div>Plan activo</div><div class="ll"><div class="ld" style="background:var(--gold)"></div>Ahora</div><div class="ll"><div class="ld" style="background:var(--c3)"></div>Por vivir</div></div></div><div class="sec-row" style="padding-top:20px"><div class="sec-t">Perspectiva</div></div><div class="insight-list"><div class="insight-it">'+wr.toLocaleString()+' semanas por delante. Cada una es una unidad real de construccion.</div><div class="insight-it">Tu plan son 13 de esas '+wr.toLocaleString()+' semanas - menos del 1%.</div><div class="insight-it">A los 32 anos estas en tu punto de mayor capacidad.</div><div class="insight-it">Cada semana de cantineo es una semana de construccion perdida.</div><div class="insight-it">Negocio, cuerpo, trading - todo depende del sistema encendido.</div></div></div>';}
 function rPlan(){var d=new Date(),ey=DAYS_ES[d.getDay()]+' '+d.getDate()+' de '+MONTHS[d.getMonth()];var isCurrentWk=cMetWk===getWeekKey(),prevWk=addWeeks(cMetWk,-1),cfg=MET_CFG[cMetBiz];var mementoHTML='<div style="margin:12px 14px 0;padding:13px 16px;border-radius:14px;background:var(--c1);border:0.5px solid var(--c3);display:flex;align-items:center;justify-content:space-between;cursor:pointer" onclick="sv(\'l\',null)"><div style="font-size:14px;color:var(--t2);font-weight:500">Memento Mori</div><div style="font-size:13px;color:var(--t4)">'+getWL().toLocaleString()+' vividas - '+getWR().toLocaleString()+' restantes</div></div>';var prevMonth=addMonths(cFinanzasMonth,-1),ingresos=getFinanzas(cFinanzasMonth,'ingresos'),gastos=getFinanzas(cFinanzasMonth,'gastos'),ahorro=getFinanzas(cFinanzasMonth,'ahorro'),inversion=getFinanzas(cFinanzasMonth,'inversion'),balance=getBalance(cFinanzasMonth),tasaAhorro=getTasaAhorro(cFinanzasMonth),tasaClass=getTasaAhorroClass(tasaAhorro);var prevIngresos=parseFloat(getFinanzas(prevMonth,'ingresos'))||0,prevGastos=parseFloat(getFinanzas(prevMonth,'gastos'))||0,currIngresos=parseFloat(ingresos)||0,currGastos=parseFloat(gastos)||0;var deltaIngresos=prevIngresos===0?null:((currIngresos-prevIngresos)/prevIngresos*100),deltaGastos=prevGastos===0?null:((currGastos-prevGastos)/prevGastos*100);var gastosDelMes=getGastosDelMes(cFinanzasMonth),totalGastos=0;for(var i=0;i<gastosDelMes.length;i++){totalGastos+=gastosDelMes[i].monto;}var historial=[];for(var h=3;h>=0;h--){var hm=addMonths(cFinanzasMonth,-h),hIng=getFinanzas(hm,'ingresos'),hGas=getFinanzas(hm,'gastos'),hAho=getFinanzas(hm,'ahorro'),hInv=getFinanzas(hm,'inversion');if(hIng||hGas||hAho||hInv){historial.push({month:hm,ingresos:hIng,gastos:hGas,ahorro:hAho,inversion:hInv});}}var gastosListHTML='<div class="finanzas-gastos-section"><div class="finanzas-gastos-header"><div class="finanzas-gastos-title">\uD83D\uDCB8 GASTOS DEL MES</div><div class="finanzas-add-gasto-btn" onclick="openGastoModal()">+ Agregar gasto</div></div>';if(gastosDelMes.length===0){gastosListHTML+='<div class="finanzas-gasto-empty">No hay gastos registrados este mes.</div>';}else{for(var i=0;i<gastosDelMes.length;i++){var g=gastosDelMes[i],fechaParts=g.fecha.split('-'),fechaStr=fechaParts[2]+'/'+fechaParts[1],catIndex=GASTO_CATEGORIAS.indexOf(g.categoria),emoji=catIndex>=0?GASTO_CATEGORIAS_EMOJIS[catIndex]:'\uD83D\uDCCC';gastosListHTML+='<div class="finanzas-gasto-item"><div class="finanzas-gasto-info"><span class="finanzas-gasto-cat">'+emoji+' '+g.categoria+'</span><span class="finanzas-gasto-concepto">'+fechaStr+' - '+g.concepto+'</span></div><div class="finanzas-gasto-monto">$'+g.monto.toLocaleString()+'</div><div class="finanzas-gasto-delete" onclick="eliminarGasto('+g.id+')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--t5)" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div></div>';}gastosListHTML+='<div class="finanzas-gastos-total"><span>Total gastos</span><span>$'+totalGastos.toLocaleString()+'</span></div>';}gastosListHTML+='</div>';var finanzasHTML='<div class="finanzas-card"><div class="finanzas-header"><div class="finanzas-title">\uD83D\uDCB0 Finanzas Personales</div></div><div class="finanzas-month-nav"><div class="finanzas-nav-arrow" onclick="finanzasNav(-1)">&#8249;</div><div class="finanzas-nav-label">'+getMonthLabel(cFinanzasMonth)+'</div><div class="finanzas-nav-arrow" onclick="finanzasNav(1)">&#8250;</div></div>'+gastosListHTML+'<div class="finanzas-resumen-grid"><div class="finanzas-cell full"><div class="finanzas-cell-label">Ingresos (manual)</div><input class="finanzas-cell-input" id="finanzas-ingresos" type="number" placeholder="0" value="'+ingresos+'"></div><div class="finanzas-cell"><div class="finanzas-cell-label">Ahorro</div><input class="finanzas-cell-input" id="finanzas-ahorro" type="number" placeholder="0" value="'+ahorro+'"></div><div class="finanzas-cell"><div class="finanzas-cell-label">Inversion</div><input class="finanzas-cell-input" id="finanzas-inversion" type="number" placeholder="0" value="'+inversion+'"></div></div><div class="finanzas-balance"><div class="finanzas-balance-label">Balance (Ingresos - Gastos)</div><div class="finanzas-balance-value '+(balance>=0?'positive':'negative')+'">'+fmtM(balance)+'</div></div><div class="finanzas-tasa"><span class="finanzas-tasa-label">Tasa de ahorro</span><span class="finanzas-tasa-value '+tasaClass+'">'+tasaAhorro+'%</span></div>';if(deltaIngresos!==null){finanzasHTML+='<div class="finanzas-trend"><div class="finanzas-trend-card"><div class="finanzas-trend-label">Ingresos vs mes ant</div><div class="finanzas-trend-value">'+(deltaIngresos>=0?'+':'')+deltaIngresos.toFixed(0)+'%</div><div class="finanzas-trend-delta '+(deltaIngresos>=0?'up':'down')+'">'+(deltaIngresos>=0?'&uarr;':'&darr;')+'</div></div><div class="finanzas-trend-card"><div class="finanzas-trend-label">Gastos vs mes ant</div><div class="finanzas-trend-value">'+(deltaGastos>=0?'+':'')+deltaGastos.toFixed(0)+'%</div><div class="finanzas-trend-delta '+(deltaGastos<=0?'up':'down')+'">'+(deltaGastos<=0?'&darr;':'&uarr;')+'</div></div></div>';}if(historial.length>0){finanzasHTML+='<div class="finanzas-historial"><div class="finanzas-historial-title">Historial mensual</div>';for(var i=0;i<historial.length;i++){var h=historial[i];finanzasHTML+='<div class="finanzas-hist-row"><div class="finanzas-hist-month">'+getMonthLabel(h.month)+'</div><div class="finanzas-hist-values"><span>\uD83D\uDCB0 '+fmtM(h.ingresos)+'</span><span>\uD83D\uDCB8 '+fmtM(h.gastos)+'</span><span>\uD83C\uDFE6 '+fmtM(h.ahorro)+'</span><span>\uD83D\uDCC8 '+fmtM(h.inversion)+'</span></div></div>';}finanzasHTML+='</div>';}finanzasHTML+='<button class="finanzas-save-btn" onclick="saveFinanzas()">Guardar</button>';
-// TRACKER DEUDA en finanzas
 var dR=getDeudaRestante(),dPct=getDeudaPct(),dProy=getProyeccionMeses(),dRP=getDeudaRestantePesos();var dPesos=ST.deuda.pesos||0,dUSD1=ST.deuda.usd1||0,dUSD2=ST.deuda.usd2||0;var f1Done=dPesos>=4650000,f2Done=f1Done&&dUSD1>=1000,f3Done=f2Done&&dUSD2>=5500;var f1Sub,f2Sub,f3Sub;if(f1Done)f1Sub='Saldada - intereses ~2.700.000';else if(dPesos>0)f1Sub=''+Math.round(dPesos/1000)+'k de 4.650k - ~'+Math.ceil((4650000-dPesos)/700000)+' meses';else f1Sub='700k/mes - ~13 meses al 7% mensual';if(f2Done)f2Sub='Saldada';else if(f1Done)f2Sub='~1-2 meses';else f2Sub='Despues de F1';if(f3Done)f3Sub='Saldada - LIBRE DE DEUDAS';else if(f2Done)f3Sub='~10 meses';else f3Sub='Despues de F2';finanzasHTML+='<div style="margin-top:16px;border-radius:16px;padding:16px;background:rgba(50,215,75,0.04);border:0.5px solid rgba(50,215,75,0.15)"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px"><div style="font-size:13px;font-weight:700;color:var(--green)">Tracker de deuda</div><div style="font-size:11px;color:var(--t4)">'+dPct+'% cancelado</div></div><div class="deuda-bar-wrap"><div class="deuda-bar" style="width:'+dPct+'%"></div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0"><div style="border-radius:12px;padding:13px;background:rgba(0,0,0,0.25);border:0.5px solid rgba(50,215,75,0.1)"><div style="font-size:10px;color:var(--t5);letter-spacing:0.06em;text-transform:uppercase;font-weight:500;margin-bottom:6px">Deuda original</div><div style="font-size:22px;font-weight:700;letter-spacing:-0.03em">USD '+ST.deuda.original.toLocaleString()+'</div></div><div style="border-radius:12px;padding:13px;background:rgba(0,0,0,0.25);border:0.5px solid rgba(50,215,75,0.1)"><div style="font-size:10px;color:var(--t5);letter-spacing:0.06em;text-transform:uppercase;font-weight:500;margin-bottom:6px">Pagado</div><div style="font-size:22px;font-weight:700;letter-spacing:-0.03em;color:var(--green)">USD '+ST.deuda.pagado.toLocaleString()+'</div></div><div style="border-radius:12px;padding:13px;background:rgba(0,0,0,0.25);border:0.5px solid rgba(50,215,75,0.1);grid-column:1/-1"><div style="font-size:10px;color:var(--t5);letter-spacing:0.06em;text-transform:uppercase;font-weight:500;margin-bottom:6px">Saldo restante</div><div style="font-size:22px;font-weight:700;letter-spacing:-0.03em;color:'+(dR>5000?'var(--red)':dR>2000?'var(--gold)':'var(--green)')+'">USD '+dR.toLocaleString()+'</div><div style="font-size:11px;color:var(--t4);margin-top:3px">'+fmtM(dRP)+' al blue</div></div></div>'+buildDeudaMiniCards(dPesos,dUSD1,dUSD2,f1Done,f2Done)+'<div style="margin-top:14px"><div style="font-size:10px;color:var(--t5);letter-spacing:0.06em;text-transform:uppercase;font-weight:500;margin-bottom:8px">Cotizacion blue (USD)</div><input id="deuda-blue" type="number" placeholder="ej: 1200" value="'+ST.deuda.blue+'" style="width:100%;background:transparent;border:none;border-bottom:0.5px solid var(--c4);outline:none;font-size:22px;font-weight:700;color:var(--t1);font-family:inherit;-webkit-appearance:none;padding-bottom:6px"></div><div style="margin-top:14px;display:grid;grid-template-columns:1fr 1fr;gap:10px"><div><div style="font-size:10px;color:var(--t5);letter-spacing:0.06em;text-transform:uppercase;font-weight:500;margin-bottom:8px">Mes del abono</div><input type="month" id="deuda-abono-mes" value="'+getCurrentMonthKey()+'" style="width:100%;background:transparent;border:none;border-bottom:0.5px solid var(--c4);outline:none;font-size:15px;font-weight:600;color:var(--t1);font-family:inherit;-webkit-appearance:none;padding-bottom:6px;cursor:pointer"></div><div><div style="font-size:10px;color:var(--t5);letter-spacing:0.06em;text-transform:uppercase;font-weight:500;margin-bottom:8px">Monto</div><input id="deuda-abono-inp" type="number" placeholder="ej: 700000" style="width:100%;background:transparent;border:none;border-bottom:0.5px solid var(--c4);outline:none;font-size:22px;font-weight:700;color:var(--t1);font-family:inherit;-webkit-appearance:none;padding-bottom:6px"></div></div><div style="margin-top:12px"><div style="font-size:10px;color:var(--t5);letter-spacing:0.06em;text-transform:uppercase;font-weight:500;margin-bottom:8px">Fase</div><div style="display:flex;gap:6px"><div onclick="selFase(this,\'pesos\')" id="fase-btn-pesos" style="flex:1;text-align:center;padding:8px 4px;border-radius:10px;background:#201a10;border:0.5px solid var(--gold);cursor:pointer;font-size:11px;font-weight:600;color:var(--gold)">F1 Pesos</div><div onclick="selFase(this,\'usd1\')" id="fase-btn-usd1" style="flex:1;text-align:center;padding:8px 4px;border-radius:10px;background:var(--c1);border:0.5px solid var(--c3);cursor:pointer;font-size:11px;font-weight:500;color:var(--t4)">F2 USD 1k</div><div onclick="selFase(this,\'usd2\')" id="fase-btn-usd2" style="flex:1;text-align:center;padding:8px 4px;border-radius:10px;background:var(--c1);border:0.5px solid var(--c3);cursor:pointer;font-size:11px;font-weight:500;color:var(--t4)">F3 USD 5.5k</div></div><input type="hidden" id="fase-sel" value="pesos"></div>'+(dProy?'<div style="margin-top:14px;padding:12px;background:rgba(50,215,75,0.06);border-radius:12px;display:flex;justify-content:space-between;align-items:center"><div><div style="font-size:11px;color:var(--t4)">Al ritmo actual llegaste a cero en</div><div style="font-size:13px;font-weight:600;color:var(--green)">'+dProy+' meses</div></div><div style="font-size:32px;font-weight:800;color:var(--green);letter-spacing:-0.04em">'+dProy+'</div></div>':'')+'<button style="width:100%;background:linear-gradient(145deg,var(--gold),var(--gold2));border:none;border-radius:14px;padding:15px;font-size:15px;font-weight:600;color:#1a1000;cursor:pointer;margin-top:14px;-webkit-appearance:none;" onclick="saveDeudaConfig()">Guardar deuda</button></div>';finanzasHTML+='</div>';var metTabs='<div class="met-tabs"><div class="mt-btn'+(cMetBiz==='HYK'?' on hyk':'')+'" onclick="setMetBiz(\'HYK\')">HYK</div><div class="mt-btn'+(cMetBiz==='BAZ'?' on baz':'')+'" onclick="setMetBiz(\'BAZ\')">Bazarista</div><div class="mt-btn'+(cMetBiz==='TRD'?' on trd':'')+'" onclick="setMetBiz(\'TRD\')">Trading</div></div>';var wkNav='<div class="met-week-nav"><div class="mwn-arrow" onclick="metWkNav(-1)">&#8249;</div><div class="mwn-label">Sem '+getWeekLabel(cMetWk)+(isCurrentWk?' - actual':'')+'</div><div class="mwn-arrow" onclick="metWkNav(1)">&#8250;</div></div>';var metFields='';if(cMetBiz==='TRD'){var trdSt=getTrdStatus(cMetWk);metFields='<div class="met-grid"><div class="met-cell"><div class="mc-lbl">Resultado</div><input class="mc-inp" id="mc-resultado" type="text" placeholder="ej: +2.3%" value="'+getMet('TRD',cMetWk,'resultado')+'"></div><div class="met-cell"><div class="mc-lbl">Operaciones</div><input class="mc-inp" id="mc-operaciones" type="number" placeholder="ej: 12" value="'+getMet('TRD',cMetWk,'operaciones')+'"></div></div><div class="trd-status-row"><div class="trd-st'+(trdSt==='activo'?' on activo':'')+'" onclick="setTrdSt(\'activo\')">Sistema activo</div><div class="trd-st'+(trdSt==='pausado'?' on pausado':'')+'" onclick="setTrdSt(\'pausado\')">Pausado</div><div class="trd-st'+(trdSt==='perdida'?' on perdida':'')+'" onclick="setTrdSt(\'perdida\')">Stop loss</div></div>';}else{var f=cfg.fields,d0=calcDelta(getMet(cMetBiz,cMetWk,f[0].id),getMet(cMetBiz,prevWk,f[0].id));metFields='<div class="met-grid"><div class="met-cell full"><div class="mc-lbl">'+f[0].label+'</div><input class="mc-inp" id="mc-'+f[0].id+'" type="number" placeholder="'+f[0].placeholder+'" value="'+getMet(cMetBiz,cMetWk,f[0].id)+'"><div class="mc-sub">'+(getMet(cMetBiz,cMetWk,f[0].id)?fmtM(getMet(cMetBiz,cMetWk,f[0].id)):'')+'</div></div><div class="met-cell"><div class="mc-lbl">'+f[1].label+'</div><input class="mc-inp" id="mc-'+f[1].id+'" type="number" placeholder="'+f[1].placeholder+'" value="'+getMet(cMetBiz,cMetWk,f[1].id)+'"></div><div class="met-cell"><div class="mc-lbl">'+f[2].label+'</div><input class="mc-inp" id="mc-'+f[2].id+'" type="text" placeholder="'+f[2].placeholder+'" value="'+getMet(cMetBiz,cMetWk,f[2].id)+'"></div></div>';if(d0!==null){metFields+='<div class="met-trend"><div class="trend-card"><div class="tc-lbl">vs semana anterior</div><div class="tc-val '+(d0>0?'pos':d0<0?'neg':'neu')+'">'+(d0>0?'+':'')+d0+'%</div></div><div class="trend-card"><div class="tc-lbl">Sem anterior</div><div class="tc-val neu">'+fmtM(getMet(cMetBiz,prevWk,f[0].id))+'</div></div></div>';}}var histRows='';for(var hw=3;hw>=0;hw--){var hwk=addWeeks(getWeekKey(),-hw);if(cMetBiz!=='TRD'){var hf=MET_CFG[cMetBiz].fields,v0=getMet(cMetBiz,hwk,hf[0].id),v1=getMet(cMetBiz,hwk,hf[1].id);if(v0||v1)histRows+='<div class="mh-row"><div class="mh-week">'+getWeekLabel(hwk)+(hwk===getWeekKey()?' -':'')+'</div><div class="mh-vals"><div class="mh-v">'+fmtM(v0)+'<span>'+hf[0].label+'</span></div><div class="mh-v">'+fmtM(v1)+'<span>'+hf[1].label+'</span></div></div></div>';}else{var tr=getMet('TRD',hwk,'resultado'),tst=getTrdStatus(hwk);if(tr||tst)histRows+='<div class="mh-row"><div class="mh-week">'+getWeekLabel(hwk)+'</div><div class="mh-vals"><div class="mh-v">'+(tr||'--')+'<span>resultado</span></div><div class="mh-v">'+(tst||'--')+'<span>estado</span></div></div></div>';}}var histHTML=histRows?'<div class="sec-row" style="padding-top:16px"><div class="sec-t">Historial</div></div><div class="met-hist">'+histRows+'</div>':'';var revKeys=Object.keys(ST.rev).sort().reverse().slice(0,6),scoreHistHTML='';if(revKeys.length>0){scoreHistHTML='<div class="sec-row" style="padding-top:20px"><div class="sec-t">Score historico</div></div><div class="score-hist">'+revKeys.map(function(k){var rv=ST.rev[k],sc=rv.appScore||0;return'<div class="sh-row"><div class="sh-week">'+getWeekLabel(k)+'</div><div class="sh-bar-wrap"><div class="sh-bar" style="width:'+sc+'%;background:'+(sc>=80?'var(--gold)':sc>=60?'var(--blue)':sc>=40?'var(--orange)':'var(--red)')+'"></div></div><div class="sh-val" style="color:'+(sc>=80?'var(--gold)':sc>=60?'var(--blue)':sc>=40?'var(--orange)':'var(--red)')+'">'+sc+'</div></div>';}).join('')+'</div>';}var decHist=getDecHistory(),decHistHTML='';if(decHist.length>0){decHistHTML='<div class="sec-row" style="padding-top:20px"><div class="sec-t">Decisiones recientes</div></div><div style="margin:0 14px;border-radius:16px;background:var(--c1);border:0.5px solid var(--c3);overflow:hidden">'+decHist.map(function(dec){var p=dec.date.split('-'),mn=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];return'<div class="dec-hist-row"><div class="dhr-date">'+p[2]+' '+mn[+p[1]-1]+'</div><div class="dhr-body"><div class="dhr-text">'+dec.text+'</div><div class="dhr-cat">'+dec.cat+'</div><span class="dhr-status '+(dec.done?'ej':'pe')+'">'+(dec.done?'Ejecutada':'Pendiente')+'</span></div></div>';}).join('')+'</div>';}var quiebreHistory='';var lastLimpios=Object.keys(ST.quiebre).filter(function(k){return k.startsWith('v_');}).sort().reverse().slice(0,10);if(lastLimpios.length>0){var uniqueDates=[];lastLimpios.forEach(function(k){var dk=k.split('_')[1];if(uniqueDates.indexOf(dk)===-1)uniqueDates.push(dk);});uniqueDates=uniqueDates.slice(0,7);quiebreHistory='<div class="sec-row" style="padding-top:20px"><div class="sec-t">Dias recientes</div></div><div style="margin:0 14px;border-radius:16px;background:var(--c1);border:0.5px solid var(--c3);overflow:hidden">'+uniqueDates.map(function(dk){var p=dk.split('-'),mn=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'],isL=isDiaLimpio(dk);return'<div class="dec-hist-row"><div class="dhr-date">'+p[2]+' '+mn[+p[1]-1]+'</div><div class="dhr-body"><div class="dhr-text">'+(isL?'Dia limpio':'Dia manchado')+'</div><span class="dhr-status '+(isL?'ej':'manchado')+'">'+(isL?'LIMPIO':'MANCHADO')+'</span></div></div>';}).join('')+'</div>';}
-// TIMELINE DINAMICO CON DEUDA
 var tlHTML='<div class="tl-wrap"><div class="tl-line"></div>';var tls=[{t:'Sem 0 - Anclajes base',s:'Habitos, decision y metricas instalados',done:false,now:true,bar:null},{t:'Fase 1 - Deuda pesos 4.650.000',s:f1Sub,done:f1Done,now:!f1Done,bar:f1Done?null:Math.min(100,Math.round(dPesos/4650000*100))},{t:'Fase 2 - USD 1.000 sin interes',s:f2Sub,done:f2Done,now:f1Done&&!f2Done,bar:null},{t:'Fase 3 - USD 5.500 sin interes',s:f3Sub,done:f3Done,now:f2Done&&!f3Done,bar:null},{t:'Libre de deudas',s:'Capital propio disponible por primera vez',done:f3Done,now:false,bar:null},{t:'Acumulacion Ano 1',s:'Ahorro + inversion sistematica',done:false,now:false,bar:null},{t:'Horizonte Anos 2-5',s:'Expansion + hedge fund + WIP',done:false,now:false,bar:null}];tls.forEach(function(it){var dc=it.done?' done':it.now?' now':'';var nc=it.now?' now':'';var tc='';if(it.done)tc='color:var(--green)';else if(it.now)tc='color:var(--gold)';var bh='';if(it.bar!==null&&it.bar!==undefined&&it.bar>0){bh='<div style="height:3px;background:var(--c3);border-radius:2px;margin-top:5px;overflow:hidden"><div style="height:100%;width:'+it.bar+'%;background:var(--gold);border-radius:2px"></div></div><div style="font-size:10px;color:var(--gold);margin-top:2px">'+it.bar+'% pagado</div>';}tlHTML+='<div class="tl-item"><div class="tl-dot'+dc+'"></div><div class="tl-t'+nc+'" style="'+tc+'">'+it.t+'</div><div class="tl-s">'+it.s+'</div>'+bh+'</div>';});tlHTML+='</div>';var PLAN_DATA=[{ph:'F1 - Sem 0 a 13',cur:true,axes:[{n:'Habitos',it:[{t:'Cierre 23hs instalado',p:'Sem 0'},{t:'Inicio 7am a 5am',p:'Sem 1-2'},{t:'Cantineo max 3 noches/sem',p:'Sem 1'},{t:'Sin sustancias Lun-Mie',p:'Sem 1-3'},{t:'Protocolo sueno completo',p:'Sem 3'}]},{n:'Fisico',it:[{t:'Entrenamiento 3x/sem',p:'Sem 1'},{t:'4 comidas diarias',p:'Sem 0'},{t:'Peso objetivo: 60kg',p:'90 dias'}]},{n:'Negocio',it:[{t:'Una decision diaria ejecutada',p:'Sem 0'},{t:'Metricas base HYK + Bazarista',p:'Sem 3'},{t:'Sistema de decision semanal',p:'Sem 2'}]}]},{ph:'F2 - Sem 13 a 26',cur:false,axes:[{n:'Habitos',it:[{t:'Cantineo solo fines de semana',p:'Sem 13'},{t:'5am como base',p:'Sem 15'}]},{n:'Fisico',it:[{t:'Peso 62-64kg',p:'Sem 20'},{t:'Entrenamiento 4x/sem',p:'Sem 16'}]},{n:'Negocio',it:[{t:'Ingresos +30%',p:'Sem 26'},{t:'Bazarista rol formalizado',p:'Sem 14'}]}]},{ph:'F3 - Sem 26 a 52',cur:false,axes:[{n:'Habitos',it:[{t:'Cantineo como excepcion',p:'Sem 30'},{t:'10hs tiempo libre/sem',p:'Sem 40'}]},{n:'Negocio 1',it:[{t:'Monopolio bazar en ciudad',p:'Sem 52'},{t:'Importacion directa',p:'Sem 45'},{t:'Ingresos x2',p:'Sem 52'}]},{n:'Negocio 2+3',it:[{t:'Trading MT5 operativo',p:'Sem 40'},{t:'WIP concepto validado',p:'Sem 52'}]}]},{ph:'Horizonte - Anos 2 a 5',cur:false,axes:[{n:'Negocio',it:[{t:'Expansion nacional',p:'Ano 2'},{t:'Importador directo pais',p:'Ano 3'},{t:'Hedge fund algoritmico',p:'Ano 3'},{t:'WIP MVP lanzado',p:'Ano 2-3'},{t:'50M USD AUM',p:'Ano 5+'}]},{n:'Personal',it:[{t:'Presencia fisica dominante',p:'Ano 2'},{t:'Red vinculos estrategicos',p:'Ano 3'}]}]}];var phCards=PLAN_DATA.map(function(ph,pi){var axes=ph.axes.map(function(ax){return'<div class="plan-axis"><div class="plan-axis-name">'+ax.n+'</div>'+ax.it.map(function(it){return'<div class="plan-it">'+it.t+'<div class="plan-it-s">'+it.p+'</div></div>';}).join('')+'</div>';}).join('');return'<div class="plan-card'+(ph.cur?' cur':'')+'"><div class="plan-head"><span class="plan-badge">F'+(pi+1)+'</span><span class="plan-title">'+ph.ph+'</span></div>'+axes+'</div>';}).join('');document.getElementById('body').innerHTML='<div class="pg"><div class="page-hdr"><div class="page-eyebrow">'+ey+'</div><div class="page-title">Plan.</div></div>'+mementoHTML+finanzasHTML+'<div class="sec-row" style="padding-top:20px"><div class="sec-t">Metricas</div></div>'+metTabs+wkNav+metFields+'<button class="met-save-btn" onclick="saveMetrics()">Guardar metricas</button>'+histHTML+scoreHistHTML+decHistHTML+quiebreHistory+'<div class="sec-row" style="padding-top:26px"><div class="sec-t">Timeline</div></div>'+tlHTML+'<div class="sec-row" style="padding-top:20px"><div class="sec-t">Fases</div></div>'+phCards+'</div>';}
-ra();
 </script>
 </body>
 </html>
