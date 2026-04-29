@@ -868,7 +868,7 @@ function rTasks(ey){
     if(tFil==='done')return t.done;
     return true;
   });
-  var byD={};fil.forEach(function(t){var k=t.due||t.date;if(!byD[k])byD[k]=[];byD[k].push(t);});
+  var prioOrder={alta:0,media:1,baja:2};var byD={};fil.forEach(function(t){var k=t.due||t.date;if(!byD[k])byD[k]=[];byD[k].push(t);});Object.keys(byD).forEach(function(k){byD[k].sort(function(a,b){return(prioOrder[a.prio]!=null?prioOrder[a.prio]:1)-(prioOrder[b.prio]!=null?prioOrder[b.prio]:1);});});
   var dates=Object.keys(byD).sort(function(a,b){return a.localeCompare(b);});
   var allT=ST.tasks,totalAgend=allT.length,totalDone=allT.filter(function(t){return t.done;}).length,totalPend=allT.filter(function(t){return!t.done;}).length,tasksRate=totalAgend>0?Math.round(totalDone/totalAgend*100):0;
   var CATS_LIST=['HYK','BAZ','TRD','WIP','PER'],catColors={HYK:'var(--green)',BAZ:'#4a9eff',TRD:'var(--red)',WIP:'var(--gold)',PER:'#a0a0f0'},catLabels={HYK:'HYK',BAZ:'Bazar',TRD:'Trading',WIP:'WIP',PER:'Personal'},catCount={HYK:0,BAZ:0,TRD:0,WIP:0,PER:0},catDone={HYK:0,BAZ:0,TRD:0,WIP:0,PER:0},catAlta={HYK:0,BAZ:0,TRD:0,WIP:0,PER:0};
